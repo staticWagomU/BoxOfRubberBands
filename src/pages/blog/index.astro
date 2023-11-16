@@ -62,7 +62,7 @@ const posts = (await getCollection('blog')).sort(
 						<img src ="/images/icon/link.png" alt="file icon" />
 					</td>
 					<td>
-						<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+						<a href={`/blog/${post.slug}`}>{post.data.title}.html</a>
 					</td>
 					<td>
 						<time>{
