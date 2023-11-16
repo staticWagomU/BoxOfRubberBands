@@ -15,44 +15,77 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			ul {
-				list-style-type: none;
-				padding: unset;
+			th {
+				border-bottom: 1px solid;
+				text-align: center;
 			}
-			ul li {
-				display: flex;
+			table {
+				width: max-content;
 			}
-			ul li :global(time) {
-				flex: 0 0 130px;
-				font-style: italic;
-				color: #595959;
+			table {
+				border-bottom: 1px solid
 			}
-			ul li a:visited {
-				color: #8e32dc;
+			td:not(td:first-child) {
+				padding-right: 1rem;
+			}
+			td:not(td:nth-child(2)) {
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts
-            .filter((post) => post.data.published)
-            .map((post) => (
-							<li>
-                <time>{
-                  post.data.pubDate.toLocaleDateString('ja-JP'
-                  , { year: "numeric", month: "2-digit", day: "2-digit"})
-                  .split("/")
-                  .join("-")
-                }</time><a href={`/blog/${post.slug}`}>{post.data.title}</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
+			<table>
+				<tr>
+					<th style="width:25px;"></th>
+					<th>NAME</th>
+					<th>Publish</th>
+					<th>Last modified</th>
+					<th>Tags</th>
+				</tr>
+				<tr>
+					<td>
+						<img src ="/images/icon/back.png" alt="file icon" />
+					</td>
+					<td><a href="/">Parent Directory</a></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				{
+				posts
+				.filter((post) => post.data.published)
+				.map((post) => (
+				<tr>
+					<td>
+						<img src ="/images/icon/link.png" alt="file icon" />
+					</td>
+					<td>
+						<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+					</td>
+					<td>
+						<time>{
+							post.data.pubDate.toLocaleDateString('ja-JP'
+							, { year: "numeric", month: "2-digit", day: "2-digit"})
+							.split("/")
+							.join("-")
+							}</time>
+					</td>
+					<td>
+						<time>{
+							post.data.updatedDate ?
+							post.data.updatedDate.toLocaleDateString('ja-JP'
+							, { year: "numeric", month: "2-digit", day: "2-digit"})
+							.split("/")
+							.join("-") : "-"
+							}</time>
+					</td>
+					<td>-</td>
+				</tr>
+				))
+				}
+			</table>
 		</main>
 		<Footer />
 	</body>
