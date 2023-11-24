@@ -1,11 +1,23 @@
-import rss, { pagesGlobToRssItems } from '@astrojs/rss';
+import rss from "@astrojs/rss";
+import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 
-export async function GET() {
+export const GET: APIRoute = async function get({ site }) {
+  const posts = await getCollection("blog");
+  const items = posts
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .map(({ data: { pubDate, title, description }, slug }) => ({
+      title,
+      description,
+      link: `${site}${slug}`,
+      pubDate: new Date(pubDate),
+    }));
+
   return rss({
-    title: '輪ごむの空き箱',
-    description: '',
-    site: 'https://wagomu.me',
-    items: await pagesGlobToRssItems(import.meta.glob('./**/*.[md|mdx]')),
-    customData: `<language>ja-jp</language>`,
+    title: "輪ごむの空き箱",
+    description: "輪ゴムっていきなり切れるとびっくりするよね",
+    site: site!.toString(),
+    customData: `<language>ja-JP</language>`,
+    items
   });
 }
