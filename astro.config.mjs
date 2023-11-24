@@ -8,7 +8,7 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   // site: 'https://example.com',
-  site: "https://staticWagomU.github.io/",
+  site: "https://wagomu.me",
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [vanillaExtractPlugin()],
