@@ -9,7 +9,7 @@ export const GET: APIRoute = async function get({ site }) {
     .map(({ data: { pubDate, title, description }, slug }) => ({
       title,
       description,
-      link: `${site}${slug}`,
+      link: `${site}blog/${slug}`,
       pubDate: new Date(pubDate),
     }));
 
