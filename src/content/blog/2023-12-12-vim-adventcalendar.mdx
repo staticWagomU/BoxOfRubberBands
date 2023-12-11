@@ -1,0 +1,88 @@
+---
+title: 'git操作プラグインを探しているならgin.vimはどう？'
+pubDate: 2023-12-12
+published: true
+---
+import OG from "../../components/OG.astro";
+
+この記事は[vimアドベントカレンダー2023](https://qiita.com/advent-calendar/2023/vim) 12/12の記事です。
+
+## はじめに
+みなさんvimでgit操作をするときにどのプラグインを使っていますか？
+自分は[gin.vim](https://github.com/lambdalisue/gin.vim)(と[gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim))を使っています。
+この記事を読んだ人のプラグインリストに[gin.vim](https://github.com/lambdalisue/gin.vim)が入ればいいなという気持ちで書いています。
+
+導入方法は各自でご確認ください。
+
+## 気に入っている点
+### やさしい設計
+`:h gin-action-mapping`に書いてあるように、
+```
+Gin defines the following mappings for actions:
+
+	"?"	List mappings/actions available
+	"a"	Open a prompt to input action to execute
+	"."	Repeat previous action which has executed from a prompt
+```
+`?`で使用可能なマッピングやアクションのリストが表示されます。
+これはうれしい！
+例えば、`GinLog`でで`?`を押すことで、このように使用可能なアクションが表示されます
+![](/images/blog/2023-12-12-vim-adventcalendar/img1.png)  
+これを見ると`yy`でコミットidをヤンクできるんだなということが分かります。あとは`a`のchoiceからrebaseを実行できるな、等と考えらます。ドキュメントを読むことは大事です。しかし、どんな機能が提供されているのかが一目でわかることによってプラグイン導入後直ぐに使い始められたり、忘れたときにすぐに確認できたりとやさしい設計となっています。
+`<Plug>(gin-action-*)`が表示されるので、ドキュメントを確認せずともマッピングを定義できる点もやさしいですね。  
+
+その他のコマンドで定義されているマッピングやアクションについては、実際に確認してみてください。
+
+### Diffから該当ファイルへジャンプできる
+これに関しては私よりも詳しい説明をAtusyさんがしてくださっているので、こちらのブログを見てください。  
+<OG url="https://blog.atusy.net/2023/11/29/gin-diff/" />
+ざっくりと説明すると、GinDiffのの差分行で`<Cr>`をすると差分ファイルの指定行へジャンプしてくれるという機能があり、非常に便利です。
+## 自分の設定
+自分が気に入っている設定はこの部分です。
+```lua
+autocmd({ 'FileType' }, {
+  pattern = { 'gin-diff', 'gin-log', 'gin-status' },
+  callback = function()
+    local keymap = vim.keymap.set
+    local opts = { buffer = true, noremap = true }
+    keymap({ 'n' }, 'c', '<Cmd>Gin commit<Cr>', opts)
+    keymap({ 'n' }, 's', '<Cmd>GinStatus<Cr>', opts)
+    keymap({ 'n' }, 'L', '<Cmd>GinLog --graph --oneline<Cr>', opts)
+    keymap({ 'n' }, 'd', '<Cmd>GinDiff --cached<Cr>', opts)
+    keymap({ 'n' }, 'q', '<Cmd>bdelete<Cr>', opts)
+    keymap({ 'n' }, 'p', [[<Cmd>lua vim.notify("Gin push")<Cr><Cmd>Gin push<Cr>]], opts)
+    keymap({ 'n' }, 'P', [[<Cmd>lua vim.notify("Gin pull")<Cr><Cmd>Gin pull<Cr>]], opts)
+  end,
+})
+
+autocmd({ 'FileType' }, {
+  pattern = 'gin-status',
+  callback = function()
+    local keymap = vim.keymap.set
+    local opts = { buffer = true, noremap = true }
+    keymap({ 'n' }, 'h', '<Plug>(gin-action-stage)', opts)
+    keymap({ 'n' }, 'l', '<Plug>(gin-action-unstage)', opts)
+  end,
+})
+```
+よく使うGinStatus,GinLog,GinDiffに`s`、`L`、`d`を割り当てており、各画面にワンタッチで移動できるようにしています。 また、それぞれの画面から`c`でコミットできように設定しています。  
+これにより、自分の良くする操作を簡単にできるようになり、非常に快適です。
+
+また、GinStatusのデフォルトのマッピングでは`<<`でステージング、`>>`でアンステージングを行うことができますが、これを`h`、`l`に割り当てています。これも２回キー入力するひと手間を省くことができて便利です。
+
+
+因みに、、、 
+git関連のマッピングが`<C-g>`で始まっているのは、Atusyさんのブログを参考にさせていただいているからです。
+<OG url="https://blog.atusy.net/2022/08/08/ctrlg-as-prefix-vim/" />
+```lua
+vim.keymap.set({ 'n' }, '<C-g><C-s>', '<Cmd>GinStatus<Cr>', {})
+vim.keymap.set({ 'n' }, '<C-g><C-l>', '<Cmd>GinLog --graph --oneline<Cr>', {})
+
+```
+
+最後に、自分が実際に変更をpushするまでの様子をgifで紹介します。
+![](/images/blog/2023-12-12-vim-adventcalendar/gif1.gif)
+
+### さいごに
+今回はgin.vimについて紹介しました。
+
