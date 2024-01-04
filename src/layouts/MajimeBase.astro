@@ -1,0 +1,37 @@
+---
+import { SITE_TITLE } from '../config.ts';
+---
+
+<html lang="ja">
+	<head>
+		<!-- Global Metadata -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="icon" type="image" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+
+
+		<title>{SITE_TITLE}</title>
+		<meta name="title" content={SITE_TITLE} />
+		<meta name="description" content="hello" />
+<style>
+	body {
+		background-color: #050505;
+		padding: 0;
+		margin: 0;
+	}
+	body > div.container {
+		max-width: 760px;
+		height: 100dvh;
+		margin-inline: auto;
+
+	}
+</style>
+	</head>
+	<body>
+		<div class="container">
+				<slot />
+		</div>
+	</body>
+</html>
+
