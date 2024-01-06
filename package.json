@@ -18,27 +18,27 @@
     }
   },
   "dependencies": {
-    "@astrojs/mdx": "^1.1.5",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.3",
+    "@astrojs/mdx": "^2.0.3",
+    "@astrojs/rss": "^4.0.1",
+    "@astrojs/sitemap": "^3.0.4",
     "@vanilla-extract/css": "^1.14.0",
-    "astro": "^3.5.4",
+    "astro": "^4.1.1",
     "mdx": "^0.3.1"
   },
   "devDependencies": {
-    "@markuplint/astro-parser": "^3.11.0",
-    "@vanilla-extract/vite-plugin": "^3.9.1",
+    "@markuplint/astro-parser": "^3.12.0",
+    "@vanilla-extract/vite-plugin": "^3.9.3",
     "cheerio": "1.0.0-rc.12",
     "husky": "^8.0.3",
-    "markuplint": "^3.14.0",
-    "prettier": "^3.1.0",
+    "markuplint": "^3.15.0",
+    "prettier": "^3.1.1",
     "prettier-plugin-astro": "^0.11.1",
-    "textlint": "^13.4.0",
+    "textlint": "^13.4.1",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-ja-space-around-link": "^2.2.0",
     "textlint-rule-preset-ja-spacing": "^2.3.0",
     "textlint-rule-preset-ja-technical-writing": "^8.0.0",
     "textlint-rule-prh": "^5.3.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   }
 }
