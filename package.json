@@ -33,7 +33,7 @@
     "@markuplint/astro-parser": "^3.9.0",
     "@vanilla-extract/vite-plugin": "^3.9.0",
     "prettier": "^3.0.2",
-    "prettier-plugin-astro": "^0.11.1",
+    "prettier-plugin-astro": "^0.13.0",
     "cheerio": "1.0.0-rc.12",
     "husky": "^8.0.3",
     "markuplint": "^3.12.0",
