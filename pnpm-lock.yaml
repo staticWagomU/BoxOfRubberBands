@@ -27,10 +27,10 @@ dependencies:
 devDependencies:
   '@markuplint/astro-parser':
     specifier: ^4.0.0
-    version: 4.2.0
+    version: 4.3.0
   '@vanilla-extract/vite-plugin':
     specifier: ^3.9.0
-    version: 3.9.5(@types/node@20.11.30)(vite@5.2.3)
+    version: 3.9.5(@types/node@20.11.30)(vite@5.2.6)
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
@@ -1054,11 +1054,11 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@markuplint/astro-parser@4.2.0:
-    resolution: {integrity: sha512-Ezazetw7RV2QMz4rdql4wor6tY4Olv5uFjuzs8abrydaZoentTs+x1wjg57GC3ouTcqDp5kfWe9y9kLi/p0yeg==}
+  /@markuplint/astro-parser@4.3.0:
+    resolution: {integrity: sha512-+cdd0ReYhPOYAseJc5iym7C7eoYCYTjmAwNaXRNB8fjHWuxeMMvVZsxhHeVoPe7lAjq2CjTOIbkcOiaXnr6hYw==}
     dependencies:
-      '@markuplint/ml-ast': 4.0.1
-      '@markuplint/parser-utils': 4.2.0
+      '@markuplint/ml-ast': 4.1.0
+      '@markuplint/parser-utils': 4.3.0
       astro-eslint-parser: 0.16.3
     transitivePeerDependencies:
       - supports-color
@@ -1136,8 +1136,8 @@ packages:
     resolution: {integrity: sha512-qZJ0GTdGx1+2INEjfpSufu0143RgNqzfs9cA4TMdt9V18qdhSH1swWaMLiY0JJdnfJ4ui2uwxzg9Mhdtu0EINQ==}
     dev: true
 
-  /@markuplint/ml-ast@4.0.1:
-    resolution: {integrity: sha512-7ZrgvUyPQ4YmUor+Iv/aHcnEVtktN88TNvmDNokLzMZlBxc5alpoCPAv3cJvU4t+dAgW+1P6SnZ2hVGaJkep6A==}
+  /@markuplint/ml-ast@4.1.0:
+    resolution: {integrity: sha512-X1qEGVRIb15yw4Aj1nrW+aMc4UceKe5s43UnFWZdT4yGhuiAszvmM8w/cOKoVuSVXyHmFmiwXjTK7663nby6mA==}
     dev: true
 
   /@markuplint/ml-config@3.14.0:
@@ -1189,14 +1189,14 @@ packages:
       - supports-color
     dev: true
 
-  /@markuplint/ml-spec@4.1.0:
-    resolution: {integrity: sha512-ZKfIozGAlnEv+gMT824yNJEGEG+D6kKcPRSzxspe16k8yvwkSILq+GTeT5adPnLdq7XFkiG4JW2hBAS8QOfiRg==}
+  /@markuplint/ml-spec@4.2.0:
+    resolution: {integrity: sha512-rV+qYAbJqGxSRjnq28Z7GLIYcAoMWxj6K8otFhY8B1HSjPptnp/0T9jruQDMEF6D9TEj1JHojdsp24R0MUh4jw==}
     dependencies:
-      '@markuplint/ml-ast': 4.0.1
-      '@markuplint/types': 4.0.2
+      '@markuplint/ml-ast': 4.1.0
+      '@markuplint/types': 4.1.0
       dom-accessibility-api: 0.6.3
       is-plain-object: 5.0.0
-      type-fest: 4.13.1
+      type-fest: 4.14.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1214,16 +1214,16 @@ packages:
       - supports-color
     dev: true
 
-  /@markuplint/parser-utils@4.2.0:
-    resolution: {integrity: sha512-Dc8P9uq6CTScvgmeouvwF6drTNOiHvudvDOEmkz0JS+MiA0rR5uOhST2zlNCTKxScwOYc+LSpYwFz5zoHQ+03Q==}
+  /@markuplint/parser-utils@4.3.0:
+    resolution: {integrity: sha512-9g2wgp36YnToCqLdhUcBQxdrxPHsBmJ69e982Z5YtoNJ7a2O8bFBVUF3eEwjX71t67P7vi5h59d0H2Oq1T3GjA==}
     dependencies:
-      '@markuplint/ml-ast': 4.0.1
-      '@markuplint/ml-spec': 4.1.0
-      '@markuplint/types': 4.0.2
+      '@markuplint/ml-ast': 4.1.0
+      '@markuplint/ml-spec': 4.2.0
+      '@markuplint/types': 4.1.0
       '@types/uuid': 9.0.8
       debug: 4.3.4
       espree: 10.0.1
-      type-fest: 4.13.1
+      type-fest: 4.14.0
       uuid: 9.0.1
     transitivePeerDependencies:
       - supports-color
@@ -1285,8 +1285,8 @@ packages:
       - supports-color
     dev: true
 
-  /@markuplint/types@4.0.2:
-    resolution: {integrity: sha512-Us/OPFOzqsIWLPY9KVhIYk55INo1k8JYggL/6Hk5XhjEGVKdoR2hfn4iDPnkFS3RrClr3mw9ClNwCozC19KGaA==}
+  /@markuplint/types@4.1.0:
+    resolution: {integrity: sha512-oyXeZTdfjmRwvbs8XfvGTYVu2H9jJCVVWw1CU9KH0FJy7AwL8rcufhHp0rxCU3elsdiXA1rbPbbHcF8CgJpbew==}
     dependencies:
       '@types/css-tree': 2.3.7
       '@types/debug': 4.1.12
@@ -1295,7 +1295,7 @@ packages:
       css-tree: 2.3.1
       debug: 4.3.4
       leven: 4.0.0
-      type-fest: 4.13.1
+      type-fest: 4.14.0
       whatwg-mimetype: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -1896,7 +1896,7 @@ packages:
   /@vanilla-extract/private@1.0.3:
     resolution: {integrity: sha512-17kVyLq3ePTKOkveHxXuIJZtGYs+cSoev7BlP+Lf4916qfDhk/HBjvlYDe8egrea7LNPHKwSZJK/bzZC+Q6AwQ==}
 
-  /@vanilla-extract/vite-plugin@3.9.5(@types/node@20.11.30)(vite@5.2.3):
+  /@vanilla-extract/vite-plugin@3.9.5(@types/node@20.11.30)(vite@5.2.6):
     resolution: {integrity: sha512-CWI/CtrVW6i3HKccI6T7uGQkTJ8bd8Xl2UMBg3Pkr7dwWMmavXTeucV0I9KSbmXaYXSbEj+Q8c9y0xAZwtmTig==}
     peerDependencies:
       vite: ^2.2.3 || ^3.0.0 || ^4.0.3 || ^5.0.0
@@ -1905,7 +1905,7 @@ packages:
       outdent: 0.8.0
       postcss: 8.4.38
       postcss-load-config: 4.0.2(postcss@8.4.38)
-      vite: 5.2.3(@types/node@20.11.30)
+      vite: 5.2.6(@types/node@20.11.30)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -7465,6 +7465,11 @@ packages:
     engines: {node: '>=16'}
     dev: true
 
+  /type-fest@4.14.0:
+    resolution: {integrity: sha512-on5/Cw89wwqGZQu+yWO0gGMGu8VNxsaW9SB2HE8yJjllEk7IDTwnSN1dUVldYILhYPN5HzD7WAaw2cc/jBfn0Q==}
+    engines: {node: '>=16'}
+    dev: true
+
   /type@2.7.2:
     resolution: {integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==}
     dev: true
@@ -7815,6 +7820,42 @@ packages:
 
   /vite@5.2.3(@types/node@20.11.30):
     resolution: {integrity: sha512-+i1oagbvkVIhEy9TnEV+fgXsng13nZM90JQbrcPrf6DvW2mXARlz+DK7DLiDP+qeKoD1FCVx/1SpFL1CLq9Mhw==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 20.11.30
+      esbuild: 0.20.2
+      postcss: 8.4.38
+      rollup: 4.13.0
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
+  /vite@5.2.6(@types/node@20.11.30):
+    resolution: {integrity: sha512-FPtnxFlSIKYjZ2eosBQamz4CbyrTizbZ3hnGJlh/wMtCrlp1Hah6AzBLjGI5I2urTfNnpovpHdrL6YRuBOPnCA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
