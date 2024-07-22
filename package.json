@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@markuplint/astro-parser": "^4.0.0",
-    "@vanilla-extract/vite-plugin": "^3.9.0",
+    "@vanilla-extract/vite-plugin": "^4.0.0",
     "cheerio": "1.0.0-rc.12",
     "husky": "^9.0.0",
     "markuplint": "^3.12.0",
