@@ -57,7 +57,7 @@ devDependencies:
     version: 1.2.2(textlint@13.4.1)
   textlint-rule-ja-space-around-link:
     specifier: ^2.2.0
-    version: 2.3.1
+    version: 2.4.2
   textlint-rule-preset-ja-spacing:
     specifier: ^2.3.0
     version: 2.4.3
@@ -6732,13 +6732,6 @@ packages:
 
   /textlint-rule-ja-space-around-code@2.4.2:
     resolution: {integrity: sha512-DM4OF7seafTKrxPFjUJyxx/lwlg8CO3wgwmTJWhQ+6po3mQVV6QaBHpc0861/32kUAJm1ZgRpiBlDWUdraXFFA==}
-    dependencies:
-      match-index: 1.0.3
-      textlint-rule-helper: 2.3.1
-    dev: true
-
-  /textlint-rule-ja-space-around-link@2.3.1:
-    resolution: {integrity: sha512-PKdSRQfrfEqeBET/6TBJ7Dm2/024XDXzG4iLoaJGjaO70hd76JJiLUBTEZMSV2bYF9RM/6SsLJLN62MDRiknuA==}
     dependencies:
       match-index: 1.0.3
       textlint-rule-helper: 2.3.1
