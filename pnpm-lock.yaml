@@ -13,7 +13,7 @@ importers:
         version: 1.0.0
       astro-og-canvas:
         specifier: ^0.7.0
-        version: 0.7.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1))
+        version: 0.7.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1))
       canvaskit-wasm:
         specifier: ^0.39.1
         version: 0.39.1
@@ -23,10 +23,10 @@ importers:
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
-        version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.7.3)
+        version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)
       '@astrojs/mdx':
         specifier: 4.1.0
-        version: 4.1.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1))
+        version: 4.1.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1))
       '@astrojs/rss':
         specifier: ^4.0.10
         version: 4.0.11
@@ -38,13 +38,13 @@ importers:
         version: 4.6.15
       '@playform/compress':
         specifier: ^0.1.6
-        version: 0.1.6(@types/node@22.10.5)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.3)(yaml@2.6.1)
+        version: 0.1.6(@types/node@22.10.5)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.8.2)(yaml@2.6.1)
       '@playform/inline':
         specifier: ^0.1.0
-        version: 0.1.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+        version: 0.1.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       astro:
         specifier: 5.4.1
-        version: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+        version: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       astro-google-fonts-optimizer:
         specifier: ^0.2.2
         version: 0.2.2
@@ -59,7 +59,7 @@ importers:
         version: 3.0.1
       markuplint:
         specifier: ^4.11.4
-        version: 4.11.4(typescript@5.7.3)
+        version: 4.11.4(typescript@5.8.2)
       mdx:
         specifier: ^0.3.1
         version: 0.3.1
@@ -77,7 +77,7 @@ importers:
         version: 3.13.0
       typescript:
         specifier: ^5.7.2
-        version: 5.7.3
+        version: 5.8.2
       unist-util-visit:
         specifier: 5.0.0
         version: 5.0.0
@@ -2792,8 +2792,8 @@ packages:
   typescript-auto-import-cache@0.3.5:
     resolution: {integrity: sha512-fAIveQKsoYj55CozUiBoj4b/7WpN0i4o74wiGY5JVUEoD0XiqDk1tJqTEjgzL2/AizKQrXxyRosSebyDzBZKjw==}
 
-  typescript@5.7.3:
-    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
+  typescript@5.8.2:
+    resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3233,12 +3233,12 @@ packages:
 
 snapshots:
 
-  '@astrojs/check@0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.7.3)':
+  '@astrojs/check@0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)':
     dependencies:
-      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.7.3)
+      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)
       chokidar: 4.0.1
       kleur: 4.1.5
-      typescript: 5.7.3
+      typescript: 5.8.2
       yargs: 17.7.2
     transitivePeerDependencies:
       - prettier
@@ -3250,12 +3250,12 @@ snapshots:
 
   '@astrojs/internal-helpers@0.6.0': {}
 
-  '@astrojs/language-server@2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.7.3)':
+  '@astrojs/language-server@2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)':
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/yaml2ts': 0.2.2
       '@jridgewell/sourcemap-codec': 1.5.0
-      '@volar/kit': 2.4.10(typescript@5.7.3)
+      '@volar/kit': 2.4.10(typescript@5.8.2)
       '@volar/language-core': 2.4.10
       '@volar/language-server': 2.4.10
       '@volar/language-service': 2.4.10
@@ -3302,12 +3302,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.1.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1))':
+  '@astrojs/mdx@4.1.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.2.0
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       acorn: 8.14.0
-      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       es-module-lexer: 1.6.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.4
@@ -3599,7 +3599,7 @@ snapshots:
 
   '@markuplint/config-presets@4.5.10': {}
 
-  '@markuplint/file-resolver@4.9.9(typescript@5.7.3)':
+  '@markuplint/file-resolver@4.9.9(typescript@5.8.2)':
     dependencies:
       '@markuplint/html-parser': 4.6.14
       '@markuplint/ml-ast': 4.4.9
@@ -3609,7 +3609,7 @@ snapshots:
       '@markuplint/parser-utils': 4.8.2
       '@markuplint/selector': 4.6.14
       '@markuplint/shared': 4.4.10
-      cosmiconfig: 9.0.0(typescript@5.7.3)
+      cosmiconfig: 9.0.0(typescript@5.8.2)
       debug: 4.3.7
       glob: 11.0.0
       ignore: 6.0.2
@@ -3824,12 +3824,12 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@playform/compress@0.1.6(@types/node@22.10.5)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.3)(yaml@2.6.1)':
+  '@playform/compress@0.1.6(@types/node@22.10.5)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.8.2)(yaml@2.6.1)':
     dependencies:
       '@playform/pipe': 0.1.1
       '@types/csso': 5.0.4
       '@types/html-minifier-terser': 7.0.2
-      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       commander: 12.1.0
       csso: 5.0.5
       deepmerge-ts: 7.1.3
@@ -3872,10 +3872,10 @@ snapshots:
       - uploadthing
       - yaml
 
-  '@playform/inline@0.1.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)':
+  '@playform/inline@0.1.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)':
     dependencies:
       '@playform/pipe': 0.1.2
-      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       critters: 0.0.25
       deepmerge-ts: 7.1.3
     transitivePeerDependencies:
@@ -4106,12 +4106,12 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@volar/kit@2.4.10(typescript@5.7.3)':
+  '@volar/kit@2.4.10(typescript@5.8.2)':
     dependencies:
       '@volar/language-service': 2.4.10
       '@volar/typescript': 2.4.10
       typesafe-path: 0.2.2
-      typescript: 5.7.3
+      typescript: 5.8.2
       vscode-languageserver-textdocument: 1.0.12
       vscode-uri: 3.0.8
 
@@ -4235,14 +4235,14 @@ snapshots:
 
   astro-google-fonts-optimizer@0.2.2: {}
 
-  astro-og-canvas@0.7.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)):
+  astro-og-canvas@0.7.0(astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)):
     dependencies:
-      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1)
+      astro: 5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1)
       canvaskit-wasm: 0.39.1
       deterministic-object-hash: 2.0.2
       entities: 4.5.0
 
-  astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.7.3)(yaml@2.6.1):
+  astro@5.4.1(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.27.0)(rollup@4.34.8)(terser@5.36.0)(typescript@5.8.2)(yaml@2.6.1):
     dependencies:
       '@astrojs/compiler': 2.10.4
       '@astrojs/internal-helpers': 0.6.0
@@ -4289,7 +4289,7 @@ snapshots:
       shiki: 1.29.2
       tinyexec: 0.3.2
       tinyglobby: 0.2.12
-      tsconfck: 3.1.4(typescript@5.7.3)
+      tsconfck: 3.1.4(typescript@5.8.2)
       ultrahtml: 1.5.3
       unist-util-visit: 5.0.0
       unstorage: 1.14.4
@@ -4302,7 +4302,7 @@ snapshots:
       yocto-spinner: 0.2.0
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
-      zod-to-ts: 1.2.0(typescript@5.7.3)(zod@3.24.1)
+      zod-to-ts: 1.2.0(typescript@5.8.2)(zod@3.24.1)
     optionalDependencies:
       sharp: 0.33.5
     transitivePeerDependencies:
@@ -4539,14 +4539,14 @@ snapshots:
 
   cookie@0.7.2: {}
 
-  cosmiconfig@9.0.0(typescript@5.7.3):
+  cosmiconfig@9.0.0(typescript@5.8.2):
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
     optionalDependencies:
-      typescript: 5.7.3
+      typescript: 5.8.2
 
   critters@0.0.25:
     dependencies:
@@ -5490,10 +5490,10 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  markuplint@4.11.4(typescript@5.7.3):
+  markuplint@4.11.4(typescript@5.8.2):
     dependencies:
       '@markuplint/cli-utils': 4.4.10
-      '@markuplint/file-resolver': 4.9.9(typescript@5.7.3)
+      '@markuplint/file-resolver': 4.9.9(typescript@5.8.2)
       '@markuplint/html-parser': 4.6.14
       '@markuplint/html-spec': 4.11.1
       '@markuplint/i18n': 4.6.0
@@ -6748,9 +6748,9 @@ snapshots:
 
   trough@2.2.0: {}
 
-  tsconfck@3.1.4(typescript@5.7.3):
+  tsconfck@3.1.4(typescript@5.8.2):
     optionalDependencies:
-      typescript: 5.7.3
+      typescript: 5.8.2
 
   tslib@2.8.1: {}
 
@@ -6766,7 +6766,7 @@ snapshots:
     dependencies:
       semver: 7.7.1
 
-  typescript@5.7.3: {}
+  typescript@5.8.2: {}
 
   ufo@1.5.4: {}
 
@@ -7123,9 +7123,9 @@ snapshots:
     dependencies:
       zod: 3.24.1
 
-  zod-to-ts@1.2.0(typescript@5.7.3)(zod@3.24.1):
+  zod-to-ts@1.2.0(typescript@5.8.2)(zod@3.24.1):
     dependencies:
-      typescript: 5.7.3
+      typescript: 5.8.2
       zod: 3.24.1
 
   zod@3.23.8: {}
