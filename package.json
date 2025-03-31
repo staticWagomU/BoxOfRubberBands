@@ -46,7 +46,7 @@
   "dependencies": {
     "astro-compressor": "^1.0.0",
     "astro-og-canvas": "^0.7.0",
-    "canvaskit-wasm": "^0.39.1",
+    "canvaskit-wasm": "^0.40.0",
     "gsap": "^3.12.5"
   }
 }
