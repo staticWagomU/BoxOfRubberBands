@@ -316,27 +316,27 @@ article.blog {
 		display: flex;
 		flex-direction: row;
 		font-size: 13px;
-		line-height: 2ch;
+		line-height: 1.6;
 		position: relative;
-
+		
 		.code-content {
 			width: 100%;
-
+			
 			pre {
-				padding: 1ch;
-				border-radius: 1ch;
-				padding-top: 1rem;
-				padding-bottom: 1rem;
-
+				padding: 1rem;
+				border-radius: 0.5rem;
+				margin: 0;
+				
 				code {
 					font-family: "JetBrains Mono Nerd Font", monospace;
+					display: block;
 				}
 			}
-
+			
 			code > span.line {
 				padding-left: 0.4rem;
 			}
-
+			
 			pre,
 			span {
 				--bg: var(--shiki-light-bg);
@@ -345,33 +345,31 @@ article.blog {
 				color: var(--color);
 			}
 		}
-
+		
 		.line-number {
 			position: absolute;
 			left: 0;
 			transform: translateX(calc(-100% + 1ch));
-			border-radius: 0.5ch 0 0 0.5ch;
-			display: inline-flex;
+			border-radius: 0.5rem 0 0 0.5rem;
+			display: flex;
 			flex-direction: column;
 			--bg: #fdf6e3;
 			--color: #5c6a72;
 			color: var(--color);
 			text-align: right;
 			user-select: none;
-			padding: 0.4rem;
-			padding-top: 1rem;
-			padding-bottom: 1rem;
-			background:
-				linear-gradient(to bottom, var(--bg) 0 calc(1rem - 1px), transparent 1rem),
-				linear-gradient(
-					to bottom,
-					transparent 0 calc(100% - 1rem),
-					var(--bg) calc(100% - 1rem + 1px) 100%
-				),
-				linear-gradient(to right, transparent calc(100% - 1px), var(--gray) 100%) var(--bg);
+			padding: 1rem 0.4rem;
+			background: linear-gradient(to right, var(--bg) calc(100% - 1px), var(--gray) 100%) var(--bg);
+			font-size: 13px;
+			line-height: 1.6;
+		}
+		
+		.line-number-item {
+			display: block;
+			min-height: 1.6em;
 		}
 	}
-
+	
 	@media (width < 820px) {
 		.code-block-wrapper .line-number {
 			display: none;
