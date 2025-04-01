@@ -118,5 +118,50 @@
     "title": "GitHub - tadashi-aikawa/mobile-first-daily-interface: Obsidianにてモバイルに最適なインターフェースでデイリーノートを扱うプラグインです。",
     "description": "Obsidianにてモバイルに最適なインターフェースでデイリーノートを扱うプラグインです。. Contribute to tadashi-aikawa/mobile-first-daily-interface development by creating an account on GitHub.",
     "image": "https://opengraph.githubassets.com/1efc0a4d1de27f55f1d5fea353093f3f4dacba2d7e168bc72baa30a8d50c9a31/tadashi-aikawa/mobile-first-daily-interface"
+  },
+  "https://zenn.dev/shougo/articles/ddu-vim-beta": {
+    "title": "新世代の UI 作成プラグイン ddu.vim",
+    "description": "",
+    "image": "https://res.cloudinary.com/zenn/image/upload/s--jZAjKcdk--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E6%2596%25B0%25E4%25B8%2596%25E4%25BB%25A3%25E3%2581%25AE%2520UI%2520%25E4%25BD%259C%25E6%2588%2590%25E3%2583%2597%25E3%2583%25A9%25E3%2582%25B0%25E3%2582%25A4%25E3%2583%25B3%2520ddu.vim%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_37:Shougo%2Cx_203%2Cy_121/g_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2llTXlqT3huMG12REN6SFFNMWZNeGlYd3Z4dmw5cVk1ZzVBN2lWPXMyNTAtYw==%2Cr_max%2Cw_90%2Cx_87%2Cy_95/v1627283836/default/og-base-w1200-v2.png"
+  },
+  "https://zenn.dev/vim_jp/articles/c0d75d1f3c7f33": {
+    "title": "ddu.vimの基本設定概観",
+    "description": "",
+    "image": "https://res.cloudinary.com/zenn/image/upload/s--ZujA2whD--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:ddu.vim%25E3%2581%25AE%25E5%259F%25BA%25E6%259C%25AC%25E8%25A8%25AD%25E5%25AE%259A%25E6%25A6%2582%25E8%25A6%25B3%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:kyoh86%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3plbm4tdXNlci11cGxvYWQvYXZhdGFyLzU1YzllYzNiYzAuanBlZw==%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:vim-jp%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2lRUHYwOHdfWFJVcjk5U3BPNUl2Y3o5N3MtanhiWFBaZ3FxcGZxQ1hZPXMyNTAtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png"
+  },
+  "https://zenn.dev/kuu/articles/vac2021-skkeleton": {
+    "title": "新しいVim用日本語入力プラグインを作った",
+    "description": "",
+    "image": "https://res.cloudinary.com/zenn/image/upload/s--U3YCeGqJ--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E6%2596%25B0%25E3%2581%2597%25E3%2581%2584Vim%25E7%2594%25A8%25E6%2597%25A5%25E6%259C%25AC%25E8%25AA%259E%25E5%2585%25A5%25E5%258A%259B%25E3%2583%2597%25E3%2583%25A9%25E3%2582%25B0%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%2592%25E4%25BD%259C%25E3%2581%25A3%25E3%2581%259F%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_37:kuu%2Cx_203%2Cy_121/g_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3plbm4tdXNlci11cGxvYWQvYXZhdGFyLzlkYjAyN2ZiOTkuanBlZw==%2Cr_max%2Cw_90%2Cx_87%2Cy_95/v1627283836/default/og-base-w1200-v2.png"
+  },
+  "https://zenn.dev/vim_jp/articles/20231020step-by-step-ddu": {
+    "title": "一歩ずつ始めるddu.vim",
+    "description": "",
+    "image": "https://res.cloudinary.com/zenn/image/upload/s--Mhklvji_--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:%25E4%25B8%2580%25E6%25AD%25A9%25E3%2581%259A%25E3%2581%25A4%25E5%25A7%258B%25E3%2582%2581%25E3%2582%258Bddu.vim%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:%25E8%25BC%25AA%25E3%2581%2594%25E3%2582%2580%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3plbm4tdXNlci11cGxvYWQvYXZhdGFyLzU1YzllYzNiYzAuanBlZw==%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:vim-jp%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3plbm4tdXNlci11cGxvYWQvYXZhdGFyL2MzYzhjZTNhZDcuanBlZw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png"
+  },
+  "https://wagomu.me/blog/2024-03-08-vim-ekiden": {
+    "title": "Vim駅伝を1年走り続けてみて - 輪ごむの空き箱",
+    "description": "輪ゴムっていきなり切れるとびっくりするよね",
+    "image": ""
+  },
+  "https://blog.atusy.net/2025/03/25/nvim-telescope-pickers/": {
+    "title": "Neovimのファジーファインダーtelescope.nvimでよく使っているpicker集",
+    "description": "Vim駅伝2025-03-24の記事です。 1日遅れで申し訳ありません。\nさて、telescope.nvimは言わずと知れたファジーファインダーと呼ばれるものです。ファジーファインダーとは、ファイルなどの候補一覧から、検索などで欲しいものを絞りこみ、開くなり消すなり任意のアクションを実行するためのツールです。たしかそんなようなことをShougoさんがvim-jp ラジオの#7か#8で語ってたはず。良い話いっぱいなので、聞いてみてください。\n【Vimプラグイン作者・Shougoさん登場！】エンジニアの楽園 vim-jp ラジオ #7 【Shougoさんが考えるプラグインのあるべき姿】エンジニアの楽園 vim-jp ラジオ #8 vim-jpではまたファジーファインダーかと叫ばれるくらいには作者が多く、vim-jpにいらっしゃる方の作品だけでもShougo/ddu.vim、vim-fall/fall.vim、hrsh7th/nvim-deckなどがあります。それくらいには求めるところがユーザーによって変わるということでしょう。",
+    "image": "https://blog.atusy.net/images/atusy-large.jpg"
+  },
+  "https://note.com/atusy/n/nb72fc90f8fc0": {
+    "title": "五郎寿し心斎橋店に行ってきた｜atusy",
+    "description": "おまかせ5500円コース。飲み物別。 こちらの予想を超えてくる旨さを連発してきて最高でした。仕込みのよさや、ネタの構成のよさを感じます。  1皿目。奥のホタテの漬けが最高でした。良い具合にねっとり。 左からホタテの漬、タケノコ、山芋のだんご、南蛮漬だったはず 2皿目はお造り。サーモンのとろけっぷりが最高でした。あと、締め鯖もよき。ほどよいサイズ感で、台になってる大葉と大根のつまを巻いて口に放り込むと、とても爽やかでよき。タイと胡瓜とか、とにかく組み合わせが凄くいい。 ハマチ、締め鯖、カツオ、タイ、サーモンのお造り 待ってました握り！こんなウマイ鮪食ベタコトナイ！ってなりました。とろける",
+    "image": "https://assets.st-note.com/production/uploads/images/179552522/rectangle_large_type_2_5fa065520cd7e4b3e9063a04c290b314.jpeg?fit=bounds&quality=85&width=1280"
+  },
+  "https://blog.yasunori0418.dev/p/first-it-company-graduation/": {
+    "title": "株式会社Gizumoを卒業しました",
+    "description": "始めに タイトルでは卒業と称していますが、要するに退職です。\\nyasunori0418（通称yasunori）こと、渡邊泰紀（わたなべたいき）は2025年3月末をもって、株式会社Gizumo（以下、Gizumo）を退職しました。\\n",
+    "image": "https://github.com/yasunori0418.png"
+  },
+  "https://www.youtube.com/watch?v=obg3W2RN4fE": {
+    "title": "【メンタリストDaiGoが尊敬する男】【論文10万本読破】鈴木祐さんに「集中力を根本的に伸ばす方法」を教えてもらった",
+    "description": "「仕事しなきゃ」と思っても、気づいたらスマホを触っている。たびたびトイレに行ってしまう。コンビニ甘いものを買いに行ってしまう…。これらはすべて「脳の“ある特性”」のせいだった。脳を理解し、集中力を根本的に伸ばす方法を、鈴木祐さんに伝授してもらいました。■鈴木祐さんの情報はこちらXhttps://x.com/yuc...",
+    "image": "https://i.ytimg.com/vi/obg3W2RN4fE/maxresdefault.jpg"
   }
 }
