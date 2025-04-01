@@ -322,6 +322,10 @@ article.blog {
 		line-height: 1.6;
 		position: relative;
 
+		& + .code-block-wrapper {
+			margin-top: var(--space-m);
+		}
+
 		.code-content {
 			width: 100%;
 
