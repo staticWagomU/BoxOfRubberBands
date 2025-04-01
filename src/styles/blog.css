@@ -183,7 +183,6 @@ article.blog {
 		margin-top: var(--space-l);
 		font-size: 0.9em;
 		color: var(--gray);
-		border-top: 1px solid var(--gray);
 		padding-top: var(--space-m);
 	}
 
