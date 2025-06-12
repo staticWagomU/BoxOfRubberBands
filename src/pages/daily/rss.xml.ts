@@ -25,7 +25,8 @@ export const GET: APIRoute = async function get({ site }) {
 				description: "日記です",
 				link: `${site}daily/${slug}`,
 				pubDate: new Date(pubDate),
-		}));
+			};
+		});
 
 	return rss({
 		title: "輪ごむの空き箱",
