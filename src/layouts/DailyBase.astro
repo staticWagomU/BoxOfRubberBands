@@ -10,7 +10,12 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	day: "numeric",
 	weekday: "short",
 });
-const ogImage = `${import.meta.env.SITE}/daily/${post.slug}.png`;
+const { id } = post;
+const parts = id.split('/');
+const year = parts[0];
+const month = parts[1];
+const filename = parts[2].replace('.mdx', '');
+const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`;
 ---
 
 <Fragment slot="head">

@@ -32,6 +32,13 @@ export default defineConfig({
 	trailingSlash: "never",
 	vite: {
 		plugins: [],
+		resolve: {
+			alias: {
+				'@components': '/src/components',
+				'@layouts': '/src/layouts',
+				'@styles': '/src/styles'
+			}
+		}
 	},
 	markdown: {
 		remarkRehype: {

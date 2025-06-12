@@ -5,10 +5,19 @@ import DailyBase from "../../layouts/DailyBase.astro";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("daily");
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: posts.find((x) => x.slug === post.slug),
-	}));
+	return posts.map((post) => {
+		// Extract year, month, day from file path
+		const parts = post.id.split('/');
+		const year = parts[0];
+		const month = parts[1];
+		const filename = parts[2].replace('.mdx', '');
+		const slug = `${year}/${month}/${filename}`;
+
+		return {
+			params: { slug },
+			props: post,
+		};
+	});
 }
 
 type Props = CollectionEntry<"daily">;
