@@ -3,6 +3,7 @@ import Base from "./Base.astro";
 import { SITE_TITLE } from "../config";
 
 import "../styles/blog.css";
+import "../styles/code-copy-button.css";
 const { post } = Astro.props;
 const { title, pubDate, tags } = post.data;
 const formattedDate = pubDate.toLocaleDateString("ja-JP", {
@@ -80,3 +81,26 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 		margin-bottom: 0;
 	}
 </style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		document.querySelectorAll(".copy-button").forEach(button => {
+			button.addEventListener("click", () => {
+				const pre = button.closest("pre");
+				const code = pre.querySelector("code").innerText;
+				
+				navigator.clipboard.writeText(code).then(() => {
+					button.textContent = button.dataset.successText;
+					button.classList.add("copied");
+					
+					setTimeout(() => {
+						button.textContent = button.dataset.copyText;
+						button.classList.remove("copied");
+					}, parseInt(button.dataset.successDuration, 10) || 2000);
+				}).catch(err => {
+					console.error("Could not copy text: ", err);
+				});
+			});
+		});
+	});
+</script>
