@@ -1,5 +1,6 @@
 ---
 import Base from "./Base.astro";
+import { getCollection } from "astro:content";
 
 import "../styles/blog.css";
 const { post } = Astro.props;
@@ -16,6 +17,23 @@ const year = parts[0];
 const month = parts[1];
 const filename = parts[2].replace('.mdx', '');
 const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`;
+
+// Get previous and next posts for navigation
+const allPosts = await getCollection("daily");
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
+// Create URLs for navigation links
+const getPostUrl = (post) => {
+  if (!post) return null;
+  const postParts = post.id.split('/');
+  return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace('.mdx', '')}`;
+};
+
+const prevUrl = prevPost ? getPostUrl(prevPost) : null;
+const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 ---
 
 <Fragment slot="head">
@@ -33,6 +51,21 @@ const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`
 		<h1><time datetime={pubDate}>{formattedDate}</time>の日記</h1>
 		<slot />
 	</article>
+
+	<nav class="daily-nav">
+		<div class="nav-links">
+			{prevUrl && (
+				<a href={prevUrl} class="nav-link prev">
+					前の日記
+				</a>
+			)}
+			{nextUrl && (
+				<a href={nextUrl} class="nav-link next">
+					次の日記
+				</a>
+			)}
+		</div>
+	</nav>
 </Base>
 
 <style>
@@ -55,5 +88,39 @@ const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`
 
 		animation: grow-progress linear;
 		animation-timeline: scroll();
+	}
+
+	.daily-nav {
+		margin: var(--space-l) 0;
+	}
+
+	.nav-links {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.nav-link {
+		display: inline-block;
+		padding: var(--space-xxs) var(--space-xs);
+		border: 1px solid var(--gray);
+		border-radius: 4px;
+		color: var(--color);
+		font-size: 0.9rem;
+		text-decoration: none !important;
+		transition: all 0.2s ease;
+	}
+
+	.nav-link:hover {
+		border-color: var(--accent2);
+		color: var(--accent2);
+	}
+
+	.nav-link.prev {
+		margin-right: auto;
+	}
+
+	.nav-link.next {
+		margin-left: auto;
 	}
 </style>
