@@ -6,6 +6,7 @@ import codeBlockPlugin from "./tools/remark-code-quote";
 import rehypeHeadingSpan from "./tools/rehype-heading-span";
 import rehypeLineNumbers from "./tools/rehype-line-numbers";
 import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
+import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
 
 import compressor from "astro-compressor";
@@ -47,7 +48,24 @@ export default defineConfig({
 			footnoteLabel: " ",
 		},
 		remarkPlugins: [remarkAside, codeBlockPlugin, remarkBreaks],
-		rehypePlugins: [rehypeLineNumbers, rehypeHeadingSpan, rehypeCodeCopyButton],
+		rehypePlugins: [
+				rehypeLineNumbers, 
+				rehypeHeadingSpan, 
+				rehypeCodeCopyButton,
+				[rehypeToc, {
+					headings: ["h2", "h3"],
+					className: "toc",
+					title: "目次",
+					titleClassName: "toc-title",
+					listClassName: "toc-list",
+					listItemClassName: "toc-item",
+					linkClassName: "toc-link",
+					collapsible: true,
+					defaultOpen: false,
+					splitView: true,
+					pcClassName: "toc-pc",
+				}]
+			],
 		shikiConfig: {
 			defaultColor: false,
 			themes: {

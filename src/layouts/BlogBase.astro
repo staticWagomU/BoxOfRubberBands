@@ -84,6 +84,7 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 
 <script>
 	document.addEventListener("DOMContentLoaded", () => {
+		// コードコピーボタンの設定
 		document.querySelectorAll(".copy-button").forEach(button => {
 			button.addEventListener("click", () => {
 				const pre = button.closest("pre");
@@ -102,5 +103,103 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 				});
 			});
 		});
+
+		// 目次の現在位置の強調表示（モバイル版とPC版両方）
+		const tocLinks = document.querySelectorAll('.toc-link');
+		
+		// 目次リンクに対応する見出し要素だけを取得する（リンクのhrefから対象を特定）
+		const headingIds = Array.from(tocLinks).map(link => {
+			const href = link.getAttribute('href');
+			return href && href.startsWith('#') ? href.substring(1) : null;
+		}).filter(Boolean);
+		
+		const headings = Array.from(document.querySelectorAll('h2, h3')).filter(heading => 
+			heading.id && headingIds.includes(heading.id)
+		);
+		
+		// 見出しが存在しない場合は処理を終了
+		if (headings.length === 0 || tocLinks.length === 0) return;
+		
+		// 目次リンクとIDをマップ
+		const idToTocLink = new Map();
+		tocLinks.forEach(link => {
+			const href = link.getAttribute('href');
+			if (href && href.startsWith('#')) {
+				const id = href.substring(1);
+				idToTocLink.set(id, link);
+			}
+		});
+		
+		// 現在アクティブな見出しを追跡するための変数
+		let currentActiveHeading = null;
+		
+		// 見出し要素をスクロール位置に基づいて評価する関数
+		function evaluateHeadings() {
+			// 画面に表示されている見出しを収集
+			const visibleHeadings = [];
+			
+			headings.forEach(heading => {
+				const rect = heading.getBoundingClientRect();
+				const topVisible = rect.top > 0 && rect.top < window.innerHeight * 0.5;
+				const elementInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+				const partiallyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+				
+				if (topVisible || elementInView || partiallyVisible) {
+					visibleHeadings.push({
+						id: heading.id,
+						y: rect.top,
+						element: heading
+					});
+				}
+			});
+			
+			// 可視範囲内の見出しがあれば、最も上にある見出しをアクティブにする
+			if (visibleHeadings.length > 0) {
+				// 上から順に並べる
+				visibleHeadings.sort((a, b) => a.y - b.y);
+				const topHeading = visibleHeadings[0];
+				
+				// 同じ見出しが既にアクティブなら何もしない
+				if (currentActiveHeading !== topHeading.id) {
+					// 古いアクティブ状態をクリア
+					document.querySelectorAll('.toc-link-active').forEach(el => {
+						el.classList.remove('toc-link-active');
+					});
+					
+					// 新しくアクティブにする（モバイル版とPC版の両方）
+					// 同じIDのリンクを全て取得（モバイル版とPC版の両方）
+					const allTocLinksWithSameId = document.querySelectorAll(`.toc-link[href="#${topHeading.id}"]`);
+					
+					if (allTocLinksWithSameId.length > 0) {
+						// 全てのリンクをアクティブにする
+						allTocLinksWithSameId.forEach(link => {
+							link.classList.add('toc-link-active');
+						});
+						
+						currentActiveHeading = topHeading.id;
+						
+						// PC版目次がスクロール領域内なら、アクティブな項目を表示範囲内にスクロール
+						const pcTocContainer = document.querySelector('.toc.toc-pc');
+						if (pcTocContainer && window.innerWidth >= 1024) {
+							const pcTocLink = pcTocContainer.querySelector(`.toc-link[href="#${topHeading.id}"]`);
+							if (pcTocLink) {
+								const activeLinkRect = pcTocLink.getBoundingClientRect();
+								const tocRect = pcTocContainer.getBoundingClientRect();
+								
+								if (activeLinkRect.bottom > tocRect.bottom || activeLinkRect.top < tocRect.top) {
+									pcTocLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// スクロールイベントリスナーを追加
+		window.addEventListener('scroll', evaluateHeadings, { passive: true });
+		
+		// 初期状態を評価
+		evaluateHeadings();
 	});
 </script>
