@@ -12,24 +12,24 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	weekday: "short",
 });
 const { id } = post;
-const parts = id.split('/');
+const parts = id.split("/");
 const year = parts[0];
 const month = parts[1];
-const filename = parts[2].replace('.mdx', '');
+const filename = parts[2].replace(".mdx", "");
 const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`;
 
 // Get previous and next posts for navigation
 const allPosts = await getCollection("daily");
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
 const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 
 // Create URLs for navigation links
 const getPostUrl = (post) => {
-  if (!post) return null;
-  const postParts = post.id.split('/');
-  return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace('.mdx', '')}`;
+	if (!post) return null;
+	const postParts = post.id.split("/");
+	return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace(".mdx", "")}`;
 };
 
 const prevUrl = prevPost ? getPostUrl(prevPost) : null;
@@ -54,16 +54,20 @@ const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 
 	<nav class="daily-nav">
 		<div class="nav-links">
-			{prevUrl && (
-				<a href={prevUrl} class="nav-link prev">
-					前の日記
-				</a>
-			)}
-			{nextUrl && (
-				<a href={nextUrl} class="nav-link next">
-					次の日記
-				</a>
-			)}
+			{
+				prevUrl && (
+					<a href={prevUrl} class="nav-link prev">
+						前の日記
+					</a>
+				)
+			}
+			{
+				nextUrl && (
+					<a href={nextUrl} class="nav-link next">
+						次の日記
+					</a>
+				)
+			}
 		</div>
 	</nav>
 </Base>

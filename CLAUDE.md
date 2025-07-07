@@ -5,6 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 - Development: `pnpm dev` or `pnpm start`
 - Build: `pnpm build`
+- Build (skip OGP generation): `pnpm build:skip-og`
+- Build (with R2 cache): `pnpm build:with-r2`
+- Sync OGP with R2: `pnpm ogp:sync`
 - Preview: `pnpm preview`
 - Type check: `pnpm check`
 - Format code: `pnpm format`

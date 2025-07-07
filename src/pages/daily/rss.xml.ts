@@ -14,11 +14,14 @@ export const GET: APIRoute = async function get({ site }) {
 	const items = posts
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 		.map((post) => {
-			const { data: { pubDate }, id } = post;
-			const parts = id.split('/');
+			const {
+				data: { pubDate },
+				id,
+			} = post;
+			const parts = id.split("/");
 			const year = parts[0];
 			const month = parts[1];
-			const filename = parts[2].replace('.mdx', '');
+			const filename = parts[2].replace(".mdx", "");
 			const slug = `${year}/${month}/${filename}`;
 			return {
 				title: `${new Date(pubDate).toLocaleDateString("ja-JP", options)}の日記`,
