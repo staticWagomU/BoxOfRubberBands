@@ -1,38 +1,40 @@
 .code-block-with-copy {
-  position: relative;
+	position: relative;
 }
 
 .copy-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background: rgba(var(--accent2-rgb, 106, 153, 78), 0.15);
-  color: var(--color);
-  border: 1px solid rgba(var(--accent1-rgb, 46, 77, 23), 0.2);
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s, background-color 0.2s;
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	background: rgba(var(--accent2-rgb, 106, 153, 78), 0.15);
+	color: var(--color);
+	border: 1px solid rgba(var(--accent1-rgb, 46, 77, 23), 0.2);
+	border-radius: 4px;
+	font-size: 0.8rem;
+	cursor: pointer;
+	opacity: 0;
+	transition:
+		opacity 0.2s,
+		background-color 0.2s;
 }
 
 .code-block-with-copy:hover .copy-button {
-  opacity: 1;
+	opacity: 1;
 }
 
 .copy-button.copied {
-  background: rgba(var(--accent2-rgb, 106, 153, 78), 0.4);
-  color: var(--color);
+	background: rgba(var(--accent2-rgb, 106, 153, 78), 0.4);
+	color: var(--color);
 }
 
 /* Add RGB values for colors to enable alpha transparency */
 :root {
-  --accent1-rgb: 46, 77, 23;
-  --accent2-rgb: 106, 153, 78;
+	--accent1-rgb: 46, 77, 23;
+	--accent2-rgb: 106, 153, 78;
 }
 
 .dark {
-  --accent1-rgb: 241, 244, 224;
-  --accent2-rgb: 139, 195, 74;
+	--accent1-rgb: 241, 244, 224;
+	--accent2-rgb: 139, 195, 74;
 }

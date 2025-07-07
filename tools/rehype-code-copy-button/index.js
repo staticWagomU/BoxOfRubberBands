@@ -11,51 +11,51 @@ import { toString } from "hast-util-to-string";
  * @returns {function} Unified/Rehypeトランスフォーマー
  */
 export default function rehypeCodeCopyButton(options = {}) {
-  const {
-    buttonClassName = "copy-button",
-    buttonText = "Copy",
-    buttonSuccessText = "Copied!",
-    successDuration = 2000,
-  } = options;
+	const {
+		buttonClassName = "copy-button",
+		buttonText = "Copy",
+		buttonSuccessText = "Copied!",
+		successDuration = 2000,
+	} = options;
 
-  return (tree) => {
-    visit(tree, "element", (node) => {
-      // pre > code のパターンを探す
-      if (node.tagName !== "pre" || !node.children?.[0]?.tagName === "code") {
-        return;
-      }
+	return (tree) => {
+		visit(tree, "element", (node) => {
+			// pre > code のパターンを探す
+			if (node.tagName !== "pre" || !node.children?.[0]?.tagName === "code") {
+				return;
+			}
 
-      // すでにラップされている場合はスキップ
-      if (node.properties?.className?.includes("code-block-wrapper")) {
-        return;
-      }
+			// すでにラップされている場合はスキップ
+			if (node.properties?.className?.includes("code-block-wrapper")) {
+				return;
+			}
 
-      // const codeNode = node.children[0];
-      
-      // コードのテキストを取得
-      // const code = toString(codeNode);
+			// const codeNode = node.children[0];
 
-      // 相対的な位置指定のために親要素をposition: relativeに
-      node.properties = node.properties || {};
-      node.properties.className = node.properties.className || [];
-      if (!Array.isArray(node.properties.className)) {
-        node.properties.className = [node.properties.className];
-      }
-      node.properties.className.push("code-block-with-copy");
+			// コードのテキストを取得
+			// const code = toString(codeNode);
 
-      // コピーボタンを作成
-      const copyButton = {
-        type: "element",
-        tagName: "button",
-        properties: {
-          className: [buttonClassName],
-          "aria-label": "コードをクリップボードにコピー",
-          "data-copy-text": buttonText,
-          "data-success-text": buttonSuccessText,
-          "data-success-duration": successDuration,
-          onClick: {
-            type: "raw",
-            value: `(function() {
+			// 相対的な位置指定のために親要素をposition: relativeに
+			node.properties = node.properties || {};
+			node.properties.className = node.properties.className || [];
+			if (!Array.isArray(node.properties.className)) {
+				node.properties.className = [node.properties.className];
+			}
+			node.properties.className.push("code-block-with-copy");
+
+			// コピーボタンを作成
+			const copyButton = {
+				type: "element",
+				tagName: "button",
+				properties: {
+					className: [buttonClassName],
+					"aria-label": "コードをクリップボードにコピー",
+					"data-copy-text": buttonText,
+					"data-success-text": buttonSuccessText,
+					"data-success-duration": successDuration,
+					onClick: {
+						type: "raw",
+						value: `(function() {
               const button = this;
               const pre = button.closest("pre");
               const code = pre.querySelector("code").innerText;
@@ -72,30 +72,30 @@ export default function rehypeCodeCopyButton(options = {}) {
                 console.error("Could not copy text: ", err);
               });
             })()`,
-          },
-        },
-        children: [
-          {
-            type: "text",
-            value: buttonText,
-          },
-        ],
-      };
+					},
+				},
+				children: [
+					{
+						type: "text",
+						value: buttonText,
+					},
+				],
+			};
 
-      // ボタンをpre要素に追加
-      node.children.push(copyButton);
-    });
+			// ボタンをpre要素に追加
+			node.children.push(copyButton);
+		});
 
-    // インラインスクリプトを追加
-    // コピー機能のためのスクリプトを追加
-    const inlineScript = {
-      type: "element",
-      tagName: "script",
-      properties: {},
-      children: [
-        {
-          type: "text",
-          value: `
+		// インラインスクリプトを追加
+		// コピー機能のためのスクリプトを追加
+		const inlineScript = {
+			type: "element",
+			tagName: "script",
+			properties: {},
+			children: [
+				{
+					type: "text",
+					value: `
           document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".${buttonClassName}").forEach(button => {
               button.addEventListener("click", () => {
@@ -117,16 +117,16 @@ export default function rehypeCodeCopyButton(options = {}) {
             });
           });
           `,
-        },
-      ],
-    };
+				},
+			],
+		};
 
-    // body要素にスクリプトを追加
-    // ただし、AstroではこのスクリプトはCSSとともにレイアウトコンポーネントに含めるべき
-    // このコメントはその助言を記載
-    tree.children.push({
-      type: "comment",
-      value: ` 
+		// body要素にスクリプトを追加
+		// ただし、AstroではこのスクリプトはCSSとともにレイアウトコンポーネントに含めるべき
+		// このコメントはその助言を記載
+		tree.children.push({
+			type: "comment",
+			value: ` 
       Note: For Astro integration, add this CSS to your styles:
       
       .code-block-with-copy {
@@ -156,8 +156,8 @@ export default function rehypeCodeCopyButton(options = {}) {
         color: white;
       }
       `,
-    });
-    
-    // tree.children.push(inlineScript);
-  };
+		});
+
+		// tree.children.push(inlineScript);
+	};
 }
