@@ -1,6 +1,8 @@
 ---
 import { load } from "cheerio";
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+import { dirname } from "node:path";
+import { createR2Manager } from "../utils/r2-ogp";
 
 type Props = {
 	url: string;
@@ -20,7 +22,22 @@ const generatedFilePath = new URL(
 	// astroはbuild時に自身ではなくdist/entry.mjsに向けてしまう
 	import.meta.url
 );
-const ogp: OGPJson = JSON.parse(readFileSync(generatedFilePath, "utf8"));
+
+let ogp: OGPJson = {};
+const r2Manager = createR2Manager();
+
+// Try to get OGP metadata from R2 first, fallback to local file
+if (r2Manager && process.env.USE_R2_CACHE === "true") {
+	const r2Metadata = await r2Manager.getOGPMetadata();
+	if (r2Metadata) {
+		ogp = r2Metadata;
+	} else if (existsSync(generatedFilePath)) {
+		ogp = JSON.parse(readFileSync(generatedFilePath, "utf8"));
+	}
+} else if (existsSync(generatedFilePath)) {
+	ogp = JSON.parse(readFileSync(generatedFilePath, "utf8"));
+}
+
 let title: string = "";
 let description: string = "";
 let image: string = "";
@@ -45,23 +62,31 @@ if (ogp[url]) {
 	}
 
 	if (import.meta.env.PROD) {
-		const ogp = JSON.parse(readFileSync(generatedFilePath, "utf8"));
+		const currentOgp = existsSync(generatedFilePath)
+			? JSON.parse(readFileSync(generatedFilePath, "utf8"))
+			: {};
 
-		writeFileSync(
-			generatedFilePath,
-			JSON.stringify(
-				{
-					...ogp,
-					[url]: {
-						title,
-						description,
-						image,
-					},
-				},
-				null,
-				2
-			)
-		);
+		const updatedOgp = {
+			...currentOgp,
+			[url]: {
+				title,
+				description,
+				image,
+			},
+		};
+
+		// Ensure generated directory exists
+		const generatedDir = dirname(generatedFilePath.pathname);
+		if (!existsSync(generatedDir)) {
+			mkdirSync(generatedDir, { recursive: true });
+		}
+
+		writeFileSync(generatedFilePath, JSON.stringify(updatedOgp, null, 2));
+
+		// Also update R2 if enabled
+		if (r2Manager && process.env.USE_R2_CACHE === "true") {
+			await r2Manager.updateOGPMetadata(updatedOgp);
+		}
 	}
 }
 ---
@@ -79,7 +104,7 @@ if (ogp[url]) {
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 		transition:
 			transform 0.2s ease,
-		box-shadow 0.2s ease;
+			box-shadow 0.2s ease;
 
 		.og_text {
 			display: flex;
@@ -151,16 +176,16 @@ if (ogp[url]) {
 	}
 </style>
 
-	<div class="og_wrap">
-		<div class="og_text">
-			<a href={url} target="_blank">
-				{title}
-			</a>
-			<span>
-				{description && description.length > 100 ? `${description?.slice(0, 100)}...` : description}
-			</span>
-		</div>
-		<span class="img_container">
-			{image && <img src={image} alt="ogp" />}
+<div class="og_wrap">
+	<div class="og_text">
+		<a href={url} target="_blank">
+			{title}
+		</a>
+		<span>
+			{description && description.length > 100 ? `${description?.slice(0, 100)}...` : description}
 		</span>
 	</div>
+	<span class="img_container">
+		{image && <img src={image} alt="ogp" />}
+	</span>
+</div>
