@@ -11,7 +11,7 @@ const GENERATED_DIR = join(ROOT_DIR, "generated");
 
 async function loadR2Manager() {
 	try {
-		const { createR2Manager } = await import("../src/utils/r2-ogp.js");
+		const { createR2Manager } = await import("../src/utils/r2-ogp.ts");
 		return createR2Manager();
 	} catch (error) {
 		console.error("Failed to load R2 manager:", error);
