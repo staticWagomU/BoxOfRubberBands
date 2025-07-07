@@ -7,13 +7,16 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "build:skip-og": "SKIP_OG=true astro build",
+    "build:with-r2": "USE_R2_CACHE=true node scripts/pre-build-ogp.mjs && USE_R2_CACHE=true astro build && USE_R2_CACHE=true node scripts/post-build-ogp.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
     "format": "prettier --write --plugin-search-dir=. .",
     "format:check": "prettier --check --plugin-search-dir=. ",
     "lint": "eslint --cache --fix src",
-    "lint:check": "eslint --cache src"
+    "lint:check": "eslint --cache src",
+    "ogp:sync": "node scripts/ogp-r2-cache.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -41,7 +44,8 @@
     "rss-parser": "^3.13.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.26.0",
-    "unist-util-visit": "5.0.0"
+    "unist-util-visit": "5.0.0",
+    "wrangler": "^4.20.0"
   },
   "dependencies": {
     "astro-compressor": "^1.0.0",

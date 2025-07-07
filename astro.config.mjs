@@ -36,11 +36,11 @@ export default defineConfig({
 		plugins: [],
 		resolve: {
 			alias: {
-				'@components': '/src/components',
-				'@layouts': '/src/layouts',
-				'@styles': '/src/styles'
-			}
-		}
+				"@components": "/src/components",
+				"@layouts": "/src/layouts",
+				"@styles": "/src/styles",
+			},
+		},
 	},
 	markdown: {
 		remarkRehype: {
@@ -49,10 +49,12 @@ export default defineConfig({
 		},
 		remarkPlugins: [remarkAside, codeBlockPlugin, remarkBreaks],
 		rehypePlugins: [
-				rehypeLineNumbers, 
-				rehypeHeadingSpan, 
-				rehypeCodeCopyButton,
-				[rehypeToc, {
+			rehypeLineNumbers,
+			rehypeHeadingSpan,
+			rehypeCodeCopyButton,
+			[
+				rehypeToc,
+				{
 					headings: ["h2", "h3"],
 					className: "toc",
 					title: "目次",
@@ -64,8 +66,9 @@ export default defineConfig({
 					defaultOpen: false,
 					splitView: true,
 					pcClassName: "toc-pc",
-				}]
+				},
 			],
+		],
 		shikiConfig: {
 			defaultColor: false,
 			themes: {
