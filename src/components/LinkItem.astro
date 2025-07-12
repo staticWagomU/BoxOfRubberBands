@@ -9,11 +9,15 @@ function dateString(date: Date) {
 }
 ---
 
-<a href={slug} class="bloglink">
+<a
+	href={slug}
+	class="bloglink"
+	aria-label={`${title} - ${dateString(pubDate)} ${kind === "zenn" ? "（Zennの記事）" : ""}`}
+>
 	<div class="post">
 		<div class="date">{dateString(pubDate)}</div>
 		<div class="content">
-			<span class={`${kind}-icon`}></span>
+			<span class={`${kind}-icon`} aria-hidden="true"></span>
 			<span>{title}</span>
 		</div>
 	</div>
