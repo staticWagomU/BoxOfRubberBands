@@ -30,28 +30,29 @@ export const { getStaticPaths, GET } = OGImageRoute({
 		path = imagePath;
 		return {
 			title: ` ${Number(page.pubDate.getMonth() + 1)}/${page.pubDate.getDate()}のにっき`,
-			description: "                                 輪ごむの空き箱",
+			// description: "                                 輪ごむの空き箱",
 			bgImage: {
-				path: "./public/OGP/daily2.JPG",
+				path: "./public/OGP/daily.png",
+				// path: "./public/OGP/daily2.JPG",
 				fit: "cover",
 			},
 			font: {
 				title: {
 					size: 160,
 					color: [51, 51, 51],
-					// families: ["Cherry Bomb One"],
-					families: ["wagomufont"],
+					families: ["Cherry Bomb One"],
+					// families: ["wagomufont"],
 					lineHeight: 2.3,
 				},
-				description: {
-					size: 80,
-					color: [51, 51, 51],
-					families: ["wagomufont"],
-					lineHeight: 1.5,
-				},
+				// description: {
+				// 	size: 80,
+				// 	color: [51, 51, 51],
+				// 	families: ["wagomufont"],
+				// 	lineHeight: 1.5,
+				// },
 			},
-			// fonts: ["./src/pages/daily/_fonts/Cherry_Bomb_One/CherryBombOne-Regular.ttf"],
-			fonts: ["./src/pages/daily/_fonts/wagomu-font/wagomufont.woff2"],
+			fonts: ["./src/pages/daily/_fonts/Cherry_Bomb_One/CherryBombOne-Regular.ttf"],
+			// fonts: ["./src/pages/daily/_fonts/wagomu-font/wagomufont.woff2"],
 		};
 	},
 });
