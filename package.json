@@ -13,7 +13,9 @@
     "format": "prettier --write --plugin-search-dir=. .",
     "format:check": "prettier --check --plugin-search-dir=. ",
     "lint": "eslint --cache --fix src",
-    "lint:check": "eslint --cache src"
+    "lint:check": "eslint --cache src",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -25,6 +27,7 @@
     "@playform/compress": "^0.1.6",
     "@playform/inline": "^0.1.0",
     "@typescript-eslint/utils": "^8.26.0",
+    "@vitest/ui": "^3.2.4",
     "astro": "5.11.0",
     "astro-eslint-parser": "^1.2.1",
     "astro-google-fonts-optimizer": "^0.2.2",
@@ -39,11 +42,16 @@
     "postcss-nested": "^7.0.2",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
+    "remark": "^15.0.1",
     "remark-breaks": "^4.0.0",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
     "rss-parser": "^3.13.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.26.0",
-    "unist-util-visit": "5.0.0"
+    "unified": "^11.0.5",
+    "unist-util-visit": "5.0.0",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "astro-compressor": "^1.0.0",
