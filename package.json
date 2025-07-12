@@ -35,6 +35,8 @@
     "hast-util-to-string": "^3.0.1",
     "markuplint": "^4.11.4",
     "mdx": "^0.3.1",
+    "postcss": "^8.5.6",
+    "postcss-nested": "^7.0.2",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "remark-breaks": "^4.0.0",
