@@ -25,21 +25,23 @@ const today = new Date();
 		<slot name="head" />
 	</head>
 	<body>
-		<nav>
+		<nav role="navigation" aria-label="メインナビゲーション">
 			<h1><a href="/">{SITE_TITLE}</a></h1>
 			<ul>
 				<li>
 					<a href="/blog">Blog</a>
 				</li>
 				<li>
-					<button id="theme-toggle">
-						<span class="theme-icon icon-sun"></span>
+					<button id="theme-toggle" aria-label="テーマを切り替える" aria-pressed="false">
+						<span class="theme-icon icon-sun" aria-hidden="true"></span>
 					</button>
 				</li>
 			</ul>
 		</nav>
-		<slot />
-		<footer>
+		<main role="main">
+			<slot />
+		</main>
+		<footer role="contentinfo">
 			<p class="copy">
 				<a href="/info" class="copy">CC BY-NC-SA 4.0</a>
 				<span>&nbsp;2021-PRESENT &copy;&nbsp; </span>
@@ -47,22 +49,26 @@ const today = new Date();
 			</p>
 			<ul>
 				<li>
-					<a href="https://zenn.dev/wagomu"
-						><span class="zenn-icon" style="--size: var(--font-size-m)"></span></a
+					<a href="https://zenn.dev/wagomu" aria-label="Zennプロフィール"
+						><span class="zenn-icon" style="--size: var(--font-size-m)" aria-hidden="true"
+						></span></a
 					>
 				</li>
 				<li>
-					<a href="https://github.com/staticWagomU/BoxOfRubberBands"
-						><span class="github-icon" style="--size: var(--font-size-m)"></span>
+					<a href="https://github.com/staticWagomU/BoxOfRubberBands" aria-label="GitHubリポジトリ"
+						><span class="github-icon" style="--size: var(--font-size-m)" aria-hidden="true"></span>
 					</a>
 				</li>
 				<li>
-					<a href="https://codepen.io/statictowa"
-						><span class="codepen-icon" style="--size: var(--font-size-m)"></span></a
+					<a href="https://codepen.io/statictowa" aria-label="CodePenプロフィール"
+						><span class="codepen-icon" style="--size: var(--font-size-m)" aria-hidden="true"
+						></span></a
 					>
 				</li>
 				<li>
-					<a href="/rss.xml"><span class="icon-rss" style="--size: var(--font-size-m)"></span></a>
+					<a href="/rss.xml" aria-label="RSSフィード"
+						><span class="icon-rss" style="--size: var(--font-size-m)" aria-hidden="true"></span></a
+					>
 				</li>
 			</ul>
 		</footer>
@@ -85,6 +91,10 @@ const today = new Date();
 				body.classList.toggle("dark");
 				const isDark = body.classList.contains("dark");
 				localStorage.setItem("theme", isDark ? "dark" : "light");
+				const toggleButton = document.getElementById("theme-toggle");
+				if (toggleButton) {
+					toggleButton.setAttribute("aria-pressed", isDark ? "true" : "false");
+				}
 
 				if (isDark) {
 					themeIcon.classList.remove("icon-sun");
@@ -98,6 +108,10 @@ const today = new Date();
 			body.classList.toggle("dark");
 			const isDark = body.classList.contains("dark");
 			localStorage.setItem("theme", isDark ? "dark" : "light");
+			const toggleButton = document.getElementById("theme-toggle");
+			if (toggleButton) {
+				toggleButton.setAttribute("aria-pressed", isDark ? "true" : "false");
+			}
 
 			sun.classList.toggle("hidden");
 			dark.classList.toggle("hidden");
