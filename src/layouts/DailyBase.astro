@@ -12,24 +12,24 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	weekday: "short",
 });
 const { id } = post;
-const parts = id.split('/');
+const parts = id.split("/");
 const year = parts[0];
 const month = parts[1];
-const filename = parts[2].replace('.mdx', '');
+const filename = parts[2].replace(".mdx", "");
 const ogImage = `${import.meta.env.SITE}/daily/${year}/${month}/${filename}.png`;
 
 // Get previous and next posts for navigation
 const allPosts = await getCollection("daily");
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
 const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 
 // Create URLs for navigation links
 const getPostUrl = (post) => {
-  if (!post) return null;
-  const postParts = post.id.split('/');
-  return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace('.mdx', '')}`;
+	if (!post) return null;
+	const postParts = post.id.split("/");
+	return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace(".mdx", "")}`;
 };
 
 const prevUrl = prevPost ? getPostUrl(prevPost) : null;
@@ -46,24 +46,29 @@ const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 </Fragment>
 
 <Base title={`${formattedDate}の日記`}>
-	<div id="progress"></div>
-	<article class="blog">
+	<div id="progress" role="progressbar" aria-label="読進捗" aria-valuemin="0" aria-valuemax="100">
+	</div>
+	<article class="blog" role="article">
 		<h1><time datetime={pubDate}>{formattedDate}</time>の日記</h1>
 		<slot />
 	</article>
 
-	<nav class="daily-nav">
+	<nav class="daily-nav" role="navigation" aria-label="日記ナビゲーション">
 		<div class="nav-links">
-			{prevUrl && (
-				<a href={prevUrl} class="nav-link prev">
-					前の日記
-				</a>
-			)}
-			{nextUrl && (
-				<a href={nextUrl} class="nav-link next">
-					次の日記
-				</a>
-			)}
+			{
+				prevUrl && (
+					<a href={prevUrl} class="nav-link prev" aria-label="前の日記へ移動">
+						前の日記
+					</a>
+				)
+			}
+			{
+				nextUrl && (
+					<a href={nextUrl} class="nav-link next" aria-label="次の日記へ移動">
+						次の日記
+					</a>
+				)
+			}
 		</div>
 	</nav>
 </Base>
@@ -124,3 +129,22 @@ const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 		margin-left: auto;
 	}
 </style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		// プログレスバーのaria-valuenow更新
+		const progressBar = document.getElementById("progress");
+		if (progressBar) {
+			window.addEventListener(
+				"scroll",
+				() => {
+					const scrollTop = window.scrollY;
+					const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+					const scrollPercent = Math.round((scrollTop / docHeight) * 100);
+					progressBar.setAttribute("aria-valuenow", scrollPercent.toString());
+				},
+				{ passive: true }
+			);
+		}
+	});
+</script>
