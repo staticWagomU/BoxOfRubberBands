@@ -44,7 +44,7 @@ let currentYear: number = 0;
 ---
 
 <Base>
-	<div class="bloglist">
+	<div class="bloglist" role="region" aria-label="ブログ記事一覧">
 		{
 			posts.map((post, _) => {
 				const postYear = post.data.pubDate.getFullYear();

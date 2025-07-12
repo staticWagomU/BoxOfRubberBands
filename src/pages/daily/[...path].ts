@@ -13,7 +13,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
 	getImageOptions: (path, page) => {
 		let imagePath = path;
 		// Check if the path follows yyyy/mm/yyyy-mm-dd pattern
-		const pathParts = path.split('/');
+		const pathParts = path.split("/");
 		if (pathParts.length < 3) {
 			// Convert from the old format to the new one
 			const filename = path;
