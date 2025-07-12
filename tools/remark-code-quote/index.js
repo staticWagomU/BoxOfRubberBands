@@ -3,18 +3,20 @@ import { visit } from "unist-util-visit";
 export default function codeBlockPlugin() {
 	return (tree) => {
 		visit(tree, "code", (node, index, parent) => {
+			const lang = node.lang || "plaintext";
+
 			if (node.meta) {
 				const titleMatch = node.meta.match(/title=["']([^"']*)["']/);
 				const title = titleMatch ? titleMatch[1] : "";
 				const codeBlockWithTitle = {
 					type: "html",
-					value: createCodeBlockWithTitle(node.lang, title, node.value),
+					value: createCodeBlockWithTitle(lang, title, node.value),
 				};
 				parent.children.splice(index, 1, codeBlockWithTitle);
 			} else {
 				const codeBlock = {
 					type: "html",
-					value: `<pre><code class="language-${node.lang}">${escapeHtml(node.value)}</code></pre>`,
+					value: `<pre><code class="language-${lang}">${escapeHtml(node.value)}</code></pre>`,
 				};
 				parent.children.splice(index, 1, codeBlock);
 			}
