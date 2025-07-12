@@ -17,7 +17,7 @@ article.blog {
 	li::marker {
 		color: var(--gray);
 	}
-	
+
 	/* 目次スタイル - 共通 */
 	.toc {
 		background: rgba(90, 137, 67, 0.05);
@@ -26,11 +26,11 @@ article.blog {
 		margin: var(--space-s) 0;
 		border-left: 2px solid var(--accent2);
 	}
-	
+
 	.toc-details {
 		width: 100%;
 	}
-	
+
 	.toc-title {
 		margin-top: 0 !important;
 		font-size: 1rem;
@@ -39,42 +39,42 @@ article.blog {
 		padding: 0;
 		font-weight: normal;
 		color: var(--gray);
-		
+
 		&::marker {
 			color: var(--accent2);
 		}
-		
+
 		&::-webkit-details-marker {
 			color: var(--accent2);
 		}
-		
+
 		&:hover {
 			color: var(--accent3);
 		}
 	}
-	
+
 	.toc-list {
 		list-style-type: none;
 		padding-left: 0;
 		margin: var(--space-xs) 0 0 0;
 		font-size: 0.9rem;
 	}
-	
+
 	.toc-item {
 		margin: 0.25rem 0;
 		line-height: 1.3;
 	}
-	
+
 	.toc-item.depth-2 {
 		margin-left: 0;
 	}
-	
+
 	.toc-item.depth-3 {
 		margin-left: 0.75rem;
 		font-size: 0.85rem;
 		opacity: 0.9;
 	}
-	
+
 	.toc-link {
 		display: inline-block;
 		text-decoration: none;
@@ -82,19 +82,19 @@ article.blog {
 		padding: 0.1rem 0.3rem;
 		border-radius: 3px;
 		transition: all 0.2s ease;
-		
+
 		&:hover {
 			text-decoration: underline;
 			color: var(--accent2);
 		}
 	}
-	
+
 	.toc-link-active {
 		background-color: rgba(90, 137, 67, 0.15);
 		color: var(--accent2);
 		font-weight: 500;
 		position: relative;
-		
+
 		&::before {
 			content: "";
 			position: absolute;
@@ -107,24 +107,24 @@ article.blog {
 			border-radius: 2px;
 		}
 	}
-	
+
 	/* モバイル用目次 */
 	.toc.toc-mobile {
 		display: block;
 	}
-	
+
 	/* PC用目次（右側固定） */
 	.toc.toc-pc {
 		display: none;
 	}
-	
+
 	/* メディアクエリ */
 	@media (min-width: 1024px) {
 		/* モバイル用目次を非表示 */
 		.toc.toc-mobile {
 			display: none;
 		}
-		
+
 		/* PC用目次を表示 */
 		.toc.toc-pc {
 			display: block;
@@ -527,7 +527,7 @@ body.dark article.blog {
 			background: rgba(122, 179, 61, 0.1);
 		}
 	}
-	
+
 	/* 目次スタイル - ダークモード */
 	.toc {
 		background: rgba(160, 168, 164, 0.1);
