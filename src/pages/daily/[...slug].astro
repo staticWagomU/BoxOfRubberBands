@@ -7,10 +7,10 @@ export async function getStaticPaths() {
 	const posts = await getCollection("daily");
 	return posts.map((post) => {
 		// Extract year, month, day from file path
-		const parts = post.id.split('/');
+		const parts = post.id.split("/");
 		const year = parts[0];
 		const month = parts[1];
-		const filename = parts[2].replace('.mdx', '');
+		const filename = parts[2].replace(".mdx", "");
 		const slug = `${year}/${month}/${filename}`;
 
 		return {
