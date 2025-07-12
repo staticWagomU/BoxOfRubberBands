@@ -24,21 +24,23 @@ const { posts } = Astro.props;
 ---
 
 <Base>
-	<h2>Posts tagged with 『{tag}』</h2>
-	<ul>
-		{
-			posts.map((post) => (
-				<li>
-					<LinkItem
-						slug={post.slug}
-						pubDate={post.data.pubDate}
-						title={post.data.title}
-						kind="blog"
-					/>
-				</li>
-			))
-		}
-	</ul>
+	<section role="region" aria-label={`タグ「${tag}」の投稿一覧`}>
+		<h2>Posts tagged with 『{tag}』</h2>
+		<ul role="list">
+			{
+				posts.map((post) => (
+					<li role="listitem">
+						<LinkItem
+							slug={post.slug}
+							pubDate={post.data.pubDate}
+							title={post.data.title}
+							kind="blog"
+						/>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </Base>
 
 <style>
