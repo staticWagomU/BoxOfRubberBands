@@ -79,7 +79,7 @@ if (ogp[url]) {
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 		transition:
 			transform 0.2s ease,
-		box-shadow 0.2s ease;
+			box-shadow 0.2s ease;
 
 		.og_text {
 			display: flex;
@@ -151,16 +151,21 @@ if (ogp[url]) {
 	}
 </style>
 
-	<div class="og_wrap">
-		<div class="og_text">
-			<a href={url} target="_blank">
-				{title}
-			</a>
-			<span>
-				{description && description.length > 100 ? `${description?.slice(0, 100)}...` : description}
-			</span>
-		</div>
-		<span class="img_container">
-			{image && <img src={image} alt="ogp" />}
+<div class="og_wrap">
+	<div class="og_text">
+		<a
+			href={url}
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-label={`${title} - 新しいタブで開く`}
+		>
+			{title}
+		</a>
+		<span>
+			{description && description.length > 100 ? `${description?.slice(0, 100)}...` : description}
 		</span>
 	</div>
+	<span class="img_container">
+		{image && <img src={image} alt={`${title}のプレビュー画像`} loading="lazy" />}
+	</span>
+</div>
