@@ -140,31 +140,13 @@ export default function rehypeToc(options = {}) {
 		const mobileTocContainer = createTocComponent("toc-mobile");
 		const pcTocContainer = createTocComponent(pcClassName, true);
 
-		// モバイル用TOCを最初のh1またはh2の前に挿入
+		// モバイル用TOCをコンテンツの最初に挿入（タイトルの後）
 		let mobileTocInserted = false;
-		visit(tree, "element", (node, index, parent) => {
-			if (!mobileTocInserted && (node.tagName === "h1" || node.tagName === "h2")) {
-				parent.children.splice(index, 0, mobileTocContainer);
-				mobileTocInserted = true;
-				return [visit.SKIP, index + 1];
-			}
-		});
-
-		// 見出しが見つからなかった場合は、最初の段落の前に挿入
-		if (!mobileTocInserted) {
-			visit(tree, "element", (node, index, parent) => {
-				if (!mobileTocInserted && node.tagName === "p") {
-					parent.children.splice(index, 0, mobileTocContainer);
-					mobileTocInserted = true;
-					return [visit.SKIP, index + 1];
-				}
-			});
-		}
-
-		// それでも挿入できなかった場合は、ツリーの先頭に挿入
-		if (!mobileTocInserted && tree.children && tree.children.length > 0) {
+		if (tree.children && tree.children.length > 0) {
 			tree.children.unshift(mobileTocContainer);
+			mobileTocInserted = true;
 		}
+
 
 		// PC用TOCをツリーの最後に追加
 		if (tree.children && tree.children.length > 0) {
