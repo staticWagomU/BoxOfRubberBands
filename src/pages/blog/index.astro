@@ -1,11 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import Parser from "rss-parser";
 import Base from "../../layouts/Base.astro";
 import LinkItem from "../../components/LinkItem.astro";
 
-const parser = new Parser();
-const zenn_feed = await parser.parseURL("https://zenn.dev/wagomu/feed?all=1");
 type Post = {
 	slug: string;
 	kind: "zenn" | "blog";
@@ -14,14 +11,18 @@ type Post = {
 		pubDate: Date;
 	};
 };
-const zenn_posts: Post[] = zenn_feed.items.map((item) => ({
-	slug: item.link || "",
-	kind: "zenn",
-	data: {
-		title: item.title || "",
-		pubDate: new Date(item.pubDate as string),
-	},
-}));
+
+const fetch_zenn = await getCollection("zenn");
+const zenn_posts = fetch_zenn.map((item) => {
+	return {
+		slug: item.data.link || "",
+		kind: "zenn",
+		data: {
+			title: item.data.title || "",
+			pubDate: new Date(item.data.pubDate),
+		},
+	}
+})
 
 const blog_posts: Post[] = (
 	await getCollection("blog", ({ data }) => {

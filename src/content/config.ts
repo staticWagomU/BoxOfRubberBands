@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { zennLoader } from "../../tools/astro-zenn-loader/inidex";
 
 const blogCollection = defineCollection({
 	schema: z.object({
@@ -19,7 +20,12 @@ const dailyCollection = defineCollection({
 	}),
 });
 
+export const zenn = defineCollection({
+  loader: zennLoader({name: 'wagomu'}),
+})
+
 export const collections = <const>{
 	blog: blogCollection,
+	zenn,
 	daily: dailyCollection,
 };
