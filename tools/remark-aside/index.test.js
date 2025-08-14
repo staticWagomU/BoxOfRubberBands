@@ -74,7 +74,7 @@ Line 3
 :::`;
 			const html = await processMarkdown(markdown);
 			expect(html).toContain('<aside class="directive info">');
-			expect(html).toContain('Line 1\nLine 2\nLine 3');
+			expect(html).toContain("Line 1\nLine 2\nLine 3");
 		});
 	});
 
@@ -86,15 +86,17 @@ Line 3
 次回の記事は 3月10日(月) に投稿される予定です。
 :::`;
 			const html = await processMarkdown(markdown);
-			
+
 			// Should contain aside structure
 			expect(html).toContain('<aside class="directive info">');
 			expect(html).toContain('<span class="icon"></span>情報');
-			
+
 			// Should preserve markdown links
 			expect(html).toContain('<a href="https://vim-jp.org/ekiden/">Vim駅伝</a>');
 			expect(html).toContain('<a href="https://github.com/kuuote">kuuote</a>');
-			expect(html).toContain('<a href="https://zenn.dev/vim_jp/articles/20250305_ekiden_vim_script_format">:%!xxx-fmtをいい感じにスクリプトでやる</a>');
+			expect(html).toContain(
+				'<a href="https://zenn.dev/vim_jp/articles/20250305_ekiden_vim_script_format">:%!xxx-fmtをいい感じにスクリプトでやる</a>'
+			);
 		});
 
 		it("should handle aside with bold and italic text", async () => {
@@ -102,10 +104,10 @@ Line 3
 This is **bold** and *italic* text.
 :::`;
 			const html = await processMarkdown(markdown);
-			
+
 			expect(html).toContain('<aside class="directive tips">');
-			expect(html).toContain('<strong>bold</strong>');
-			expect(html).toContain('<em>italic</em>');
+			expect(html).toContain("<strong>bold</strong>");
+			expect(html).toContain("<em>italic</em>");
 		});
 
 		it("should handle aside with inline code", async () => {
@@ -113,9 +115,9 @@ This is **bold** and *italic* text.
 Use \`npm install\` to install dependencies.
 :::`;
 			const html = await processMarkdown(markdown);
-			
+
 			expect(html).toContain('<aside class="directive note">');
-			expect(html).toContain('<code>npm install</code>');
+			expect(html).toContain("<code>npm install</code>");
 		});
 	});
 });

@@ -21,8 +21,8 @@ const zenn_posts = fetch_zenn.map((item) => {
 			title: item.data.title || "",
 			pubDate: new Date(item.data.pubDate),
 		},
-	}
-})
+	};
+});
 
 const blog_posts: Post[] = (
 	await getCollection("blog", ({ data }) => {

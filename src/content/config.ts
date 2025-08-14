@@ -21,8 +21,8 @@ const dailyCollection = defineCollection({
 });
 
 export const zenn = defineCollection({
-  loader: zennLoader({name: 'wagomu'}),
-})
+	loader: zennLoader({ name: "wagomu" }),
+});
 
 export const collections = <const>{
 	blog: blogCollection,

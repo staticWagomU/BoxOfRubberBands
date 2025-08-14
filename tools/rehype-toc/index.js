@@ -147,7 +147,6 @@ export default function rehypeToc(options = {}) {
 			mobileTocInserted = true;
 		}
 
-
 		// PC用TOCをツリーの最後に追加
 		if (tree.children && tree.children.length > 0) {
 			tree.children.push(pcTocContainer);

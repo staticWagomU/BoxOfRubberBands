@@ -90,7 +90,7 @@ export default function remarkAside() {
 
 				// Process children to extract content
 				const contentChildren = [];
-				
+
 				// Special case: single text node containing the entire aside
 				if (node.children.length === 1 && node.children[0].type === "text") {
 					const textNode = node.children[0];
