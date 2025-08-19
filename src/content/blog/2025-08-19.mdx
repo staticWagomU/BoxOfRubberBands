@@ -1,0 +1,353 @@
+---
+title: "俺のPostgreSQLのSQLスニペット"
+pubDate: 2025-08-19
+published: true
+---
+
+
+## はじめに
+
+ローカルで育てている、SQlスニペットをネットの海に放流しておく。
+
+::: warning
+どこかのブログ記事から拝借したスニペットもあるが、出典が分からずごめんなさい。というものもあります。
+:::
+
+
+## スニペット紹介
+
+### indexの作成・削除
+
+```sql
+DROP INDEX index_name;
+
+CREATE INDEX index_name ON table_name (col1 DESC);
+CREATE INDEX index_name ON table_name (col1) WHERE col2 = 1;
+CREATE INDEX index_name ON table_name (col1, col2) WHERE col3 = 0;
+```
+
+### テンプラリテーブルの作成・削除
+
+
+```sql
+DROP TABLE tmp_table_name;
+
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_table_name(col1 bigint NOT NULL, ....);
+```
+
+### テーブル名と論理名を表示
+
+テーブルの物理名とコメント（論理名）を一覧表示します。
+
+```sql
+SELECT
+	pg_stat_user_tables.relname AS table_name
+	, pg_description.description AS table_comment
+FROM pg_stat_user_tables
+	LEFT JOIN pg_description
+		ON pg_stat_user_tables.relid = pg_description.objoid
+			AND pg_description.objsubid = 0 -- 0 がテーブル
+ORDER BY table_name;
+```
+
+### 外部サーバの一覧を表示
+
+FDW（Foreign Data Wrapper）で設定された外部サーバの情報を確認します。
+
+```sql
+SELECT
+	srvname AS name
+	, srvowner ::regrole AS owner
+	, fdwname AS wrapper
+	, srvoptions AS options
+FROM pg_foreign_server
+	JOIN pg_foreign_data_wrapper w
+		ON w.oid = srvfdw;
+```
+
+### 大きなインデックスの確認
+
+1MB以上のインデックスをサイズの大きい順に表示します。
+
+```sql
+SELECT *
+FROM (
+	SELECT
+		indexrelname AS index_name
+		, pg_size_pretty(pg_relation_size(indexrelid)) AS index_size
+	FROM pg_stat_user_indexes
+	WHERE schemaname = 'public'
+) a
+WHERE
+	index_size NOT LIKE '%kB'
+	AND index_size NOT LIKE '%bytes'
+ORDER BY LEFT (index_size, 3) ::INTEGER DESC;
+```
+
+### インデックスの断片化率確認
+
+デッドタプルの割合を確認し、VACUUMやREINDEXの必要性を判断します。
+私は結果の読み方が分からないので、LLMに教えてもらっています。
+
+```sql
+SELECT
+	relname, n_dead_tup / n_live_tup ::FLOAT * 100 AS dead_tup_ratio
+FROM pg_stat_user_tables
+WHERE n_live_tup > 0;
+```
+
+### REINDEXの実行
+
+```sql
+REINDEX INDEX index_name;
+```
+
+### 実行中のクエリ確認
+
+現在実行中のクエリとその状態を確認します。
+
+```sql
+SELECT
+	query
+	, pid
+	, STATE
+	, application_name
+	, query_start
+	, backend_start
+	, state_change
+	, *
+FROM pg_stat_activity
+WHERE
+	AND pid <> pg_backend_pid()
+ORDER BY query_start DESC NULLS LAST;
+```
+
+### VACUUM判断
+
+デッドタプルの割合を確認し、VACUUMを実行する必要のあるテーブルを特定します。
+
+```sql
+SELECT
+	relname
+	, last_vacuum
+	, last_autovacuum
+	, n_live_tup
+	, n_dead_tup
+	, CASE n_dead_tup
+		WHEN 0
+			THEN 0
+		ELSE round(n_dead_tup * 100 / (n_live_tup + n_dead_tup), 2)
+	END AS ratio
+FROM pg_stat_user_tables
+ORDER BY n_dead_tup DESC;
+```
+
+### ロック確認
+
+特定のテーブルに対するロック状態を確認します。
+
+```sql
+SELECT
+	locktype
+	, relation ::regclass
+	, page
+	, tuple
+	, virtualtransaction
+	, pid
+	, mode
+	, granted
+FROM pg_locks
+WHERE relation = 'table_name' ::regclass;
+```
+
+### プロセスの強制終了
+
+問題のあるプロセスをキャンセルまたは強制終了します。
+
+```sql
+SELECT pg_cancel_backend(pid);
+
+SELECT pg_terminate_backend(pid);
+```
+
+### インストール済み拡張機能
+
+インストールされている拡張機能を確認します。
+
+```sql
+SELECT * FROM pg_extension;
+```
+
+### 未使用インデックスの特定
+
+作成後一度も使用されていない非ユニークインデックスを特定します。
+
+```sql
+SELECT
+	s.relname AS table_name
+	, indexrelname AS index_name
+	, CASE
+		WHEN i.indisunique
+			THEN 'Y'
+		ELSE 'N'
+	END AS UNIQUE
+	, idx_scan AS index_scans
+	, idx_scan AS idx_tup_read
+	, idx_scan AS idx_tup_fetch
+	, pg_size_pretty(pg_relation_size(quote_ident(s.indexrelname) ::text)) AS index_size
+FROM
+	pg_catalog.pg_stat_user_indexes s
+	, pg_index i
+WHERE
+	i.indexrelid = s.indexrelid
+	AND s.idx_scan = 0
+	AND s.idx_tup_read = 0
+	AND s.idx_tup_fetch = 0
+	AND i.indisunique <> 'y';
+```
+
+### 重複インデックスの特定
+
+同じカラムに対して複数のインデックスが存在する無駄なインデックスを特定します。
+クエリチューニングするときに使う
+
+```sql
+SELECT
+	indrelid ::regclass table_name
+	, att.attname column_name
+	, amname index_method
+FROM
+	pg_index i
+	, pg_class c
+	, pg_opclass o
+	, pg_am a
+	, pg_attribute att
+WHERE
+	o.oid = ALL (indclass)
+	AND att.attnum = ANY (i.indkey)
+	AND a.oid = o.opcmethod
+	AND att.attrelid = c.oid
+	AND c.oid = i.indrelid
+GROUP BY
+	table_name
+	, att.attname
+	, indclass
+	, amname
+	, indkey
+HAVING count(*) > 1;
+```
+
+### テーブルサイズ確認（インデックス除く）
+
+指定テーブルのデータ部分のみのサイズを確認します。
+
+```sql
+SELECT pg_size_pretty(pg_table_size('table_name'));
+```
+
+### テーブルサイズ確認（インデックス含む）
+
+指定テーブルのインデックスを含めた総サイズを確認します。
+
+```sql
+SELECT pg_size_pretty(pg_total_relation_size('table_name'));
+```
+
+### 全テーブルサイズ一覧
+
+データベース内の全テーブルをサイズ順に表示します。
+
+```sql
+SELECT
+	relname
+	, (relpages / 1024 * 8192 / 1024) AS byte
+FROM pg_class
+ORDER BY byte DESC;
+```
+
+### レプリケーション設定確認
+
+レプリケーションテーブルの一覧を確認します。
+
+```sql
+SELECT
+	pubname AS publication_name
+	, schemaname AS schema_name
+	, tablename AS table_name
+FROM pg_publication_tables;
+```
+
+### 統計情報取得
+
+特定のテーブル・カラムの統計情報を確認します。
+クエリチューニングするときに使う
+
+```sql
+SELECT * FROM pg_stats WHERE tablename = 'table_name' AND attname = 'col_name';
+```
+
+### トランザクション状態の確認
+
+現在実行中のトランザクションとその時間を確認します。
+
+```sql
+SELECT
+	pid
+	, usename
+	, application_name
+	, xact_start
+	, NOW() - xact_start AS duration
+	, state
+	, query
+FROM pg_stat_activity
+WHERE
+	xact_start IS NOT NULL
+	AND pid <> pg_backend_pid()
+ORDER BY xact_start;
+```
+
+### ロングトランザクションの検出
+
+5分以上継続しているトランザクションを検出します。
+
+```sql
+SELECT
+	pid
+	, usename
+	, application_name
+	, xact_start
+	, NOW() - xact_start AS duration
+	, state
+	, LEFT(query, 100) AS query_excerpt
+FROM pg_stat_activity
+WHERE
+	xact_start IS NOT NULL
+	AND NOW() - xact_start > interval '5 minutes'
+	AND pid <> pg_backend_pid()
+ORDER BY xact_start;
+```
+
+### 待機中のトランザクション確認
+
+ロック待ちなどで待機状態にあるトランザクションを確認します。
+
+```sql
+SELECT
+	pid
+	, usename
+	, application_name
+	, wait_event_type
+	, wait_event
+	, state
+	, backend_xid
+	, backend_xmin
+	, query
+FROM pg_stat_activity
+WHERE
+	wait_event IS NOT NULL
+	AND pid <> pg_backend_pid();
+```
+## おわりに
+
+今後も便利なスニペットが増えて、**覚えていたら**追記していこうと思います。
+
