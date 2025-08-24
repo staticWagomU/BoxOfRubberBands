@@ -38,7 +38,7 @@ importers:
         version: 9.28.0
       '@markuplint/astro-parser':
         specifier: ^4.6.14
-        version: 4.6.19
+        version: 4.6.21
       '@playform/compress':
         specifier: ^0.1.6
         version: 0.1.9(@types/node@22.13.14)(jiti@2.4.2)(rollup@4.40.0)(typescript@5.8.3)(yaml@2.6.1)
@@ -574,8 +574,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@markuplint/astro-parser@4.6.19':
-    resolution: {integrity: sha512-J7856YzfNrDDusrvvxdwbG6AfnobYJthUiICmWCHTuoqyid8DVYPg/SwHV0uR+ZUla0X6c4aHS6jG6HZbI+SdQ==}
+  '@markuplint/astro-parser@4.6.21':
+    resolution: {integrity: sha512-DUcJyaPsg8QPlH1cdZeoOI0QA1c+KVe4RQU+2FNc2gGAT9uKcC/liUTl84QgzMoZtEkGMP4qmyHmp0MLK90Agg==}
 
   '@markuplint/cli-utils@4.4.11':
     resolution: {integrity: sha512-X+J5yr1dxDr2o4mInlNP/2OAQhM8rddpq12ZbXthIDcyYrXKXKjFaHE/Aht8+MPSo/t3VEoRBd99VXNFqxlpTQ==}
@@ -595,6 +595,9 @@ packages:
   '@markuplint/i18n@4.6.0':
     resolution: {integrity: sha512-A/Nq6/u4DnFtT6YUTujSyiur7tJ7xR3uAtcQGD+RN41Y77CPLaPQ5wnZuNWr/+0VflpP/G4ldxp06jaqv+YpoQ==}
 
+  '@markuplint/ml-ast@4.4.10':
+    resolution: {integrity: sha512-cBujnRj/kMP5wtMml7eTzDEJRk/NQx8Fum4TPdRG97VNWVPBZi/FXDrgt7mIUAaLMiNQhaSKU7tTL4HB1qUChQ==}
+
   '@markuplint/ml-ast@4.4.9':
     resolution: {integrity: sha512-PPojBxU0qL0ivbv7SIqOekMHKC4Cbdwm+vJunkiHQKjI3Dxb50bkuk8uF4X5j7uouwnk2VDCHE9GpOXtFdMfow==}
 
@@ -604,11 +607,17 @@ packages:
   '@markuplint/ml-core@4.12.4':
     resolution: {integrity: sha512-PG9qCAI6TprXX/vyxdiquPKjTd0YoogrwgCuLPO44hCBtZGpfCBVtXRCrGpL1mYR9MqkcAfQDxKuOyQYx1UOQA==}
 
+  '@markuplint/ml-spec@4.10.0':
+    resolution: {integrity: sha512-xLWNuoSPVviBEcAuitUMlrAi7hduq/qb0SRhR1jmZqfB8gKzSWZ5nvcr1vLNwwqx1qlCjthd3HPnQF8QWnF2aA==}
+
   '@markuplint/ml-spec@4.9.6':
     resolution: {integrity: sha512-0tVsthZM5ZbHhIQgPQpHUgekghc5v1xYPG/lbXR9zR43waPVI/WJPtyXogtoYe06ikWG29i9B8vUplAwHfDwtg==}
 
   '@markuplint/parser-utils@4.8.7':
     resolution: {integrity: sha512-7DPGi8PfD0CiZT2ifvtYnT7Oqci+PH64jXSBl4mJ8Oljg+ht1hrbJxJo5jk+gc+4K6PTZil9FGLhRBeiKks/aA==}
+
+  '@markuplint/parser-utils@4.8.9':
+    resolution: {integrity: sha512-oaP3vGkgiSaXqzMlswpEbVUU4xgpaUOVBxnJZ+g2zhAVbkhX/gRXORBdv6SrzGAkBwvurp3FJ3LGP0NJZHoWUg==}
 
   '@markuplint/rules@4.10.12':
     resolution: {integrity: sha512-z/zBWRZoQbysb8lHNEmHl0tNTjFGUf/yODmWKHKh8Tys0ukySNzyMr0Mb1FdcqDhKQcBBzAO8Q3xzF2sVwnqYQ==}
@@ -619,8 +628,14 @@ packages:
   '@markuplint/shared@4.4.11':
     resolution: {integrity: sha512-Jxcwsrl68Y3x+t8abt2XFlfM9kp6ndH025+uW1TB9GGGmNyK855+nHCsmoyl3nQg76CbIMUu1lruMVLU4gNuLg==}
 
+  '@markuplint/shared@4.4.12':
+    resolution: {integrity: sha512-mDB3tfJyekI5PhCuBHYCHxnZlZYu3Rzb0n9iZJee0lVAqTirKXX6igwj2QC6KcXE+PAG2lPmfIdJZvlGw6yUKw==}
+
   '@markuplint/types@4.7.6':
     resolution: {integrity: sha512-PsGWjVSZY2td+Mue3o3yHVvlMx7c9jpK4MqhR8AKDpYWPEF2VzmHET4b2l/vbB4ZJCgRz8N27zjTuxowZ1zz8g==}
+
+  '@markuplint/types@4.8.0':
+    resolution: {integrity: sha512-MT2FRKeA4b8Puu/5SrGgdBx5kObjWLkHUEznupwOYIq7LD9DZ7Ygtt57KULTNn0ZpQqTlFl57wpzw7MOhc+iZQ==}
 
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
@@ -1007,6 +1022,11 @@ packages:
 
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.15.0:
+    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -1556,6 +1576,10 @@ packages:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  eslint-visitor-keys@4.2.1:
+    resolution: {integrity: sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   eslint@9.28.0:
     resolution: {integrity: sha512-ocgh41VhRlf9+fVpe7QKzwLj9c92fDiqOj8Y3Sd4/ZmVA4Btx4PlUYPq4pp9JDyupkf1upbEXecxL2mwNV7jPQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1568,6 +1592,10 @@ packages:
 
   espree@10.3.0:
     resolution: {integrity: sha512-0QYC8b24HWY8zjRnDTL6RiHfDbAWn63qb4LMj1Z4b076A4une81+z03Kg7l7mn/48PUTqoLptSXez8oknU8Clg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  espree@10.4.0:
+    resolution: {integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   esquery@1.6.0:
@@ -3070,6 +3098,10 @@ packages:
     resolution: {integrity: sha512-uW9qzd66uyHYxwyVBYiwS4Oi0qZyUqwjU+Oevr6ZogYiXt99EOYtwvzMSLw1c3lYo2HzJsep/NB23iEVEgjG/w==}
     engines: {node: '>=16'}
 
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
+
   typesafe-path@0.2.2:
     resolution: {integrity: sha512-OJabfkAg1WLZSqJAJ0Z6Sdt3utnbzr/jh+NAHoyWHJe8CMSy79Gm085094M9nvTPy22KzTVn5Zq5mbapCI/hPA==}
 
@@ -3962,10 +3994,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@markuplint/astro-parser@4.6.19':
+  '@markuplint/astro-parser@4.6.21':
     dependencies:
-      '@markuplint/ml-ast': 4.4.9
-      '@markuplint/parser-utils': 4.8.7
+      '@markuplint/ml-ast': 4.4.10
+      '@markuplint/parser-utils': 4.8.9
       astro-eslint-parser: 1.2.2
     transitivePeerDependencies:
       - supports-color
@@ -4019,6 +4051,8 @@ snapshots:
 
   '@markuplint/i18n@4.6.0': {}
 
+  '@markuplint/ml-ast@4.4.10': {}
+
   '@markuplint/ml-ast@4.4.9': {}
 
   '@markuplint/ml-config@4.8.11':
@@ -4053,6 +4087,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@markuplint/ml-spec@4.10.0':
+    dependencies:
+      '@markuplint/ml-ast': 4.4.10
+      '@markuplint/types': 4.8.0
+      dom-accessibility-api: 0.7.0
+      is-plain-object: 5.0.0
+      type-fest: 4.41.0
+    transitivePeerDependencies:
+      - supports-color
+
   '@markuplint/ml-spec@4.9.6':
     dependencies:
       '@markuplint/ml-ast': 4.4.9
@@ -4072,6 +4116,19 @@ snapshots:
       debug: 4.4.0
       espree: 10.3.0
       type-fest: 4.39.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@markuplint/parser-utils@4.8.9':
+    dependencies:
+      '@markuplint/ml-ast': 4.4.10
+      '@markuplint/ml-spec': 4.10.0
+      '@markuplint/types': 4.8.0
+      '@types/uuid': 10.0.0
+      debug: 4.4.1
+      espree: 10.4.0
+      type-fest: 4.41.0
       uuid: 11.1.0
     transitivePeerDependencies:
       - supports-color
@@ -4107,6 +4164,10 @@ snapshots:
     dependencies:
       html-entities: 2.6.0
 
+  '@markuplint/shared@4.4.12':
+    dependencies:
+      html-entities: 2.6.0
+
   '@markuplint/types@4.7.6':
     dependencies:
       '@markuplint/shared': 4.4.11
@@ -4118,6 +4179,21 @@ snapshots:
       debug: 4.4.0
       leven: 4.0.0
       type-fest: 4.39.1
+      whatwg-mimetype: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@markuplint/types@4.8.0':
+    dependencies:
+      '@markuplint/shared': 4.4.12
+      '@types/css-tree': 2.3.10
+      '@types/debug': 4.1.12
+      '@types/whatwg-mimetype': 3.0.2
+      bcp-47: 2.1.0
+      css-tree: 3.1.0
+      debug: 4.4.1
+      leven: 4.0.0
+      type-fest: 4.41.0
       whatwg-mimetype: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -4658,7 +4734,13 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
+  acorn-jsx@5.3.2(acorn@8.15.0):
+    dependencies:
+      acorn: 8.15.0
+
   acorn@8.14.1: {}
+
+  acorn@8.15.0: {}
 
   ajv@6.12.6:
     dependencies:
@@ -5318,6 +5400,8 @@ snapshots:
 
   eslint-visitor-keys@4.2.0: {}
 
+  eslint-visitor-keys@4.2.1: {}
+
   eslint@9.28.0(jiti@2.4.2):
     dependencies:
       '@eslint-community/eslint-utils': 4.7.0(eslint@9.28.0(jiti@2.4.2))
@@ -5365,6 +5449,12 @@ snapshots:
       acorn: 8.14.1
       acorn-jsx: 5.3.2(acorn@8.14.1)
       eslint-visitor-keys: 4.2.0
+
+  espree@10.4.0:
+    dependencies:
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
+      eslint-visitor-keys: 4.2.1
 
   esquery@1.6.0:
     dependencies:
@@ -7309,6 +7399,8 @@ snapshots:
       prelude-ls: 1.2.1
 
   type-fest@4.39.1: {}
+
+  type-fest@4.41.0: {}
 
   typesafe-path@0.2.2: {}
 
