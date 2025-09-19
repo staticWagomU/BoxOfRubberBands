@@ -1,0 +1,64 @@
+---
+title: "Nixのhome-managerでnvimのsymlinkを貼る"
+pubDate: 2025-09-19
+tags: ["vim駅伝"]
+published: true
+---
+
+import OG from "../../components/OG.astro";
+
+
+::: info
+この記事は[Vim駅伝](https://vim-jp.org/ekiden/)2025年9月19日(金)の記事です。
+前回の記事は [kyoh86](https://github.com/kyoh86) さんの「[:terminal in Neovimでpre-commitフックを使って未保存のバッファをチェックする](https://zenn.dev/vim_jp/articles/c59d88cbe2efb0)」という記事でした。
+次回の記事は 9月22日(月) に投稿される予定です。
+:::
+
+## はじめに
+
+最近、macbookを新調した輪ごむです。
+
+新しいPCを手に入れて最初にやる作業といえば、環境構築です。
+
+macbookの開発環境を復元するために必要なステップは、ざっくりと以下のとおりです。
+
+1. `nix`をインストール
+2. vimの設定をまとめた`dotvim`と、それ以外の設定をまとめた`dotfiles`レポジトリをclone
+3. 主にguiツール目的で`brew`をインストール
+4. nvimのプラグインを動かすために`deno`をインストール
+5. `dotfiles`で`home-manager switch --flake .#MacBookPro`を実行
+6. `dotfiles`で`brew bundle`を実行
+7. `dotvim`の設定を`~/.config`にsymlinkするために、`sh mklink.sh`を実行
+
+列挙してみると、以外とステップがありますね。
+
+今回、環境構築をしていると、7. のdotvimに移動してmklink.shを実行するのは面倒だなということに気が付きました。せっかくNixとhome-managerを導入してるなら、mklinkも自動でしてほしいよなぁ。。と思いました。
+
+
+当初、`dotfiles`内じゃなくてとは別のgitレポジトリの`dotvim`で管理しているので、symlinkを貼るのは難しいだろうと勝手に考えていました。しかし、調べたところ可能そうだったので、試したところうまくいきました！！
+
+## やったこと
+
+home-managerに以下を追記するといけます。
+
+```nix
+  xdg.configFile."nvim" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotvim/nvim";
+  };
+
+  xdg.configFile."nvim-sub" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotvim/nvim-sub";
+  };
+
+  xdg.configFile."vim" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotvim/vim";
+  };
+````
+
+## おわりに
+
+これでdotvimからひとつ、shファイルを削除できましたとさ。
+めでたし。めでたし。
+
+つぎは、`nix bundle`を消す番かもしれない。
+
