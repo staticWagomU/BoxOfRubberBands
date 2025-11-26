@@ -36,25 +36,25 @@ Oil.nvim のバッファ上で `<Leader>o` を押すと、その位置のパス�
 
 ```lua
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = 'oil',
-	callback = function(args)
-		vim.keyma.set('n',
-			'<Leader>o',
-			function()
-				local entry = oil.get_cursor_entry()
-				local current_dir = oil.get_current_dir(args.buf) or vim.fn.getcwd()
+  pattern = 'oil',
+  callback = function(args)
+    vim.keyma.set('n',
+      '<Leader>o',
+      function()
+        local entry = oil.get_cursor_entry()
+        local current_dir = oil.get_current_dir(args.buf) or vim.fn.getcwd()
 
-				if entry then
-					-- -reveal でカーソル位置のエントリにフォーカス
-					local reveal_path = current_dir .. entry.name
-					vim.cmd(string.format('Fern %s -reveal=%s',
-						vim.fn.fnameescape(current_dir),
-						vim.fn.fnameescape(reveal_path)))
-				else
-					vim.cmd(string.format('Fern %s', vim.fn.fnameescape(current_dir)))
-				end
-			end, { buffer = args.buf })
-	end,
+        if entry then
+          -- -reveal でカーソル位置のエントリにフォーカス
+          local reveal_path = current_dir .. entry.name
+          vim.cmd(string.format('Fern %s -reveal=%s',
+            vim.fn.fnameescape(current_dir),
+            vim.fn.fnameescape(reveal_path)))
+        else
+          vim.cmd(string.format('Fern %s', vim.fn.fnameescape(current_dir)))
+        end
+      end, { buffer = args.buf })
+  end,
 })
 ```
 
