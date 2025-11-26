@@ -1,0 +1,64 @@
+---
+title: "Oil.nvimからvim-fernを開くのがちょっと便利だった"
+pubDate: 2025-11-26
+tags: ["vim駅伝"]
+published: true
+---
+
+import OG from "../../components/OG.astro";
+
+
+::: info
+この記事は[Vim駅伝](https://vim-jp.org/ekiden/)2025年11月26日(水)の記事です。
+前回の記事は[sirasagi62](https://github.com/sirasagi62) さんの「[今更だけどvim-fernを本気で設定する（on Neovim）](https://zenn.dev/sirasagi62/articles/c10c8004ab43a8))」という記事でした。
+次回の記事は 11月28日(金) に投稿される予定です。
+:::
+
+## はじめに
+
+今日は完全に「小ネタ枠」です。  
+普段は Oil.nvim をメインファイラーとして使っているのですが、最近ちょっとした発見があったので書き残しておきます。
+
+Oil.nvim は「バッファとしてディレクトリを開く」という設計がすばらしく、リネームや削除を含めた多くの操作が通常のバッファ編集の延長のように扱えます。  
+もはや標準機能では？と錯覚するほどVim的な自然さがあって、とても気に入っています。
+
+とはいえ、プロジェクトをcloneした直後だったり、巨大なリポジトリをざっくり把握したいときには、ツリー型ファイラーが恋しくなります。
+そのようなときに登場するサブファイラーがvim-fernです。
+
+そして、最近ふと思いました。
+「Oil.nvimで見ているディレクトリの位置から、vim-fernを開けたら便利なんじゃないか？」
+
+実際にやってみたところ、快適度が少しあがったので共有です。
+
+## 設定例
+
+Oil.nvim のバッファ上で `<Leader>o` を押すと、その位置のパスを基準に vim-fern を開く設定です。  
+
+```lua
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'oil',
+	callback = function(args)
+		vim.keyma.set('n',
+			'<Leader>o',
+			function()
+				local entry = oil.get_cursor_entry()
+				local current_dir = oil.get_current_dir(args.buf) or vim.fn.getcwd()
+
+				if entry then
+					-- -reveal でカーソル位置のエントリにフォーカス
+					local reveal_path = current_dir .. entry.name
+					vim.cmd(string.format('Fern %s -reveal=%s',
+						vim.fn.fnameescape(current_dir),
+						vim.fn.fnameescape(reveal_path)))
+				else
+					vim.cmd(string.format('Fern %s', vim.fn.fnameescape(current_dir)))
+				end
+			end, { buffer = args.buf })
+	end,
+})
+```
+
+## おわりに
+
+Oil.nvim -> vim-fern はうまくいったけど、vim-fern -> Oil.nvimがうまくいきせんでした。
+悔しい。
