@@ -24,7 +24,7 @@
     "@astrojs/sitemap": "^3.4.2",
     "@eslint/js": "^9.21.0",
     "@markuplint/astro-parser": "^4.6.14",
-    "@playform/compress": "^0.1.6",
+    "@playform/compress": "^0.2.0",
     "@playform/inline": "^0.1.0",
     "@typescript-eslint/utils": "^8.26.0",
     "@vitest/ui": "^3.2.4",
