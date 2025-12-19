@@ -60,6 +60,9 @@ importers:
       astro-google-fonts-optimizer:
         specifier: ^0.2.2
         version: 0.2.2
+      astro-zenn-loader:
+        specifier: ^1.0.1
+        version: 1.0.1(astro@5.12.9(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1))
       budoux:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1083,6 +1086,11 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0 || ^5.0.0
+
+  astro-zenn-loader@1.0.1:
+    resolution: {integrity: sha512-YE2SH9bp4j4dnwEt6Cmw1aQDkrbNxqQprRdS/Fr/EP6OmJA+wVmLl7DCok7UbX9+8v3peW9nQ18fh0uYlzG3qw==}
+    peerDependencies:
+      astro: ^5.16.6
 
   astro@5.12.9:
     resolution: {integrity: sha512-cZ7kZ61jyE5nwSrFKSRyf5Gds+uJELqQxJFqMkcgiWQvhWZJUSShn8Uz3yc9WLyLw5Kim5P5un9SkJSGogfEZQ==}
@@ -4736,6 +4744,11 @@ snapshots:
       canvaskit-wasm: 0.39.1
       deterministic-object-hash: 2.0.2
       entities: 4.5.0
+
+  astro-zenn-loader@1.0.1(astro@5.12.9(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1)):
+    dependencies:
+      astro: 5.12.9(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1)
+      rss-parser: 3.13.0
 
   astro@5.12.9(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1):
     dependencies:

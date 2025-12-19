@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { zennLoader } from "../../tools/astro-zenn-loader/index";
+import { zennLoader } from "astro-zenn-loader";
 
 const blogCollection = defineCollection({
 	schema: z.object({
