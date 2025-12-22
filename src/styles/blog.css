@@ -359,11 +359,6 @@ article.blog {
 		flex-direction: column;
 		align-items: flex-start;
 		margin: var(--space-6) 0;
-		gap: var(--space-3);
-		border-left: 4px solid var(--gray);
-		transition:
-			border-color var(--duration-normal) var(--ease-out),
-			background-color var(--duration-normal) var(--ease-out);
 
 		.aside-title {
 			display: flex;
