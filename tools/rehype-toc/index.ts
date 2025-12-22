@@ -1,7 +1,31 @@
 import { visit } from "unist-util-visit";
 import { toString } from "hast-util-to-string";
+import type { Root, Element } from "hast";
 
-export default function rehypeToc(options = {}) {
+interface Options {
+	headings?: string[];
+	className?: string;
+	title?: string;
+	titleClassName?: string;
+	listClassName?: string;
+	listItemClassName?: string;
+	linkClassName?: string;
+	collapsible?: boolean;
+	defaultOpen?: boolean;
+	splitView?: boolean;
+	pcClassName?: string;
+}
+
+interface HeadingInfo {
+	tagName: string;
+	text: string;
+	id: string;
+}
+
+/**
+ * Rehypeプラグイン: 目次（Table of Contents）を生成
+ */
+export default function rehypeToc(options: Options = {}) {
 	const {
 		headings = ["h2", "h3"],
 		className = "toc",
@@ -12,29 +36,27 @@ export default function rehypeToc(options = {}) {
 		linkClassName = "toc-link",
 		collapsible = true,
 		defaultOpen = true,
-		// PC用とモバイル用で分けるかどうか
 		splitView = true,
 		pcClassName = "toc-pc",
 	} = options;
 
-	return function transformer(tree) {
+	return function transformer(tree: Root) {
 		// 記事内の見出しを収集
-		const headingNodes = [];
-		visit(tree, "element", (node) => {
+		const headingNodes: HeadingInfo[] = [];
+		visit(tree, "element", (node: Element) => {
 			if (headings.includes(node.tagName)) {
 				const text = toString(node);
-				// 簡易的なスラッグ生成（日本語対応）
-				let id = node.properties.id || createSlug(text);
+				let id = (node.properties?.id as string) || createSlug(text);
 
 				// 見出しにIDがなければ追加、または同名IDがある場合は重複を避ける
-				if (!node.properties.id) {
-					// 同名の見出しに対して一意のIDを生成する
+				if (!node.properties?.id) {
 					let uniqueId = id;
 					let counter = 1;
 					while (headingNodes.some((h) => h.id === uniqueId)) {
 						uniqueId = `${id}-${counter}`;
 						counter++;
 					}
+					node.properties = node.properties || {};
 					node.properties.id = uniqueId;
 					id = uniqueId;
 				}
@@ -53,9 +75,9 @@ export default function rehypeToc(options = {}) {
 		}
 
 		// TOCアイテムの生成関数
-		function createTocItems() {
+		function createTocItems(): Element[] {
 			return headingNodes.map((heading) => {
-				const link = {
+				const link: Element = {
 					type: "element",
 					tagName: "a",
 					properties: {
@@ -77,10 +99,10 @@ export default function rehypeToc(options = {}) {
 		}
 
 		// TOCコンポーネントの生成関数
-		function createTocComponent(additionalClassName = "", isPC = false) {
+		function createTocComponent(additionalClassName = "", isPC = false): Element {
 			const tocItems = createTocItems();
 
-			const tocList = {
+			const tocList: Element = {
 				type: "element",
 				tagName: "ul",
 				properties: { class: listClassName },
@@ -88,26 +110,25 @@ export default function rehypeToc(options = {}) {
 			};
 
 			// 折りたたみ機能をつける場合はdetails/summaryを使用
-			let tocComponent;
 			if (collapsible) {
-				const tocSummary = {
+				const tocSummary: Element = {
 					type: "element",
 					tagName: "summary",
 					properties: { class: titleClassName },
 					children: [{ type: "text", value: title }],
 				};
 
-				const tocDetails = {
+				const tocDetails: Element = {
 					type: "element",
 					tagName: "details",
 					properties: {
 						class: `${className}-details`,
-						open: isPC ? true : defaultOpen ? "open" : null, // PC版は常に開く
+						open: isPC ? true : defaultOpen ? "open" : undefined,
 					},
 					children: [tocSummary, tocList],
 				};
 
-				tocComponent = {
+				return {
 					type: "element",
 					tagName: "div",
 					properties: {
@@ -116,14 +137,14 @@ export default function rehypeToc(options = {}) {
 					children: [tocDetails],
 				};
 			} else {
-				const tocTitle = {
+				const tocTitle: Element = {
 					type: "element",
 					tagName: "h2",
 					properties: { class: titleClassName },
 					children: [{ type: "text", value: title }],
 				};
 
-				tocComponent = {
+				return {
 					type: "element",
 					tagName: "div",
 					properties: {
@@ -132,19 +153,15 @@ export default function rehypeToc(options = {}) {
 					children: [tocTitle, tocList],
 				};
 			}
-
-			return tocComponent;
 		}
 
 		// モバイル用とPC用のTOCを作成
 		const mobileTocContainer = createTocComponent("toc-mobile");
 		const pcTocContainer = createTocComponent(pcClassName, true);
 
-		// モバイル用TOCをコンテンツの最初に挿入（タイトルの後）
-		let mobileTocInserted = false;
+		// モバイル用TOCをコンテンツの最初に挿入
 		if (tree.children && tree.children.length > 0) {
 			tree.children.unshift(mobileTocContainer);
-			mobileTocInserted = true;
 		}
 
 		// PC用TOCをツリーの最後に追加
@@ -154,11 +171,13 @@ export default function rehypeToc(options = {}) {
 	};
 }
 
-// 簡易的なスラッグ生成関数
-function createSlug(text) {
+/**
+ * 簡易的なスラッグ生成関数
+ */
+function createSlug(text: string): string {
 	return text
 		.toLowerCase()
-		.replace(/[^\w\p{L}\p{N}]/gu, "-") // 英数字と日本語文字以外をハイフンに
-		.replace(/-+/g, "-") // 連続するハイフンを一つに
-		.replace(/^-|-$/g, ""); // 先頭と末尾のハイフンを削除
+		.replace(/[^\w\p{L}\p{N}]/gu, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
 }
