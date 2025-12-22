@@ -1,20 +1,27 @@
 import { visit } from "unist-util-visit";
+import type { Root, Code, Html, Parent } from "mdast";
 
-export default function codeBlockPlugin() {
-	return (tree) => {
-		visit(tree, "code", (node, index, parent) => {
+/**
+ * Remarkプラグイン: コードブロックをHTMLに変換
+ * meta属性からtitleを抽出し、タイトル付きのコードブロックを生成
+ */
+export default function remarkCodeQuote() {
+	return (tree: Root) => {
+		visit(tree, "code", (node: Code, index: number | undefined, parent: Parent | undefined) => {
+			if (!parent || typeof index !== "number") return;
+
 			const lang = node.lang || "plaintext";
 
 			if (node.meta) {
 				const titleMatch = node.meta.match(/title=["']([^"']*)["']/);
 				const title = titleMatch ? titleMatch[1] : "";
-				const codeBlockWithTitle = {
+				const codeBlockWithTitle: Html = {
 					type: "html",
 					value: createCodeBlockWithTitle(lang, title, node.value),
 				};
 				parent.children.splice(index, 1, codeBlockWithTitle);
 			} else {
-				const codeBlock = {
+				const codeBlock: Html = {
 					type: "html",
 					value: `<pre><code class="language-${lang}">${escapeHtml(node.value)}</code></pre>`,
 				};
@@ -24,7 +31,7 @@ export default function codeBlockPlugin() {
 	};
 }
 
-function createCodeBlockWithTitle(lang, title, code) {
+function createCodeBlockWithTitle(lang: string, title: string, code: string): string {
 	const titleElement = title
 		? `<span class="code-block-title-wrapper"><div class="code-block-title">${title}</div></span>`
 		: "";
@@ -37,7 +44,7 @@ function createCodeBlockWithTitle(lang, title, code) {
 `.trim();
 }
 
-function escapeHtml(unsafe) {
+function escapeHtml(unsafe: string): string {
 	return unsafe
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
