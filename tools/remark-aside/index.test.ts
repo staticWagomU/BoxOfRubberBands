@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import remarkAside from "./index.js";
+import remarkAside from "./index.ts";
 import remarkHtml from "remark-html";
 
-const processMarkdown = async (markdown) => {
+const processMarkdown = async (markdown: string): Promise<string> => {
 	const file = await unified()
 		.use(remarkParse)
 		.use(remarkAside)
