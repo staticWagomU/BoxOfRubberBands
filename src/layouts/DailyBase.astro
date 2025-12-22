@@ -98,7 +98,7 @@ const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 	}
 
 	.daily-nav {
-		margin: var(--space-l) 0;
+		margin: var(--space-6) 0;
 	}
 
 	.nav-links {
@@ -109,18 +109,27 @@ const nextUrl = nextPost ? getPostUrl(nextPost) : null;
 
 	.nav-link {
 		display: inline-block;
-		padding: var(--space-xxs) var(--space-xs);
+		padding: var(--space-1) var(--space-3);
 		border: 1px solid var(--gray);
-		border-radius: 4px;
+		border-radius: var(--radius-md);
 		color: var(--color);
-		font-size: 0.9rem;
+		font-size: var(--font-size-s);
 		text-decoration: none !important;
-		transition: all 0.2s ease;
+		transition:
+			border-color var(--duration-normal) var(--ease-out),
+			color var(--duration-normal) var(--ease-out),
+			background-color var(--duration-normal) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
 	}
 
 	.nav-link:hover {
 		border-color: var(--accent2);
 		color: var(--accent2);
+		background-color: rgba(106, 153, 78, 0.05);
+	}
+
+	.nav-link:active {
+		transform: scale(var(--scale-press));
 	}
 
 	.nav-link.prev {

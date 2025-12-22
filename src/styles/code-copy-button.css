@@ -4,19 +4,28 @@
 
 .copy-button {
 	position: absolute;
-	top: 0.5rem;
-	right: 0.5rem;
-	padding: 0.25rem 0.5rem;
+	top: var(--space-2);
+	right: var(--space-2);
+	padding: var(--space-1) var(--space-2);
 	background: rgba(var(--accent2-rgb, 106, 153, 78), 0.15);
 	color: var(--color);
 	border: 1px solid rgba(var(--accent1-rgb, 46, 77, 23), 0.2);
-	border-radius: 4px;
-	font-size: 0.8rem;
+	border-radius: var(--radius-sm);
+	font-size: var(--font-size-xs);
 	cursor: pointer;
 	opacity: 0;
 	transition:
-		opacity 0.2s,
-		background-color 0.2s;
+		opacity var(--duration-normal) var(--ease-out),
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.copy-button:hover {
+	background: rgba(var(--accent2-rgb, 106, 153, 78), 0.25);
+}
+
+.copy-button:active {
+	transform: scale(var(--scale-press));
 }
 
 .code-block-with-copy:hover .copy-button {

@@ -64,7 +64,7 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	}
 
 	time {
-		font-size: 0.8em;
+		font-size: var(--font-size-xs);
 	}
 
 	.tags {
@@ -72,10 +72,25 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 		flex-wrap: wrap;
 		list-style: none;
 		padding: 0;
+		gap: var(--space-2);
+
 		a {
-			padding: var(--space-xxs) var(--space-xs);
-			border-radius: 1em;
+			padding: var(--space-1) var(--space-3);
+			border-radius: var(--radius-full);
+			font-size: var(--font-size-s);
+			transition:
+				background-color var(--duration-normal) var(--ease-out),
+				transform var(--duration-fast) var(--ease-out);
 		}
+
+		a:hover {
+			background-color: rgba(128, 128, 128, 0.1);
+		}
+
+		a:active {
+			transform: scale(var(--scale-press));
+		}
+
 		a::before {
 			content: "#";
 		}

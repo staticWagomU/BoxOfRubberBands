@@ -1,26 +1,68 @@
 :root {
-	--font-size: clamp(1rem, 2.5vw, 1.2rem);
-	--line-height: 2.3;
+	/* ========== Typography - Emil Kowalski Style ========== */
+	--font-size-2xs: 0.625rem; /* 10px */
+	--font-size-xs: 0.8125rem; /* 13px */
+	--font-size-s: 0.875rem; /* 14px */
+	--font-size-base: 1rem; /* 16px */
+	--font-size-m: 1.125rem; /* 18px */
+	--font-size-l: 1.25rem; /* 20px */
+	--font-size-xl: 1.5rem; /* 24px */
+	--font-size-2xl: 1.875rem; /* 30px */
 
-	--font-size-xs: clamp(0.65rem, 2vw, 0.85rem);
-	--font-size-s: clamp(0.875rem, 2.5vw, 1rem);
-	--font-size-m: clamp(1rem, 3vw, 1.125rem);
-	--font-size-l: clamp(1.125rem, 4vw, 1.25rem);
-	--font-size-xl: clamp(1.25rem, 5vw, 1.5rem);
+	/* Line Height */
+	--line-height-none: 1;
+	--line-height-tight: 1.25;
+	--line-height-normal: 1.5;
+	--line-height-relaxed: 1.625;
 
-	--space-xxs: clamp(0.25rem, 0.5vw, 0.5rem);
-	/* 超小 */
-	--space-xs: clamp(0.5rem, 1vw, 1rem);
-	/* 小 */
-	--space-s: clamp(0.75rem, 1.5vw, 1.25rem);
-	/* 中小 */
-	--space-m: clamp(1rem, 2vw, 1.5rem);
-	/* 中 */
-	--space-l: clamp(1.5rem, 3vw, 2rem);
-	/* 大 */
-	--space-xl: clamp(2rem, 4vw, 3rem);
-	/* 超大 */
+	/* Legacy (for backward compatibility) */
+	--font-size: var(--font-size-base);
+	--line-height: var(--line-height-relaxed);
 
+	/* ========== Spacing - 4px Base System ========== */
+	--space-1: 0.25rem; /* 4px */
+	--space-2: 0.5rem; /* 8px */
+	--space-3: 0.75rem; /* 12px */
+	--space-4: 1rem; /* 16px */
+	--space-5: 1.25rem; /* 20px */
+	--space-6: 1.5rem; /* 24px */
+	--space-7: 1.75rem; /* 28px */
+	--space-8: 2rem; /* 32px */
+	--space-10: 2.5rem; /* 40px */
+	--space-12: 3rem; /* 48px */
+	--space-16: 4rem; /* 64px */
+	--space-20: 5rem; /* 80px */
+	--space-24: 6rem; /* 96px */
+
+	/* Legacy spacing aliases */
+	--space-xxs: var(--space-1);
+	--space-xs: var(--space-2);
+	--space-s: var(--space-3);
+	--space-m: var(--space-4);
+	--space-l: var(--space-6);
+	--space-xl: var(--space-8);
+
+	/* ========== Border Radius ========== */
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 12px;
+	--radius-xl: 16px;
+	--radius-full: 9999px;
+
+	/* ========== Animation ========== */
+	--duration-instant: 0ms;
+	--duration-fast: 150ms;
+	--duration-normal: 200ms;
+	--duration-slow: 300ms;
+	--duration-slower: 400ms;
+
+	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+	--scale-press: 0.97;
+
+	/* ========== Colors ========== */
 	--bg: #f1f4e0;
 	--color: #333;
 	--accent1: #2e4d17;
@@ -31,7 +73,8 @@
 	--light-red: #ff6b6b;
 	--light-blue: #add8e6;
 
-	--max-width: 800px;
+	/* ========== Layout ========== */
+	--max-width: 692px;
 }
 
 .dark {
@@ -58,14 +101,27 @@ body {
 	display: flex;
 	flex-direction: column;
 	font-optical-sizing: auto;
-	grid-template-rows: auto 1fr auto;
-	line-height: var(--line-height);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-relaxed);
 	margin: auto;
 	max-width: clamp(300px, 100%, var(--max-width));
 	min-height: 100dvh;
-	padding: 0 var(--space-m);
+	padding: 0 var(--space-6);
 	font-family:
 		"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+	scroll-behavior: smooth;
+}
+
+/* Accessibility: Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 nav {
@@ -77,6 +133,11 @@ nav {
 	a {
 		text-decoration: none !important;
 		color: var(--color);
+		transition: color var(--duration-normal) var(--ease-out);
+
+		&:hover {
+			color: var(--accent2);
+		}
 	}
 
 	ul,
@@ -84,7 +145,8 @@ nav {
 		list-style: none;
 		display: flex;
 		align-items: center;
-		padding: var(--space-s);
+		padding: var(--space-3);
+		gap: var(--space-2);
 	}
 }
 
@@ -92,10 +154,10 @@ footer {
 	border-top: 1px solid var(--accent1);
 	color: var(--gray);
 	font-size: var(--font-size-xs);
-	padding: var(--space-m);
-	padding-top: var(--space-s);
+	padding: var(--space-4);
+	padding-top: var(--space-3);
 	display: flex;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 	flex-direction: column;
 	justify-content: space-between;
 	width: 100%;
@@ -113,11 +175,12 @@ footer {
 	a {
 		display: flex;
 		justify-content: flex-end;
-		margin-right: var(--space-xs);
+		margin-right: var(--space-2);
 		text-decoration: none;
 		color: var(--gray);
 		text-underline-offset: 3px;
 		text-decoration: underline dotted;
+		transition: color var(--duration-normal) var(--ease-out);
 
 		&:hover {
 			color: var(--accent1);
@@ -145,10 +208,14 @@ footer {
 	mask-repeat: no-repeat;
 	-webkit-mask-size: 100% 100%;
 	mask-size: 100% 100%;
+	transition:
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
 }
 
 .zenn-icon:hover {
 	background-color: #3ea8ff;
+	transform: scale(1.1);
 }
 
 .github-icon {
@@ -164,6 +231,13 @@ footer {
 	mask-repeat: no-repeat;
 	-webkit-mask-size: 100% 100%;
 	mask-size: 100% 100%;
+	transition:
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.github-icon:hover {
+	transform: scale(1.1);
 }
 
 .codepen-icon {
@@ -179,12 +253,32 @@ footer {
 	mask-repeat: no-repeat;
 	-webkit-mask-size: 100% 100%;
 	mask-size: 100% 100%;
+	transition:
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.codepen-icon:hover {
+	transform: scale(1.1);
 }
 
 #theme-toggle {
 	background: none;
 	border: none;
 	cursor: pointer;
+	padding: var(--space-2);
+	border-radius: var(--radius-md);
+	transition:
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+#theme-toggle:hover {
+	background-color: rgba(128, 128, 128, 0.1);
+}
+
+#theme-toggle:active {
+	transform: scale(var(--scale-press));
 }
 
 .icon-rss {
@@ -200,10 +294,14 @@ footer {
 	mask-repeat: no-repeat;
 	-webkit-mask-size: 100% 100%;
 	mask-size: 100% 100%;
+	transition:
+		background-color var(--duration-normal) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
 }
 
 .icon-rss:hover {
 	background-color: #e47417;
+	transform: scale(1.1);
 }
 
 .icon-moon {
