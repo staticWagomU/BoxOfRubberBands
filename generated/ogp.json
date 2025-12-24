@@ -193,5 +193,35 @@
     "title": "アウトプットができない若者 - | ＾ω＾ |",
     "description": "私のことです。ギリギリ若者と言えないぐらいの歳になってしまった気がしますが、諸先輩方のために若者と言い張ることにしています。 ここでいうアウトプットとは主に「不特定多数に対する発信」に関することです。例えばブログを書くのもそうだし、イベントで登壇するのとかもそう。まあでもこの記事では主にブログに関することですかね。 自分はアウトプットがとにかく苦手で、弊社におけるアウトプット関連の評価値も最低クラスの人間なのですが、そろそろ避けて通るのも限界が来たな…という出来事があったので、何故ここまでアウトプットに対する忌避感があるのかを自己分析したものになります。「わかる…」とか「こんなこと考えてる人類…",
     "image": "https://ogimage.blog.st-hatena.com/26006613432669531/6802418398537197163/1754616796"
+  },
+  "https://meetingbar.app/": {
+    "title": "MeetingBar - Simplify Meetings on macOS with One-Click Access",
+    "description": "MeetingBar is a macOS menu bar app that lets you view and join upcoming meetings across 50+ services, including Zoom, Google Meet, Teams, and more. Stay organized and join meetings with a single click, without switching between apps.",
+    "image": "https://meetingbar.app/social.png"
+  },
+  "https://chimr.labee.dev/": {
+    "title": "Chimr - Never Miss Another Meeting | Chimr",
+    "description": "The only notification app that's actually impossible to ignore. Fullscreen meeting alerts with one-click join for Mac.",
+    "image": "https://chimr.labee.dev/img/chimr-social-card.png"
+  },
+  "https://www.mowglii.com/itsycal/": {
+    "title": "Mowglii - Itsycal for Mac",
+    "description": "Mowglii makes apps for macOS.",
+    "image": ""
+  },
+  "https://www.notion.com/ja/product/calendar": {
+    "title": "Notionカレンダー",
+    "description": "Beautifully designed and fully integrated with Notion and Google Calendar.",
+    "image": "https://images.ctfassets.net/spoqsaf9291f/67GIII0VtPNUd35ATwkGwL/a4a13ff014876a4554ba7b3b79273d15/notion-calendar.png"
+  },
+  "https://bjango.com/mac/istatmenus/": {
+    "title": "iStat Menus",
+    "description": "The ultimate system monitor for your menu bar, with CPU, GPU, memory, network, disk usage, disk activity, temperatures, fans, battery info and more.",
+    "image": "https://bjango.com/images/site-icons/bjango-cover.png"
+  },
+  "https://github.com/pakerwreah/Calendr": {
+    "title": "GitHub - pakerwreah/Calendr: Menu bar calendar for macOS - MVVM | RxSwift | AppKit | SwiftUI",
+    "description": "Menu bar calendar for macOS - MVVM | RxSwift | AppKit | SwiftUI - pakerwreah/Calendr",
+    "image": "https://opengraph.githubassets.com/5ed67afc1ce5ec4c5301fc7a02d43bf32e6c60974c29b7d9ee7bf9d7620d1d80/pakerwreah/Calendr"
   }
 }
