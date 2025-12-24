@@ -72,5 +72,29 @@ describe("remark-git-dates", () => {
 
 			expect(file.data.astro.frontmatter.pubDate).toEqual(new Date("2023-01-21"));
 		});
+
+		it("should not override pubDate when already present in frontmatter", () => {
+			const existingDate = new Date("2023-06-15");
+
+			const file: VFile = {
+				history: ["/path/to/file.mdx"],
+				data: {
+					astro: {
+						frontmatter: {
+							pubDate: existingDate,
+						},
+					},
+				},
+			};
+
+			const transform = remarkGitDates();
+			transform({} as Root, file);
+
+			expect(file.data.astro.frontmatter.pubDate).toEqual(existingDate);
+			// Git command should not be called for creation date
+			expect(childProcess.execSync).not.toHaveBeenCalledWith(
+				expect.stringContaining("--diff-filter=A"),
+			);
+		});
 	});
 });
