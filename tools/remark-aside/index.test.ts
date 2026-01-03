@@ -120,4 +120,69 @@ Use \`npm install\` to install dependencies.
 			expect(html).toContain("<code>npm install</code>");
 		});
 	});
+
+	describe("code block support", () => {
+		it("should handle aside with fenced code block", async () => {
+			const markdown = `::: warning
+以下のようなWARNINGが表示されます。
+\`\`\`
+WARNING: A terminally deprecated method
+\`\`\`
+:::`;
+			const html = await processMarkdown(markdown);
+
+			expect(html).toContain('<aside class="directive warning">');
+			expect(html).toContain('<span class="icon"></span>警告');
+			expect(html).toContain("以下のようなWARNINGが表示されます。");
+			expect(html).toContain("<code>");
+			expect(html).toContain("WARNING: A terminally deprecated method");
+		});
+
+		it("should handle aside with code block with language", async () => {
+			const markdown = `::: tips
+コードサンプル：
+\`\`\`typescript
+const x: number = 42;
+\`\`\`
+:::`;
+			const html = await processMarkdown(markdown);
+
+			expect(html).toContain('<aside class="directive tips">');
+			expect(html).toContain("const x: number = 42;");
+		});
+
+		it("should handle aside with multiple code blocks", async () => {
+			const markdown = `::: info
+入力：
+\`\`\`
+input data
+\`\`\`
+出力：
+\`\`\`
+output data
+\`\`\`
+:::`;
+			const html = await processMarkdown(markdown);
+
+			expect(html).toContain('<aside class="directive info">');
+			expect(html).toContain("input data");
+			expect(html).toContain("output data");
+		});
+
+		it("should handle aside with code block and markdown formatting", async () => {
+			const markdown = `::: note
+**重要**: 以下のコマンドを実行してください。
+\`\`\`bash
+npm install
+\`\`\`
+詳しくは[ドキュメント](https://example.com)を参照。
+:::`;
+			const html = await processMarkdown(markdown);
+
+			expect(html).toContain('<aside class="directive note">');
+			expect(html).toContain("<strong>重要</strong>");
+			expect(html).toContain("npm install");
+			expect(html).toContain('<a href="https://example.com">ドキュメント</a>');
+		});
+	});
 });
