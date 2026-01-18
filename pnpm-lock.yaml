@@ -45,6 +45,12 @@ importers:
       '@playform/inline':
         specifier: ^0.1.0
         version: 0.1.2(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1)
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@typescript-eslint/utils':
         specifier: ^8.26.0
         version: 8.33.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)

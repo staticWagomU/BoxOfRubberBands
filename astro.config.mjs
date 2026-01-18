@@ -8,6 +8,7 @@ import rehypeLineNumbers from "./tools/rehype-line-numbers";
 import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
 import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
+import remarkLinkCard from "./tools/remark-linkcard";
 
 import compressor from "astro-compressor";
 
@@ -47,7 +48,7 @@ export default defineConfig({
 			footnoteLabelTagName: "hr",
 			footnoteLabel: " ",
 		},
-		remarkPlugins: [remarkAside, codeBlockPlugin, remarkBreaks],
+		remarkPlugins: [remarkAside, codeBlockPlugin, remarkBreaks, remarkLinkCard],
 		rehypePlugins: [
 			rehypeLineNumbers,
 			rehypeHeadingSpan,
