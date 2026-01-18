@@ -21,6 +21,9 @@ pnpm-debug.log*
 
 .astro/
 
+# cache
+src/cache/
+
 .eslintcache
 .aider*
 
