@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      astro-compressor:
-        specifier: ^1.0.0
-        version: 1.0.0
       astro-og-canvas:
         specifier: ^0.7.0
         version: 0.7.0(astro@5.12.9(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.40.0)(terser@5.39.0)(typescript@5.8.3)(yaml@2.6.1))
@@ -1076,9 +1073,6 @@ packages:
   astring@1.9.0:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
-
-  astro-compressor@1.0.0:
-    resolution: {integrity: sha512-MNGRmjIsb73BIJivbU/HnTbPu5CEFvXp1NCev0bpsuK/cp4cCPX6C1omUPXzw2oQbtKv0phTTTtEk+h20SrF1Q==}
 
   astro-eslint-parser@1.2.2:
     resolution: {integrity: sha512-JepyLROIad6f44uyqMF6HKE2QbunNzp3mYKRcPoDGt0QkxXmH222FAFC64WTyQu2Kg8NNEXHTN/sWuUId9sSxw==}
@@ -4722,8 +4716,6 @@ snapshots:
   assertion-error@2.0.1: {}
 
   astring@1.9.0: {}
-
-  astro-compressor@1.0.0: {}
 
   astro-eslint-parser@1.2.2:
     dependencies:

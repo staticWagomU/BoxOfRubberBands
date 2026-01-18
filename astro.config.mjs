@@ -10,8 +10,6 @@ import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
 import remarkLinkCard from "./tools/remark-linkcard";
 
-import compressor from "astro-compressor";
-
 // https://astro.build/config
 export default defineConfig({
 	site: "https://wagomu.me",
@@ -30,7 +28,6 @@ export default defineConfig({
 			Logger: 1,
 		}),
 		(await import("@playform/inline")).default(),
-		compressor(),
 	],
 	trailingSlash: "never",
 	vite: {
