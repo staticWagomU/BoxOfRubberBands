@@ -79,7 +79,7 @@ export default function remarkAside() {
 				const type = typeMatch[1];
 
 				// Process children to extract content
-				const contentChildren: (MdastText | typeof paragraphNode.children[0])[] = [];
+				const contentChildren: (MdastText | (typeof paragraphNode.children)[0])[] = [];
 
 				// Special case: single text node containing the entire aside
 				if (paragraphNode.children.length === 1 && paragraphNode.children[0].type === "text") {

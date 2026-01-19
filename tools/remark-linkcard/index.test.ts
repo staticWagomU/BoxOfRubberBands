@@ -36,8 +36,8 @@ describe("remark-linkcard", () => {
 		});
 
 		it("should decode &quot; and &#39;", () => {
-			expect(decodeHtmlEntities('say &quot;hello&quot; and &#39;world&#39;')).toBe(
-				'say "hello" and \'world\''
+			expect(decodeHtmlEntities("say &quot;hello&quot; and &#39;world&#39;")).toBe(
+				"say \"hello\" and 'world'"
 			);
 		});
 
@@ -419,7 +419,7 @@ describe("remark-linkcard", () => {
 		it("should escape HTML in data attributes", () => {
 			const metadata = { ...baseMetadata, title: 'Test "quoted" title' };
 			const html = generateHeadlessHtml(metadata, "link-card");
-			expect(html).toContain("data-title=\"Test &quot;quoted&quot; title\"");
+			expect(html).toContain('data-title="Test &quot;quoted&quot; title"');
 		});
 	});
 
@@ -457,7 +457,7 @@ describe("remark-linkcard", () => {
 		});
 
 		it("should escape HTML in URL", () => {
-			const html = generateFallbackLinkHtml('https://example.com/path?q=<script>');
+			const html = generateFallbackLinkHtml("https://example.com/path?q=<script>");
 			expect(html).toContain("&lt;script&gt;");
 		});
 	});

@@ -36,15 +36,12 @@ describe("rehype-code-copy-button", () => {
 
 			// preに子要素としてbuttonが追加されているか
 			const buttonChild = preElement.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild).toBeDefined();
 			expect(buttonChild?.properties?.className).toContain("copy-button");
-			expect(buttonChild?.properties?.["aria-label"]).toBe(
-				"コードをクリップボードにコピー"
-			);
+			expect(buttonChild?.properties?.["aria-label"]).toBe("コードをクリップボードにコピー");
 
 			// ボタンのテキストがCopyであること
 			const buttonText = buttonChild?.children[0] as Text;
@@ -61,8 +58,7 @@ describe("rehype-code-copy-button", () => {
 
 			const preElement = tree.children[0] as Element;
 			const buttonChild = preElement.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild?.properties?.className).toContain("custom-copy-btn");
@@ -88,8 +84,7 @@ describe("rehype-code-copy-button", () => {
 
 			const preElement = tree.children[0] as Element;
 			const buttonChild = preElement.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild).toBeUndefined();
@@ -120,8 +115,7 @@ describe("rehype-code-copy-button", () => {
 
 			const divElement = tree.children[0] as Element;
 			const buttonChild = divElement.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild).toBeUndefined();
@@ -153,8 +147,7 @@ describe("rehype-code-copy-button", () => {
 			const preElement = tree.children[0] as Element;
 			// ボタンが追加されていないことを確認（子要素はcodeのみ）
 			const buttonChildren = preElement.children.filter(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChildren.length).toBe(0);
@@ -186,8 +179,7 @@ describe("rehype-code-copy-button", () => {
 
 			const preElement = tree.children[0] as Element;
 			const buttonChild = preElement.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "button"
+				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild?.properties?.["data-copy-text"]).toBe("コピー");

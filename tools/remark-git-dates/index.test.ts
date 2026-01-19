@@ -34,7 +34,7 @@ describe("remark-git-dates", () => {
 
 			expect(result).toEqual(new Date("2023-01-21"));
 			expect(childProcess.execSync).toHaveBeenCalledWith(
-				expect.stringContaining("git log --follow --diff-filter=A"),
+				expect.stringContaining("git log --follow --diff-filter=A")
 			);
 		});
 	});
@@ -47,7 +47,7 @@ describe("remark-git-dates", () => {
 
 			expect(result).toEqual(new Date("2024-02-21"));
 			expect(childProcess.execSync).toHaveBeenCalledWith(
-				expect.stringContaining("git log -1 --pretty"),
+				expect.stringContaining("git log -1 --pretty")
 			);
 		});
 	});
@@ -93,7 +93,7 @@ describe("remark-git-dates", () => {
 			expect(file.data.astro.frontmatter.pubDate).toEqual(existingDate);
 			// Git command should not be called for creation date
 			expect(childProcess.execSync).not.toHaveBeenCalledWith(
-				expect.stringContaining("--diff-filter=A"),
+				expect.stringContaining("--diff-filter=A")
 			);
 		});
 	});
