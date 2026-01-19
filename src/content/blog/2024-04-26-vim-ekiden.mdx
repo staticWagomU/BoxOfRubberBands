@@ -5,8 +5,6 @@ published: true
 tags: ["vim駅伝"]
 ---
 
-import OG from "../../components/OG.astro";
-
 この記事は[Vim駅伝](https://vim-jp.org/ekiden/)2024年4月26日(金)の記事です。
 
 前回の記事は [ryoppippi](https://github.com/ryoppippi) さんの「[Neovim + oil.nvim + Weztermで頑張って画像を表示する](https://zenn.dev/vim_jp/articles/5b5f704de07673)」という記事でした。
@@ -31,7 +29,7 @@ git操作をNeovimでできるようになることで、あわよくばNeovim�
 windowsユーザーの皆さんすみません！！！windowsでは起動速度が遅いのでWSLで使うことを推奨します。
 最終的なコードはこちらのレポジトリで公開しています。
 
-<OG url="https://github.com/staticWagomU/neovim-as-a-git-tool" />
+https://github.com/staticWagomU/neovim-as-a-git-tool
 
 ## 実際の操作
 ![](/images/blog/2024-04-26-vim-ekiden/20240426-0805-44.gif)
@@ -41,12 +39,12 @@ windowsユーザーの皆さんすみません！！！windowsでは起動速度
 これがないと始まりません。
 インストール方法はこちらを参照してください。
 
-<OG url="https://github.com/neovim/neovim/blob/master/INSTALL.md" />
+https://github.com/neovim/neovim/blob/master/INSTALL.md
 
 ### deno
 deno製のプラグインを導入するため必要。インストール方法はこちらを参照してください。
 
-<OG url="https://docs.deno.com/runtime/manual" />
+https://docs.deno.com/runtime/manual
 
 ## 必要なプラグイン
 ### denops
@@ -62,8 +60,7 @@ denopsを使って作られたgit操作をするためのプラグイン
 今回使うのはNeovimですが、基本操作はvimと殆ど変わりません。
 操作方法については、Vim駅伝2024年4月17日に[yasunori0418](https://github.com/yasunori0418)さんが投稿した記事をご覧ください。
 
-<OG url="https://zenn.dev/vim_jp/articles/0009-just_want_to_be_able_to_use_for_vim_begineer" />
-
+https://zenn.dev/vim_jp/articles/0009-just_want_to_be_able_to_use_for_vim_begineer
 
 ## はじめのコード
 まずはこのコードを貼り付けてください。
@@ -167,7 +164,8 @@ commitのハッシュが書いてある行で`<Cr>`を押すとそのcommitの�
 ![Pasted image 20240425172830.png](/images/blog/2024-04-26-vim-ekiden/image20240425224634.png)
 このように`GinLog`では様々なアクションを実行することができます。
 おすすめのアクションは`fixup:instant-fixup`です。詳細についてはこちらの記事に委ねます。
-<OG url="https://blog.atusy.net/2024/03/15/instant-fixup-with-gin-vim/" />
+
+https://blog.atusy.net/2024/03/15/instant-fixup-with-gin-vim/
 
 `a`を押してアクションを選択することは`GinStatus`と`GinBranch`でもできるので確認してみてください。
 
@@ -305,6 +303,8 @@ https://github.com/staticWagomU/dotvim/blob/89e71e06d7fab936f52e4560d6aaae3e90ce
 
 ## おまけ
 Vim駅伝にてgin.vimについて取り上げた記事があります。興味がある方は読んでみてください。
-<OG url="https://blog.atusy.net/2023/11/29/gin-diff/" />
-<OG url="https://wagomu.me/blog/2023-12-12-vim-adventcalendar/" />
+
+https://blog.atusy.net/2023/11/29/gin-diff/
+
+https://wagomu.me/blog/2023-12-12-vim-adventcalendar/
 

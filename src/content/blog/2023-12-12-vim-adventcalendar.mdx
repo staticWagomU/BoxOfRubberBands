@@ -4,8 +4,6 @@ pubDate: 2023-12-12
 published: true
 ---
 
-import OG from "../../components/OG.astro";
-
 この記事は[vimアドベントカレンダー2023](https://qiita.com/advent-calendar/2023/vim) 12/12の記事です。
 
 ## はじめに
@@ -43,7 +41,8 @@ Gin defines the following mappings for actions:
 
 これに関しては私よりも詳しい説明をAtusyさんがしてくださっているので、こちらのブログを見てください。
 
-<OG url="https://blog.atusy.net/2023/11/29/gin-diff/" />
+https://blog.atusy.net/2023/11/29/gin-diff/
+
 ざっくりと説明すると、GinDiffのの差分行で`<Cr>`をすると差分ファイルの指定行へジャンプしてくれるという機能があり、非常に便利です。
 ## 自分の設定
 自分が気に入っている設定はこの部分です。
@@ -82,7 +81,8 @@ end,
 
 因みに、、、
 git関連のマッピングが`<C-g>`で始まっているのは、Atusyさんのブログを参考にさせていただいているからです。
-<OG url="https://blog.atusy.net/2022/08/08/ctrlg-as-prefix-vim/" />
+
+https://blog.atusy.net/2022/08/08/ctrlg-as-prefix-vim/
 ```lua
 vim.keymap.set({ 'n' }, '<C-g><C-s>', '<Cmd>GinStatus<Cr>', {})
 vim.keymap.set({ 'n' }, '<C-g><C-l>', '<Cmd>GinLog --graph --oneline<Cr>', {})

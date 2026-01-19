@@ -5,8 +5,6 @@ published: true
 tags: ["vim駅伝"]
 ---
 
-import OG from "../../components/OG.astro";
-
 この記事は[Vim駅伝](https://vim-jp.org/ekiden/)2023年06月02日の記事です。
 
 前回の記事は mityu さんの「[Zsh on :terminal on Vim でカレントディレクトリを Vim と同期する](https://zenn.dev/vim_jp/articles/sync-cwd-zsh-on-vim)」という記事でした。
@@ -41,14 +39,16 @@ import OG from "../../components/OG.astro";
 
 [atusy](https://github.com/atusy)さんは、
 
-<OG url="https://blog.atusy.net/2022/11/03/telescope-as-command-pallete" />
+https://blog.atusy.net/2022/11/03/telescope-as-command-pallete
+
 に書いてあるように、[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)を使ってVSコードのコマンドパレットのようなものを再現していました。
 
 [yuki yano](https://github.com/yuki-yano)さんは、[lexima](https://github.com/cohama/lexima.vim)を拡張して、EXコマンドを自動展開させる[lexima-alter-command.vim](https://github.com/yuki-yano/lexima-alter-command.vim)というプラグインを使っているとのことでした。
 
 そして[monaqa](https://github.com/monaqa)さんは、
 
-<OG url="https://zenn.dev/monaqa/articles/2020-12-22-vim-abbrev" />
+https://zenn.dev/monaqa/articles/2020-12-22-vim-abbrev
+
 に書いてあるように、プラグインを使わず`cabbrev`コマンドを使うことによって[yuki yano](https://github.com/yuki-yano)さんとほぼ同等のことを実現していました。
 
 また、これを書いている今日、[kuu](https://github.com/kuuote)さんはコマンド補完と`cmdwin`を使っているということを教えてもらいました。
