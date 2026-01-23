@@ -15,8 +15,6 @@ function dateString(date: Date) {
 	});
 }
 
-// View Transition用のユニークなID（slugからパスを取り除いて使用）
-const transitionId = slug.replace(/^\/blog\//, "").replace(/\//g, "-");
 ---
 
 <a
@@ -28,9 +26,7 @@ const transitionId = slug.replace(/^\/blog\//, "").replace(/\//g, "-");
 		<div class="date">{dateString(pubDate)}</div>
 		<div class="content">
 			<span class={`${kind}-icon`} aria-hidden="true"></span>
-			<span transition:name={kind === "blog" ? `blog-title-${transitionId}` : undefined}
-				>{title}</span
-			>
+			<span>{title}</span>
 		</div>
 	</div>
 </a>

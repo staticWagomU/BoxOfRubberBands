@@ -48,22 +48,21 @@ let currentYear: number = 0;
 	<div class="bloglist-container">
 		<div class="bloglist" role="region" aria-label="ブログ記事一覧">
 			{
-				posts.map((post, index) => {
+				posts.map((post) => {
 					const postYear = post.data.pubDate.getFullYear();
 					const isNewYear = currentYear !== postYear;
 					currentYear = postYear;
-					const staggerClass = `stagger-${Math.min(index % 8 + 1, 8)}`;
 					return (
 						<>
 							{isNewYear && (
-								<div class={`header animate-slide-left ${staggerClass}`}>
+								<div class="header">
 									<h2 class="date">{postYear}</h2>
 									<div class="content">
 										{posts.filter((p) => p.data.pubDate.getFullYear() === postYear).length} posts
 									</div>
 								</div>
 							)}
-							<div class={`post-item animate-fade-up ${staggerClass}`}>
+							<div class="post-item">
 								<LinkItem
 									slug={post.slug}
 									pubDate={post.data.pubDate}
