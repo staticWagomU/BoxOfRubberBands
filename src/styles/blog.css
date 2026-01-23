@@ -162,16 +162,19 @@ article.blog {
 	h1 {
 		font-size: var(--font-size-2xl);
 		line-height: var(--line-height-none);
+		letter-spacing: -0.02em;
 	}
 
 	h2 {
 		font-size: var(--font-size-xl);
+		letter-spacing: -0.015em;
 		border-bottom: 2px solid var(--gray-muted);
 		padding-bottom: var(--space-2);
 	}
 
 	h3 {
 		font-size: var(--font-size-l);
+		letter-spacing: -0.01em;
 		border-bottom: 1px solid var(--gray-muted);
 		padding-bottom: var(--space-1);
 	}
