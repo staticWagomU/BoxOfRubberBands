@@ -139,12 +139,22 @@ nav {
 	container-type: inline-size;
 	justify-content: space-between;
 	width: 100%;
+	align-items: center;
 
 	h1 {
-		font-family: var(--font-display);
-		font-weight: 500;
-		font-size: var(--font-size-l);
-		letter-spacing: 0.02em;
+		display: flex;
+		align-items: center;
+		margin: 0;
+	}
+
+	.site-logo {
+		display: block;
+		height: 24px;
+		width: auto;
+	}
+
+	.site-logo .logo-accent {
+		fill: var(--accent3);
 	}
 
 	a {
