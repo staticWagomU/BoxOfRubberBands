@@ -1,8 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
+import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 ---
 
 <Base>
+	<section class="hero" role="region" aria-label="ヒーロー">
+		<div class="hero-content">
+			<RubberBandDecoration class="hero-decoration" />
+			<div class="hero-text">
+				<p class="tagline">輪ゴムっていきなり切れるとびっくりするよね</p>
+			</div>
+		</div>
+	</section>
+
 	<section role="region" aria-label="プロフィール">
 		<h2>輪ごむ について</h2>
 		<p>妻と子供の3人で暮しているITエンジニアです</p>
@@ -26,3 +36,87 @@ import Base from "../layouts/Base.astro";
 		</ul>
 	</section>
 </Base>
+
+<style>
+	.hero {
+		padding: var(--space-8) 0 var(--space-6);
+		margin-bottom: var(--space-4);
+	}
+
+	.hero-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-6);
+	}
+
+	.hero-decoration {
+		flex-shrink: 0;
+	}
+
+	.hero-text {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.tagline {
+		font-family: var(--font-display);
+		font-size: var(--font-size-m);
+		color: var(--gray-text);
+		font-weight: 400;
+		margin: 0;
+		line-height: var(--line-height-relaxed);
+	}
+
+	@media (max-width: 480px) {
+		.hero-content {
+			flex-direction: column;
+			text-align: center;
+		}
+
+		.tagline {
+			font-size: var(--font-size-base);
+		}
+	}
+
+	/* セクションの見出しスタイル */
+	section h2 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--font-size-xl);
+		color: var(--accent1);
+		margin-top: var(--space-6);
+		margin-bottom: var(--space-4);
+		padding-bottom: var(--space-2);
+		border-bottom: 2px solid var(--accent2);
+	}
+
+	section h3 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--font-size-l);
+		color: var(--accent2);
+		margin-top: var(--space-4);
+		margin-bottom: var(--space-2);
+	}
+
+	section p {
+		line-height: var(--line-height-relaxed);
+		margin: var(--space-2) 0;
+	}
+
+	section ul {
+		padding-left: var(--space-5);
+		margin: var(--space-2) 0;
+	}
+
+	section li {
+		margin: var(--space-1) 0;
+		line-height: var(--line-height-normal);
+	}
+
+	section li::marker {
+		color: var(--accent3);
+	}
+</style>

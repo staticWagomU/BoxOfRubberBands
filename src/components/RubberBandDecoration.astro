@@ -1,0 +1,159 @@
+---
+/**
+ * RubberBandDecoration - 輪ゴムモチーフの装飾SVG
+ * サイトのアイデンティティを表現する有機的なビジュアル要素
+ */
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["rubber-band-decoration", className]}>
+	<svg
+		viewBox="0 0 200 200"
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+		class="rubber-bands"
+	>
+		<defs>
+			<!-- 輪ゴムのグラデーション -->
+			<linearGradient id="band1-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+				<stop offset="0%" style="stop-color: var(--accent2); stop-opacity: 0.9"></stop>
+				<stop offset="100%" style="stop-color: var(--accent1); stop-opacity: 0.8"></stop>
+			</linearGradient>
+			<linearGradient id="band2-gradient" x1="100%" y1="0%" x2="0%" y2="100%">
+				<stop offset="0%" style="stop-color: var(--accent3); stop-opacity: 0.85"></stop>
+				<stop offset="100%" style="stop-color: #e89020; stop-opacity: 0.75"></stop>
+			</linearGradient>
+			<linearGradient id="band3-gradient" x1="50%" y1="0%" x2="50%" y2="100%">
+				<stop offset="0%" style="stop-color: var(--accent2); stop-opacity: 0.7"></stop>
+				<stop offset="100%" style="stop-color: var(--accent1); stop-opacity: 0.6"></stop>
+			</linearGradient>
+
+			<!-- ドロップシャドウ -->
+			<filter id="band-shadow" x="-20%" y="-20%" width="140%" height="140%">
+				<feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"></feDropShadow>
+			</filter>
+		</defs>
+
+		<!-- 輪ゴム1: 大きな楕円（メイン） -->
+		<ellipse
+			class="band band-1"
+			cx="100"
+			cy="100"
+			rx="70"
+			ry="45"
+			fill="none"
+			stroke="url(#band1-gradient)"
+			stroke-width="6"
+			stroke-linecap="round"
+			filter="url(#band-shadow)"></ellipse>
+
+		<!-- 輪ゴム2: 斜めの楕円（オレンジ） -->
+		<ellipse
+			class="band band-2"
+			cx="100"
+			cy="100"
+			rx="55"
+			ry="35"
+			fill="none"
+			stroke="url(#band2-gradient)"
+			stroke-width="5"
+			stroke-linecap="round"
+			transform="rotate(-25 100 100)"
+			filter="url(#band-shadow)"></ellipse>
+
+		<!-- 輪ゴム3: 小さな楕円（背景） -->
+		<ellipse
+			class="band band-3"
+			cx="100"
+			cy="100"
+			rx="40"
+			ry="25"
+			fill="none"
+			stroke="url(#band3-gradient)"
+			stroke-width="4"
+			stroke-linecap="round"
+			transform="rotate(35 100 100)"
+			filter="url(#band-shadow)"></ellipse>
+	</svg>
+</div>
+
+<style>
+	.rubber-band-decoration {
+		position: relative;
+		width: 100%;
+		max-width: 160px;
+		aspect-ratio: 1;
+	}
+
+	.rubber-bands {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 輪ゴムのアニメーション */
+	.band {
+		transform-origin: center;
+	}
+
+	.band-1 {
+		animation: wobble-1 8s ease-in-out infinite;
+	}
+
+	.band-2 {
+		animation: wobble-2 10s ease-in-out infinite;
+	}
+
+	.band-3 {
+		animation: wobble-3 12s ease-in-out infinite;
+	}
+
+	@keyframes wobble-1 {
+		0%,
+		100% {
+			transform: rotate(0deg) scale(1);
+		}
+		25% {
+			transform: rotate(3deg) scale(1.02);
+		}
+		50% {
+			transform: rotate(-2deg) scale(0.98);
+		}
+		75% {
+			transform: rotate(2deg) scale(1.01);
+		}
+	}
+
+	@keyframes wobble-2 {
+		0%,
+		100% {
+			transform: rotate(-25deg) scale(1);
+		}
+		33% {
+			transform: rotate(-22deg) scale(1.03);
+		}
+		66% {
+			transform: rotate(-28deg) scale(0.97);
+		}
+	}
+
+	@keyframes wobble-3 {
+		0%,
+		100% {
+			transform: rotate(35deg) scale(1);
+		}
+		50% {
+			transform: rotate(38deg) scale(1.04);
+		}
+	}
+
+	/* prefers-reduced-motion 対応 */
+	@media (prefers-reduced-motion: reduce) {
+		.band {
+			animation: none;
+		}
+	}
+</style>
