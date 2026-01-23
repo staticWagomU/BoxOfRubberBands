@@ -10,6 +10,7 @@ interface Options {
 
 /**
  * Rehypeプラグイン: コードブロックにコピーボタンを追加
+ * ボタンは.code-content要素に追加され、preの外に配置される
  */
 export default function rehypeCodeCopyButton(options: Options = {}) {
 	const {
@@ -21,30 +22,44 @@ export default function rehypeCodeCopyButton(options: Options = {}) {
 
 	return (tree: Root) => {
 		visit(tree, "element", (node: Element) => {
-			// pre > code のパターンを探す
+			// .code-content > pre > code のパターンを探す
 			if (
-				node.tagName !== "pre" ||
-				node.children?.[0]?.type !== "element" ||
-				(node.children[0] as Element).tagName !== "code"
+				node.tagName !== "div" ||
+				!Array.isArray(node.properties?.className) ||
+				!node.properties.className.includes("code-content")
 			) {
 				return;
 			}
 
-			// すでにラップされている場合はスキップ
-			if (
-				Array.isArray(node.properties?.className) &&
-				node.properties.className.includes("code-block-with-copy")
-			) {
+			// すでにコピーボタンが追加されている場合はスキップ
+			const hasButton = node.children.some(
+				(child) =>
+					child.type === "element" &&
+					Array.isArray((child as Element).properties?.className) &&
+					((child as Element).properties?.className as string[]).includes(buttonClassName)
+			);
+			if (hasButton) {
 				return;
 			}
 
-			// 親要素にクラスを追加
-			node.properties = node.properties || {};
-			node.properties.className = node.properties.className || [];
-			if (!Array.isArray(node.properties.className)) {
-				node.properties.className = [node.properties.className as string];
+			// pre要素を探す
+			const preElement = node.children.find(
+				(child) => child.type === "element" && (child as Element).tagName === "pre"
+			) as Element | undefined;
+
+			if (!preElement) {
+				return;
 			}
-			node.properties.className.push("code-block-with-copy");
+
+			// pre要素にクラスを追加（既存の動作との互換性のため）
+			preElement.properties = preElement.properties || {};
+			preElement.properties.className = preElement.properties.className || [];
+			if (!Array.isArray(preElement.properties.className)) {
+				preElement.properties.className = [preElement.properties.className as string];
+			}
+			if (!preElement.properties.className.includes("code-block-with-copy")) {
+				preElement.properties.className.push("code-block-with-copy");
+			}
 
 			// コピーボタンを作成
 			const copyButton: Element = {
@@ -65,7 +80,7 @@ export default function rehypeCodeCopyButton(options: Options = {}) {
 				],
 			};
 
-			// ボタンをpre要素に追加
+			// ボタンを.code-content要素に追加（preの外）
 			node.children.push(copyButton);
 		});
 	};

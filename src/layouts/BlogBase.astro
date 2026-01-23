@@ -123,8 +123,8 @@ const transitionId = post.slug.replace(/\//g, "-");
 		// コードコピーボタンの設定
 		document.querySelectorAll(".copy-button").forEach((button) => {
 			button.addEventListener("click", () => {
-				const pre = button.closest("pre");
-				const code = pre.querySelector("code").innerText;
+				const codeContent = button.closest(".code-content");
+				const code = codeContent.querySelector("pre code").innerText;
 
 				navigator.clipboard
 					.writeText(code)

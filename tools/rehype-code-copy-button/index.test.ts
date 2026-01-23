@@ -4,6 +4,36 @@ import rehypeCodeCopyButton from "./index.ts";
 
 /**
  * HASTツリーを直接操作してテストするヘルパー関数
+ * rehype-line-numbersが作成する構造を模倣: .code-content > pre > code
+ */
+const createCodeContentTree = (codeContent: string): Root => ({
+	type: "root",
+	children: [
+		{
+			type: "element",
+			tagName: "div",
+			properties: { className: ["code-content"] },
+			children: [
+				{
+					type: "element",
+					tagName: "pre",
+					properties: {},
+					children: [
+						{
+							type: "element",
+							tagName: "code",
+							properties: {},
+							children: [{ type: "text", value: codeContent }],
+						},
+					],
+				} as Element,
+			],
+		} as Element,
+	],
+});
+
+/**
+ * 旧形式のpre > codeツリー（.code-contentなし）
  */
 const createPreCodeTree = (codeContent: string): Root => ({
 	type: "root",
@@ -26,16 +56,16 @@ const createPreCodeTree = (codeContent: string): Root => ({
 
 describe("rehype-code-copy-button", () => {
 	describe("basic functionality", () => {
-		it("should add copy button to pre > code blocks", () => {
-			const tree = createPreCodeTree("console.log('hello');");
+		it("should add copy button to .code-content element", () => {
+			const tree = createCodeContentTree("console.log('hello');");
 			const transform = rehypeCodeCopyButton();
 
 			transform(tree);
 
-			const preElement = tree.children[0] as Element;
+			const codeContent = tree.children[0] as Element;
 
-			// preに子要素としてbuttonが追加されているか
-			const buttonChild = preElement.children.find(
+			// .code-contentに子要素としてbuttonが追加されているか
+			const buttonChild = codeContent.children.find(
 				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
@@ -47,17 +77,31 @@ describe("rehype-code-copy-button", () => {
 			const buttonText = buttonChild?.children[0] as Text;
 			expect(buttonText?.value).toBe("Copy");
 		});
+
+		it("should add code-block-with-copy class to pre element", () => {
+			const tree = createCodeContentTree("console.log('hello');");
+			const transform = rehypeCodeCopyButton();
+
+			transform(tree);
+
+			const codeContent = tree.children[0] as Element;
+			const preElement = codeContent.children.find(
+				(child): child is Element => child.type === "element" && child.tagName === "pre"
+			);
+
+			expect(preElement?.properties?.className).toContain("code-block-with-copy");
+		});
 	});
 
 	describe("options", () => {
 		it("should use custom buttonClassName", () => {
-			const tree = createPreCodeTree("console.log('test');");
+			const tree = createCodeContentTree("console.log('test');");
 			const transform = rehypeCodeCopyButton({ buttonClassName: "custom-copy-btn" });
 
 			transform(tree);
 
-			const preElement = tree.children[0] as Element;
-			const buttonChild = preElement.children.find(
+			const codeContent = tree.children[0] as Element;
+			const buttonChild = codeContent.children.find(
 				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
@@ -66,14 +110,28 @@ describe("rehype-code-copy-button", () => {
 	});
 
 	describe("skip cases", () => {
-		it("should skip pre without code child", () => {
+		it("should skip pre without .code-content wrapper", () => {
+			const tree = createPreCodeTree("console.log('hello');");
+			const transform = rehypeCodeCopyButton();
+
+			transform(tree);
+
+			const preElement = tree.children[0] as Element;
+			const buttonChild = preElement.children.find(
+				(child): child is Element => child.type === "element" && child.tagName === "button"
+			);
+
+			expect(buttonChild).toBeUndefined();
+		});
+
+		it("should skip .code-content without pre child", () => {
 			const tree: Root = {
 				type: "root",
 				children: [
 					{
 						type: "element",
-						tagName: "pre",
-						properties: {},
+						tagName: "div",
+						properties: { className: ["code-content"] },
 						children: [{ type: "text", value: "plain text" }],
 					} as Element,
 				],
@@ -82,28 +140,41 @@ describe("rehype-code-copy-button", () => {
 			const transform = rehypeCodeCopyButton();
 			transform(tree);
 
-			const preElement = tree.children[0] as Element;
-			const buttonChild = preElement.children.find(
+			const codeContent = tree.children[0] as Element;
+			const buttonChild = codeContent.children.find(
 				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
 			expect(buttonChild).toBeUndefined();
 		});
 
-		it("should skip non-pre elements", () => {
+		it("should skip already processed .code-content", () => {
 			const tree: Root = {
 				type: "root",
 				children: [
 					{
 						type: "element",
 						tagName: "div",
-						properties: {},
+						properties: { className: ["code-content"] },
 						children: [
 							{
 								type: "element",
-								tagName: "code",
+								tagName: "pre",
 								properties: {},
-								children: [{ type: "text", value: "inline code" }],
+								children: [
+									{
+										type: "element",
+										tagName: "code",
+										properties: {},
+										children: [{ type: "text", value: "console.log('test');" }],
+									} as Element,
+								],
+							} as Element,
+							{
+								type: "element",
+								tagName: "button",
+								properties: { className: ["copy-button"] },
+								children: [{ type: "text", value: "Copy" }],
 							} as Element,
 						],
 					} as Element,
@@ -113,62 +184,19 @@ describe("rehype-code-copy-button", () => {
 			const transform = rehypeCodeCopyButton();
 			transform(tree);
 
-			const divElement = tree.children[0] as Element;
-			const buttonChild = divElement.children.find(
+			const codeContent = tree.children[0] as Element;
+			// ボタンが1つだけであることを確認（新しいボタンが追加されていない）
+			const buttonChildren = codeContent.children.filter(
 				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
-			expect(buttonChild).toBeUndefined();
-		});
-
-		it("should skip already wrapped code blocks", () => {
-			const tree: Root = {
-				type: "root",
-				children: [
-					{
-						type: "element",
-						tagName: "pre",
-						properties: { className: ["code-block-with-copy"] },
-						children: [
-							{
-								type: "element",
-								tagName: "code",
-								properties: {},
-								children: [{ type: "text", value: "console.log('test');" }],
-							} as Element,
-						],
-					} as Element,
-				],
-			};
-
-			const transform = rehypeCodeCopyButton();
-			transform(tree);
-
-			const preElement = tree.children[0] as Element;
-			// ボタンが追加されていないことを確認（子要素はcodeのみ）
-			const buttonChildren = preElement.children.filter(
-				(child): child is Element => child.type === "element" && child.tagName === "button"
-			);
-
-			expect(buttonChildren.length).toBe(0);
-		});
-	});
-
-	describe("class assignment", () => {
-		it("should add code-block-with-copy class to pre element", () => {
-			const tree = createPreCodeTree("console.log('hello');");
-			const transform = rehypeCodeCopyButton();
-
-			transform(tree);
-
-			const preElement = tree.children[0] as Element;
-			expect(preElement.properties?.className).toContain("code-block-with-copy");
+			expect(buttonChildren.length).toBe(1);
 		});
 	});
 
 	describe("data attributes", () => {
 		it("should set correct data attributes on button", () => {
-			const tree = createPreCodeTree("test");
+			const tree = createCodeContentTree("test");
 			const transform = rehypeCodeCopyButton({
 				buttonText: "コピー",
 				buttonSuccessText: "コピー完了",
@@ -177,8 +205,8 @@ describe("rehype-code-copy-button", () => {
 
 			transform(tree);
 
-			const preElement = tree.children[0] as Element;
-			const buttonChild = preElement.children.find(
+			const codeContent = tree.children[0] as Element;
+			const buttonChild = codeContent.children.find(
 				(child): child is Element => child.type === "element" && child.tagName === "button"
 			);
 
