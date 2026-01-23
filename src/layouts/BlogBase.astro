@@ -20,8 +20,10 @@ const transitionId = post.slug.replace(/\//g, "-");
 	<div id="progress" role="progressbar" aria-label="読進捧" aria-valuemin="0" aria-valuemax="100">
 	</div>
 	<article class="blog" role="article">
-		<time datetime={pubDate}>{formattedDate}</time>
-		<h1 transition:name={`blog-title-${transitionId}`}>{title}</h1>
+		<header class="blog-header">
+			<h1 transition:name={`blog-title-${transitionId}`}>{title}</h1>
+			<time datetime={pubDate}>{formattedDate}</time>
+		</header>
 		<slot />
 		{
 			tags && (
@@ -66,8 +68,26 @@ const transitionId = post.slug.replace(/\//g, "-");
 		animation-timeline: scroll();
 	}
 
-	time {
+	.blog-header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2) var(--space-4);
+		margin-bottom: var(--space-4);
+	}
+
+	.blog-header h1 {
+		margin: 0;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.blog-header time {
 		font-size: var(--font-size-xs);
+		color: var(--gray-text);
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.tags {
