@@ -1,4 +1,11 @@
 ---
+type Props = {
+	slug: string;
+	pubDate: Date;
+	title: string;
+	kind: "zenn" | "blog";
+};
+
 const { slug, pubDate, title, kind } = Astro.props;
 
 function dateString(date: Date) {
@@ -7,6 +14,9 @@ function dateString(date: Date) {
 		day: "2-digit",
 	});
 }
+
+// View Transition用のユニークなID（slugからパスを取り除いて使用）
+const transitionId = slug.replace(/^\/blog\//, "").replace(/\//g, "-");
 ---
 
 <a
@@ -18,7 +28,9 @@ function dateString(date: Date) {
 		<div class="date">{dateString(pubDate)}</div>
 		<div class="content">
 			<span class={`${kind}-icon`} aria-hidden="true"></span>
-			<span>{title}</span>
+			<span transition:name={kind === "blog" ? `blog-title-${transitionId}` : undefined}
+				>{title}</span
+			>
 		</div>
 	</div>
 </a>

@@ -11,6 +11,9 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	month: "2-digit",
 	day: "2-digit",
 });
+
+// View Transition用のユニークなID
+const transitionId = post.slug.replace(/\//g, "-");
 ---
 
 <Base title={`${title} - ${SITE_TITLE}`}>
@@ -18,7 +21,7 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	</div>
 	<article class="blog" role="article">
 		<time datetime={pubDate}>{formattedDate}</time>
-		<h1>{title}</h1>
+		<h1 transition:name={`blog-title-${transitionId}`}>{title}</h1>
 		<slot />
 		{
 			tags && (
