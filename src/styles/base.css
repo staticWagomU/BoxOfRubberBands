@@ -1,5 +1,5 @@
 :root {
-	/* ========== Typography - Emil Kowalski Style ========== */
+	/* ========== Typography ========== */
 	--font-size-2xs: 0.625rem; /* 10px */
 	--font-size-xs: 0.8125rem; /* 13px */
 	--font-size-s: 0.875rem; /* 14px */
@@ -8,6 +8,11 @@
 	--font-size-l: 1.25rem; /* 20px */
 	--font-size-xl: 1.5rem; /* 24px */
 	--font-size-2xl: 1.875rem; /* 30px */
+
+	/* Font Family */
+	--font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "BIZ UDGothic", sans-serif;
+	--font-body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+	--font-mono: "JetBrains Mono Nerd Font", ui-monospace, monospace;
 
 	/* Line Height */
 	--line-height-none: 1;
@@ -113,8 +118,7 @@ body {
 	max-width: clamp(300px, 100%, var(--max-width));
 	min-height: 100dvh;
 	padding: 0 var(--space-6);
-	font-family:
-		"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+	font-family: var(--font-body);
 	scroll-behavior: smooth;
 }
 
@@ -135,6 +139,13 @@ nav {
 	container-type: inline-size;
 	justify-content: space-between;
 	width: 100%;
+
+	h1 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--font-size-l);
+		letter-spacing: 0.02em;
+	}
 
 	a {
 		text-decoration: none !important;

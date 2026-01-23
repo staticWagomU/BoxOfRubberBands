@@ -153,10 +153,11 @@ article.blog {
 	h4,
 	h5,
 	h6 {
+		font-family: var(--font-display);
 		color: var(--accent1);
 		margin-block: var(--space-6);
 		line-height: var(--line-height-tight);
-		font-weight: 600;
+		font-weight: 500;
 	}
 
 	h1 {
