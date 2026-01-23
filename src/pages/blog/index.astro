@@ -13,10 +13,10 @@ type Post = {
 };
 
 const fetch_zenn = await getCollection("zenn");
-const zenn_posts = fetch_zenn.map((item) => {
+const zenn_posts: Post[] = fetch_zenn.map((item) => {
 	return {
 		slug: item.data.link || "",
-		kind: "zenn",
+		kind: "zenn" as const,
 		data: {
 			title: item.data.title || "",
 			pubDate: new Date(item.data.pubDate),
@@ -45,53 +45,111 @@ let currentYear: number = 0;
 ---
 
 <Base>
-	<div class="bloglist" role="region" aria-label="ブログ記事一覧">
-		{
-			posts.map((post, _) => {
-				const postYear = post.data.pubDate.getFullYear();
-				const isNewYear = currentYear !== postYear;
-				currentYear = postYear;
-				return (
-					<>
-						{isNewYear && (
-							<div class="header">
-								<h2 class="date">{postYear}</h2>
-								<div class="content">
-									{posts.filter((p) => p.data.pubDate.getFullYear() === postYear).length} posts
+	<div class="bloglist-container">
+		<div class="bloglist" role="region" aria-label="ブログ記事一覧">
+			{
+				posts.map((post, index) => {
+					const postYear = post.data.pubDate.getFullYear();
+					const isNewYear = currentYear !== postYear;
+					currentYear = postYear;
+					const staggerClass = `stagger-${Math.min(index % 8 + 1, 8)}`;
+					return (
+						<>
+							{isNewYear && (
+								<div class={`header animate-slide-left ${staggerClass}`}>
+									<h2 class="date">{postYear}</h2>
+									<div class="content">
+										{posts.filter((p) => p.data.pubDate.getFullYear() === postYear).length} posts
+									</div>
 								</div>
+							)}
+							<div class={`post-item animate-fade-up ${staggerClass}`}>
+								<LinkItem
+									slug={post.slug}
+									pubDate={post.data.pubDate}
+									title={post.data.title}
+									kind={post.kind}
+								/>
 							</div>
-						)}
-						<LinkItem
-							slug={post.slug}
-							pubDate={post.data.pubDate}
-							title={post.data.title}
-							kind={post.kind}
-						/>
-					</>
-				);
-			})
-		}
+						</>
+					);
+				})
+			}
+		</div>
 	</div>
 </Base>
 
 <style>
+	/* ========== Blog List Container - Bold Spacing ========== */
+	.bloglist-container {
+		padding: var(--space-12) 0 var(--space-16);
+	}
+
+	.page-title {
+		font-family: var(--font-display);
+		font-size: var(--font-size-2xl);
+		font-weight: 500;
+		color: var(--accent1);
+		margin: 0 0 var(--space-12);
+		padding-bottom: var(--space-3);
+		border-bottom: 3px solid var(--accent2);
+		letter-spacing: -0.02em;
+	}
+
 	.header {
 		display: flex;
-		align-items: center;
-		gap: var(--space-xs);
+		align-items: baseline;
+		gap: var(--space-4);
 		border-bottom: 2px solid var(--accent1);
+		margin-top: var(--space-10);
+		margin-bottom: var(--space-4);
+		padding-bottom: var(--space-2);
+
+		&:first-child {
+			margin-top: 0;
+		}
 
 		h2 {
+			font-family: var(--font-display);
 			color: var(--accent1);
-			font-size: 2rem;
-			line-height: 2.5rem;
-			font-weight: bold;
+			font-size: var(--font-size-2xl);
+			line-height: var(--line-height-tight);
+			font-weight: 600;
+			margin: 0;
+		}
+
+		.content {
+			color: var(--gray-text);
+			font-size: var(--font-size-s);
 		}
 	}
 
 	.bloglist {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-xs);
+		gap: var(--space-3);
+	}
+
+	.post-item {
+		padding: var(--space-1) 0;
+	}
+
+	@media (max-width: 480px) {
+		.bloglist-container {
+			padding: var(--space-8) 0 var(--space-10);
+		}
+
+		.page-title {
+			font-size: var(--font-size-xl);
+			margin-bottom: var(--space-8);
+		}
+
+		.header {
+			margin-top: var(--space-6);
+
+			h2 {
+				font-size: var(--font-size-xl);
+			}
+		}
 	}
 </style>

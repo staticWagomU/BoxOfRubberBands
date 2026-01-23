@@ -122,19 +122,22 @@ article.blog {
 		display: none;
 	}
 
-	/* メディアクエリ */
-	@media (min-width: 1024px) {
+	/* メディアクエリ - PC用目次は十分な画面幅がある場合のみ表示 */
+	/* 必要幅 = コンテンツ(692px) + gap(24px) + 目次(256px) + 余白(16px) × 2 ≈ 1300px */
+	@media (min-width: 1300px) {
 		/* モバイル用目次を非表示 */
 		.toc.toc-mobile {
 			display: none;
 		}
 
-		/* PC用目次を表示 */
+		/* PC用目次を表示 - スクロール追従 */
 		.toc.toc-pc {
 			display: block;
 			position: fixed;
 			top: 5rem;
-			right: 1rem;
+			/* コンテンツ右端 + gap の位置に配置 */
+			left: calc(50% + var(--max-width) / 2 + var(--space-6));
+			right: auto;
 			width: 16rem;
 			max-height: calc(100vh - 10rem);
 			overflow-y: auto;

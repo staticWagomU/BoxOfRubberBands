@@ -6,48 +6,60 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 <Base>
 	<section class="hero" role="region" aria-label="ヒーロー">
 		<div class="hero-content">
-			<RubberBandDecoration class="hero-decoration" />
-			<div class="hero-text">
+			<RubberBandDecoration class="hero-decoration animate-scale-in" />
+			<div class="hero-text animate-fade-up stagger-2">
 				<p class="tagline">輪ゴムっていきなり切れるとびっくりするよね</p>
 			</div>
 		</div>
 	</section>
 
-	<section role="region" aria-label="プロフィール">
+	<section class="section-profile animate-fade-up stagger-3" role="region" aria-label="プロフィール">
 		<h2>輪ごむ について</h2>
 		<p>妻と子供の3人で暮しているITエンジニアです</p>
 		<p>絵をたまに描きます</p>
 	</section>
-	<section role="region" aria-label="好きなもの">
+
+	<section class="section-likes animate-fade-up stagger-4" role="region" aria-label="好きなもの">
 		<h2>好きなもの</h2>
 
-		<h3>ツール</h3>
-		<ul>
-			<li>Vim/Neovim</li>
-		</ul>
+		<div class="likes-grid">
+			<div class="likes-item animate-slide-left stagger-5">
+				<h3>ツール</h3>
+				<ul>
+					<li>Vim/Neovim</li>
+				</ul>
+			</div>
 
-		<h3>言語・フレームワーク</h3>
-		<ul>
-			<li>Astro</li>
-			<li>C#</li>
-			<li>CSS</li>
-			<li>SQL</li>
-			<li>TypeScript</li>
-		</ul>
+			<div class="likes-item animate-slide-left stagger-6">
+				<h3>言語・フレームワーク</h3>
+				<ul>
+					<li>Astro</li>
+					<li>C#</li>
+					<li>CSS</li>
+					<li>SQL</li>
+					<li>TypeScript</li>
+				</ul>
+			</div>
+		</div>
 	</section>
 </Base>
 
 <style>
+	/* ========== Hero Section - Bold Spacing ========== */
 	.hero {
-		padding: var(--space-8) 0 var(--space-6);
-		margin-bottom: var(--space-4);
+		padding: var(--space-16) 0 var(--space-20);
+		margin-bottom: var(--space-8);
+		min-height: 50vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.hero-content {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--space-6);
+		gap: var(--space-10);
 	}
 
 	.hero-decoration {
@@ -57,66 +69,122 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 	.hero-text {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-2);
+		gap: var(--space-3);
 	}
 
 	.tagline {
 		font-family: var(--font-display);
-		font-size: var(--font-size-m);
+		font-size: var(--font-size-l);
 		color: var(--gray-text);
 		font-weight: 400;
 		margin: 0;
 		line-height: var(--line-height-relaxed);
+		max-width: 24ch;
 	}
 
 	@media (max-width: 480px) {
+		.hero {
+			padding: var(--space-10) 0 var(--space-12);
+			min-height: auto;
+		}
+
 		.hero-content {
 			flex-direction: column;
 			text-align: center;
+			gap: var(--space-6);
 		}
 
 		.tagline {
-			font-size: var(--font-size-base);
+			font-size: var(--font-size-m);
+			max-width: none;
 		}
 	}
 
-	/* セクションの見出しスタイル */
-	section h2 {
-		font-family: var(--font-display);
-		font-weight: 500;
-		font-size: var(--font-size-xl);
-		color: var(--accent1);
-		margin-top: var(--space-6);
-		margin-bottom: var(--space-4);
-		padding-bottom: var(--space-2);
-		border-bottom: 2px solid var(--accent2);
+	/* ========== Profile Section - Bold Spacing ========== */
+	.section-profile {
+		padding: var(--space-12) 0;
+		margin-bottom: var(--space-8);
 	}
 
-	section h3 {
+	.section-profile h2 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--font-size-2xl);
+		color: var(--accent1);
+		margin-top: 0;
+		margin-bottom: var(--space-8);
+		padding-bottom: var(--space-3);
+		border-bottom: 3px solid var(--accent2);
+	}
+
+	.section-profile p {
+		font-size: var(--font-size-m);
+		line-height: var(--line-height-relaxed);
+		margin: var(--space-4) 0;
+	}
+
+	/* ========== Likes Section - Bold Spacing ========== */
+	.section-likes {
+		padding: var(--space-12) 0 var(--space-16);
+	}
+
+	.section-likes h2 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--font-size-2xl);
+		color: var(--accent1);
+		margin-top: 0;
+		margin-bottom: var(--space-10);
+		padding-bottom: var(--space-3);
+		border-bottom: 3px solid var(--accent2);
+	}
+
+	.likes-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: var(--space-10);
+	}
+
+	.likes-item h3 {
 		font-family: var(--font-display);
 		font-weight: 500;
 		font-size: var(--font-size-l);
 		color: var(--accent2);
-		margin-top: var(--space-4);
-		margin-bottom: var(--space-2);
+		margin-top: 0;
+		margin-bottom: var(--space-4);
+		padding-bottom: var(--space-2);
+		border-bottom: 2px solid var(--accent3);
 	}
 
-	section p {
-		line-height: var(--line-height-relaxed);
-		margin: var(--space-2) 0;
-	}
-
-	section ul {
+	.likes-item ul {
 		padding-left: var(--space-5);
+		margin: 0;
+	}
+
+	.likes-item li {
 		margin: var(--space-2) 0;
-	}
-
-	section li {
-		margin: var(--space-1) 0;
 		line-height: var(--line-height-normal);
+		font-size: var(--font-size-m);
 	}
 
-	section li::marker {
+	.likes-item li::marker {
 		color: var(--accent3);
+	}
+
+	@media (max-width: 480px) {
+		.section-profile,
+		.section-likes {
+			padding: var(--space-8) 0;
+		}
+
+		.section-profile h2,
+		.section-likes h2 {
+			font-size: var(--font-size-xl);
+			margin-bottom: var(--space-6);
+		}
+
+		.likes-grid {
+			gap: var(--space-6);
+		}
 	}
 </style>
