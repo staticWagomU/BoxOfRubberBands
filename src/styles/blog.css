@@ -16,7 +16,7 @@ article.blog {
 
 	/* リストマーカー */
 	li::marker {
-		color: var(--gray);
+		color: var(--gray-muted);
 	}
 
 	/* 目次スタイル - 共通 */
@@ -39,7 +39,7 @@ article.blog {
 		cursor: pointer;
 		padding: 0;
 		font-weight: normal;
-		color: var(--gray);
+		color: var(--gray-text);
 		transition: color var(--duration-normal) var(--ease-out);
 
 		&::marker {
@@ -166,19 +166,19 @@ article.blog {
 
 	h2 {
 		font-size: var(--font-size-xl);
-		border-bottom: 2px solid var(--gray);
+		border-bottom: 2px solid var(--gray-muted);
 		padding-bottom: var(--space-2);
 	}
 
 	h3 {
 		font-size: var(--font-size-l);
-		border-bottom: 1px solid var(--gray);
+		border-bottom: 1px solid var(--gray-muted);
 		padding-bottom: var(--space-1);
 	}
 
 	h4 {
 		font-size: var(--font-size-m);
-		border-bottom: 1px solid var(--gray);
+		border-bottom: 1px solid var(--gray-muted);
 		padding-bottom: var(--space-1);
 	}
 
@@ -270,13 +270,13 @@ article.blog {
 	/* 区切り線 */
 	hr {
 		border: none;
-		border-top: 1px solid var(--gray);
+		border-top: 1px solid var(--gray-muted);
 		margin: var(--space-4) 0;
 	}
 
 	/* インラインコード */
 	code:not(pre code) {
-		background: var(--gray);
+		background: var(--code-bg);
 		border-radius: var(--radius-sm);
 		color: var(--bg);
 		padding: 0.15em 0.35em;
@@ -299,8 +299,8 @@ article.blog {
 		padding: 0.15em 0.35em;
 		background: rgba(128, 128, 128, 0.1);
 		border-radius: var(--radius-sm);
-		border: 1px solid var(--gray);
-		box-shadow: 0 2px 0 var(--gray);
+		border: 1px solid var(--gray-muted);
+		box-shadow: 0 2px 0 var(--gray-muted);
 		font-family: "JetBrains Mono Nerd Font", monospace;
 		font-size: 0.875em;
 	}
@@ -316,7 +316,7 @@ article.blog {
 	section.footnotes {
 		margin-top: var(--space-6);
 		font-size: var(--font-size-s);
-		color: var(--gray);
+		color: var(--gray-text);
 		padding-top: var(--space-4);
 	}
 
@@ -338,7 +338,7 @@ article.blog {
 		}
 
 		tr {
-			border-bottom: 1px solid var(--gray);
+			border-bottom: 1px solid var(--gray-muted);
 
 			&:has(th) {
 				border-bottom: 2px solid var(--accent2);
@@ -444,7 +444,7 @@ article.blog {
 		.code-block-title-wrapper {
 			text-align: right;
 			font-size: var(--font-size-xs);
-			color: var(--gray);
+			color: var(--gray-text);
 			margin-bottom: var(--space-1);
 		}
 	}
@@ -499,7 +499,8 @@ article.blog {
 			text-align: right;
 			user-select: none;
 			padding: var(--space-4) var(--space-2);
-			background: linear-gradient(to right, var(--bg) calc(100% - 1px), var(--gray) 100%) var(--bg);
+			background: linear-gradient(to right, var(--bg) calc(100% - 1px), var(--gray-muted) 100%)
+				var(--bg);
 			font-size: var(--font-size-xs);
 			line-height: 1.6;
 		}
@@ -522,7 +523,7 @@ article.blog {
 		box-sizing: border-box;
 		width: auto;
 		max-width: 100%;
-		border: 1px solid var(--gray);
+		border: 1px solid var(--gray-muted);
 		border-radius: var(--radius-lg);
 		padding: var(--space-4);
 		gap: var(--space-3);
@@ -601,7 +602,7 @@ article.blog {
 	}
 
 	.link-card__site {
-		color: var(--gray);
+		color: var(--gray-text);
 		font-size: var(--font-size-xs);
 	}
 
@@ -664,7 +665,7 @@ body.dark article.blog {
 	/* リンクカード - ダークモード */
 	a.link-card {
 		background-color: rgba(0, 0, 0, 0.1);
-		border-color: var(--gray);
+		border-color: var(--gray-muted);
 
 		&:hover {
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
