@@ -39,11 +39,14 @@ article.blog {
 
 	/* 目次スタイル - 共通 */
 	.toc {
-		background: rgba(90, 137, 67, 0.05);
-		border-radius: var(--radius-md);
-		padding: var(--space-3);
-		margin: var(--space-4) 0;
-		border-left: 2px solid var(--accent2);
+		background: linear-gradient(135deg, rgba(90, 137, 67, 0.06) 0%, rgba(90, 137, 67, 0.02) 100%);
+		border-radius: var(--radius-lg);
+		padding: var(--space-4);
+		margin: var(--space-5) 0;
+		border: 1px solid rgba(90, 137, 67, 0.12);
+		box-shadow:
+			0 1px 3px rgba(0, 0, 0, 0.04),
+			inset 0 1px 0 rgba(255, 255, 255, 0.4);
 	}
 
 	.toc-details {
@@ -55,79 +58,154 @@ article.blog {
 		font-size: var(--font-size-base);
 		border-bottom: none !important;
 		cursor: pointer;
-		padding: 0;
-		font-weight: normal;
-		color: var(--gray-text);
-		transition: color var(--duration-normal) var(--ease-out);
+		padding: var(--space-2) var(--space-3);
+		margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1);
+		font-weight: 500;
+		color: var(--accent1);
+		border-radius: var(--radius-md);
+		transition:
+			color var(--duration-normal) var(--ease-out),
+			background-color var(--duration-normal) var(--ease-out);
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
 
-		&::marker {
-			color: var(--accent2);
+		&::before {
+			content: "";
+			display: inline-block;
+			width: 18px;
+			height: 18px;
+			background-color: var(--accent2);
+			-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M3 4h18v2H3zm0 7h12v2H3zm0 7h18v2H3z'/%3E%3C/svg%3E");
+			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M3 4h18v2H3zm0 7h12v2H3zm0 7h18v2H3z'/%3E%3C/svg%3E");
+			-webkit-mask-repeat: no-repeat;
+			mask-repeat: no-repeat;
+			-webkit-mask-size: 100% 100%;
+			mask-size: 100% 100%;
+			flex-shrink: 0;
 		}
 
+		&::after {
+			content: "";
+			display: inline-block;
+			width: 12px;
+			height: 12px;
+			margin-left: auto;
+			background-color: var(--gray-text);
+			-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m12 15.4l-6-6L7.4 8l4.6 4.6L16.6 8L18 9.4z'/%3E%3C/svg%3E");
+			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m12 15.4l-6-6L7.4 8l4.6 4.6L16.6 8L18 9.4z'/%3E%3C/svg%3E");
+			-webkit-mask-repeat: no-repeat;
+			mask-repeat: no-repeat;
+			-webkit-mask-size: 100% 100%;
+			mask-size: 100% 100%;
+			transition: transform var(--duration-normal) var(--ease-out);
+		}
+
+		/* デフォルトマーカーを非表示 */
+		&::marker,
 		&::-webkit-details-marker {
-			color: var(--accent2);
+			display: none;
 		}
 
 		&:hover {
-			color: var(--accent3);
+			color: var(--accent2);
+			background-color: rgba(90, 137, 67, 0.08);
 		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent2);
+			outline-offset: 2px;
+		}
+	}
+
+	/* 開いている状態のアイコン回転 */
+	.toc-details[open] > .toc-title::after {
+		transform: rotate(180deg);
 	}
 
 	.toc-list {
 		list-style-type: none;
 		padding-left: 0;
-		margin: var(--space-2) 0 0 0;
+		margin: var(--space-3) 0 0 0;
 		font-size: var(--font-size-s);
+		border-top: 1px solid rgba(90, 137, 67, 0.1);
+		padding-top: var(--space-3);
 	}
 
 	.toc-item {
 		margin: var(--space-1) 0;
-		line-height: var(--line-height-tight);
+		line-height: var(--line-height-normal);
 	}
 
 	.toc-item.depth-2 {
 		margin-left: 0;
-	}
-
-	.toc-item.depth-3 {
-		margin-left: var(--space-3);
-		font-size: var(--font-size-xs);
-		opacity: 0.9;
-	}
-
-	.toc-link {
-		display: inline-block;
-		text-decoration: none;
-		color: var(--text-primary);
-		padding: var(--space-1) var(--space-2);
-		border-radius: var(--radius-sm);
-		transition:
-			background-color var(--duration-normal) var(--ease-out),
-			color var(--duration-normal) var(--ease-out);
-
-		&:hover {
-			background-color: rgba(90, 137, 67, 0.1);
-			color: var(--accent2);
-		}
-	}
-
-	.toc-link-active {
-		background-color: rgba(90, 137, 67, 0.15);
-		color: var(--accent2);
-		font-weight: 500;
 		position: relative;
 
 		&::before {
 			content: "";
 			position: absolute;
-			left: -0.5rem;
+			left: var(--space-2);
+			top: 50%;
+			transform: translateY(-50%);
+			width: 4px;
+			height: 4px;
+			background-color: var(--accent2);
+			border-radius: var(--radius-full);
+			opacity: 0.6;
+		}
+	}
+
+	.toc-item.depth-3 {
+		margin-left: var(--space-4);
+		font-size: var(--font-size-xs);
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: var(--space-2);
 			top: 50%;
 			transform: translateY(-50%);
 			width: 3px;
-			height: 70%;
-			background-color: var(--accent2);
-			border-radius: var(--radius-sm);
+			height: 3px;
+			background-color: var(--accent3);
+			border-radius: var(--radius-full);
+			opacity: 0.5;
 		}
+	}
+
+	.toc-link {
+		display: block;
+		text-decoration: none;
+		color: var(--color);
+		padding: var(--space-1) var(--space-2) var(--space-1) var(--space-5);
+		border-radius: var(--radius-sm);
+		transition:
+			background-color var(--duration-normal) var(--ease-out),
+			color var(--duration-normal) var(--ease-out),
+			padding-left var(--duration-normal) var(--ease-out);
+
+		&:hover {
+			background-color: rgba(90, 137, 67, 0.08);
+			color: var(--accent2);
+			padding-left: calc(var(--space-5) + var(--space-1));
+		}
+	}
+
+	.toc-link-active {
+		background-color: rgba(90, 137, 67, 0.12);
+		color: var(--accent2);
+		font-weight: 500;
+		padding-left: calc(var(--space-5) + var(--space-1));
+
+		/* アクティブインジケーター：親の擬似要素マーカーを上書き */
+	}
+
+	.toc-item:has(.toc-link-active)::before {
+		background-color: var(--accent2);
+		opacity: 1;
+		width: 6px;
+		height: 6px;
 	}
 
 	/* モバイル用目次 */
@@ -669,8 +747,31 @@ body.dark article.blog {
 
 	/* 目次スタイル - ダークモード */
 	.toc {
-		background: rgba(160, 168, 164, 0.1);
-		border-left: 4px solid var(--accent2);
+		background: linear-gradient(135deg, rgba(139, 195, 74, 0.08) 0%, rgba(139, 195, 74, 0.03) 100%);
+		border: 1px solid rgba(139, 195, 74, 0.12);
+		box-shadow:
+			0 1px 3px rgba(0, 0, 0, 0.15),
+			inset 0 1px 0 rgba(255, 255, 255, 0.05);
+	}
+
+	.toc-title {
+		color: var(--accent1);
+
+		&:hover {
+			background-color: rgba(139, 195, 74, 0.1);
+		}
+	}
+
+	.toc-list {
+		border-top-color: rgba(139, 195, 74, 0.1);
+	}
+
+	.toc-link:hover {
+		background-color: rgba(139, 195, 74, 0.1);
+	}
+
+	.toc-link-active {
+		background-color: rgba(139, 195, 74, 0.15);
 	}
 
 	.code-block-wrapper {
