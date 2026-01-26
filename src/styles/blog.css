@@ -9,6 +9,24 @@
 }
 
 article.blog {
+	/* BudouX: 日本語の自然な改行位置を有効化 */
+	p,
+	li,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	blockquote,
+	td,
+	th,
+	.link-card__title,
+	.link-card__description {
+		word-break: keep-all;
+		overflow-wrap: anywhere;
+	}
+
 	p {
 		margin: var(--space-5) 0;
 		line-height: var(--line-height-relaxed);

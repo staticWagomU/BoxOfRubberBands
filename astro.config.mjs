@@ -9,6 +9,7 @@ import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
 import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
 import remarkLinkCard from "./tools/remark-linkcard";
+import rehypeBudoux from "./tools/rehype-budoux";
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,6 +48,7 @@ export default defineConfig({
 		},
 		remarkPlugins: [remarkAside, codeBlockPlugin, remarkBreaks, remarkLinkCard],
 		rehypePlugins: [
+			rehypeBudoux,
 			rehypeLineNumbers,
 			rehypeHeadingSpan,
 			rehypeCodeCopyButton,
