@@ -131,7 +131,6 @@ body {
 	scroll-behavior: smooth;
 }
 
-
 /* ========== Staggered Animation Keyframes ========== */
 @keyframes fade-up {
 	from {
@@ -197,14 +196,30 @@ body {
 }
 
 /* Stagger delay utility classes */
-.stagger-1 { animation-delay: calc(var(--stagger-delay) * 1); }
-.stagger-2 { animation-delay: calc(var(--stagger-delay) * 2); }
-.stagger-3 { animation-delay: calc(var(--stagger-delay) * 3); }
-.stagger-4 { animation-delay: calc(var(--stagger-delay) * 4); }
-.stagger-5 { animation-delay: calc(var(--stagger-delay) * 5); }
-.stagger-6 { animation-delay: calc(var(--stagger-delay) * 6); }
-.stagger-7 { animation-delay: calc(var(--stagger-delay) * 7); }
-.stagger-8 { animation-delay: calc(var(--stagger-delay) * 8); }
+.stagger-1 {
+	animation-delay: calc(var(--stagger-delay) * 1);
+}
+.stagger-2 {
+	animation-delay: calc(var(--stagger-delay) * 2);
+}
+.stagger-3 {
+	animation-delay: calc(var(--stagger-delay) * 3);
+}
+.stagger-4 {
+	animation-delay: calc(var(--stagger-delay) * 4);
+}
+.stagger-5 {
+	animation-delay: calc(var(--stagger-delay) * 5);
+}
+.stagger-6 {
+	animation-delay: calc(var(--stagger-delay) * 6);
+}
+.stagger-7 {
+	animation-delay: calc(var(--stagger-delay) * 7);
+}
+.stagger-8 {
+	animation-delay: calc(var(--stagger-delay) * 8);
+}
 
 /* Accessibility: Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {

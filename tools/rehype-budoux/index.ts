@@ -46,11 +46,7 @@ export default function rehypeBudoux(options: RehypeBudouxOptions = {}) {
 	return (tree: Root) => {
 		visit(tree, "text", (node: Text, index, parent: Parents | undefined) => {
 			// 親が除外タグの場合はスキップ
-			if (
-				parent &&
-				parent.type === "element" &&
-				ignoreTags.includes((parent as Element).tagName)
-			) {
+			if (parent && parent.type === "element" && ignoreTags.includes((parent as Element).tagName)) {
 				return SKIP;
 			}
 
