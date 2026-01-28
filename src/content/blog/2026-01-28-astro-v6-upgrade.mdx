@@ -1,0 +1,204 @@
+---
+title: "Astro v6 betaへのアップグレード作業まとめ"
+pubDate: 2026-01-28
+published: true
+tags: ["Astro"]
+---
+
+## はじめに
+
+Astro v6 betaがリリースされたので、このブログをアップグレードしました。その際に行った作業をまとめます。
+
+## アップグレードコマンドの実行
+
+```bash
+pnpm dlx @astrojs/upgrade beta
+```
+
+これにより以下のパッケージが更新されました：
+
+| パッケージ | 旧バージョン | 新バージョン |
+|-----------|-------------|-------------|
+| astro | 5.12.9 | 6.0.0-beta.4 |
+| @astrojs/mdx | 4.3.3 | 5.0.0-beta.2 |
+| @astrojs/check | 0.9.4 | 0.9.7-beta.1 |
+| @astrojs/rss | 4.0.12 | 4.0.15-beta.2 |
+| @astrojs/sitemap | 3.4.2 | 3.6.1-beta.2 |
+
+## Node.js 22が必須に
+
+Astro 6はNode.js 22.12.0以上が必須になりました。このブログではパッケージマネージャーにpnpmを使っているので、`package.json`に`devEngines`を追加してpnpmに管理させることができます：
+
+```json
+{
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24",
+      "onFail": "download"
+    }
+  }
+}
+```
+
+flake.nixとpackage.jsonの両方を更新するのは面倒なので、どうにかしたいところです。。
+
+## 実験的フラグの削除
+
+`astro.config.mjs`から`experimental.liveContentCollections`を削除しました。Astro 6では安定板になったため、廃止されたフラグです。
+
+```diff
+- experimental: {
+-   liveContentCollections: true,
+- },
+```
+
+https://v6.docs.astro.build/en/guides/upgrade-to/v6/#experimental-features-now-stable
+
+## 【v6関係ない】Content Collections設定ファイルの移行
+
+個人的に衝撃をうけましたが、v6のmigrationとは関係ありません。
+これっていつ変更されたんでしょうか？
+
+### ファイル移動
+
+```
+src/content/config.ts → src/content.config.ts
+```
+
+### loaderの明示的な定義が必須に
+
+#### Before:
+
+```typescript
+import { defineCollection, z } from "astro:content";
+
+const blogCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.date().transform((v) => new Date(v)),
+    // ...
+  }),
+});
+
+const dailyCollection = defineCollection({
+  type: "content",  // これだけでOKだった
+  schema: z.object({
+    pubDate: z.date().transform((v) => new Date(v)),
+  }),
+});
+```
+
+#### After:
+
+```typescript
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "zod";  // zodから直接インポート
+
+const blogCollection = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/blog" }),
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.coerce.date(),  // z.coerce.date()が簡潔
+    // ...
+  }),
+});
+
+const dailyCollection = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/daily" }),
+  schema: z.object({
+    pubDate: z.coerce.date(),
+  }),
+});
+```
+
+### 変更ポイント
+
+1. **`z`のインポート元**: `astro:content` → `zod`（`astro:content`からの`z`は非推奨）
+2. **`loader`必須**: `glob()`関数で明示的にファイルパターンとベースディレクトリを指定
+3. **`z.coerce.date()`推奨**: `z.date().transform()`より簡潔
+
+## zodパッケージの追加
+
+Astro 6では`zod`を直接インポートするため、依存関係に追加が必要：
+
+```bash
+pnpm add -D zod
+```
+
+## `slug` → `id`への変更
+
+コレクションエントリの`slug`プロパティが廃止され、`id`に変更されました。
+
+#### Before:
+
+```typescript
+// getStaticPaths
+return posts.map((post) => ({
+  params: { slug: post.slug },
+  props: posts.find((x) => x.slug === post.slug),
+}));
+
+// テンプレート内
+<a href={`/blog/${post.slug}`}>
+```
+
+#### After:
+
+```typescript
+// getStaticPaths
+return posts.map((post) => ({
+  params: { slug: post.id },
+  props: posts.find((x) => x.id === post.id),
+}));
+
+// テンプレート内
+<a href={`/blog/${post.id}`}>
+```
+
+このブログで影響を受けたファイル例：
+
+- `src/pages/blog/[...slug].astro`
+- `src/pages/blog/index.astro`
+- `src/pages/daily/[...slug].astro`
+- `src/pages/tags/[tag].astro`
+- `src/pages/rss.xml.ts`
+- `src/layouts/BlogBase.astro`
+
+## `render()`メソッド → `render()`関数
+
+コンテンツのレンダリング方法が変更されました。
+
+#### Before:
+
+```typescript
+const post = Astro.props;
+const { Content } = await post.render();
+```
+
+#### After:
+
+```typescript
+import { getCollection, render } from "astro:content";
+
+const post = Astro.props;
+const { Content } = await render(post);
+```
+
+## 注意点・課題
+
+### サードパーティパッケージの互換性
+
+`astro-zenn-loader`や`astro-og-canvas`など、まだAstro 6に対応していないパッケージがあります。peerDependency警告は出ますが、動作する場合が多いです。
+
+## おわりに
+
+Astro 6へのアップグレードで最も影響が大きいと感じたのはContent Collectionsの変更です。`loader`の明示的定義、`slug`→`id`、`render()`の変更など、コンテンツ周りの破壊的変更が多いため、ブログサイトでは修正箇所が多くなりがちです。
+
+また、Node.js 22が必須になったため、CI/CDパイプラインやデプロイ環境のNode.jsバージョンも確認が必要です。
+
+## 参考リンク
+
+- [Astro v6 公式アップグレードガイド](https://v6.docs.astro.build/en/guides/upgrade-to/v6/)
+- [Astro v6 Beta ブログ記事](https://astro.build/blog/astro-6-beta/)
