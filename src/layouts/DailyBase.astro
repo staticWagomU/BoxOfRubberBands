@@ -26,7 +26,7 @@ const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentInde
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 
 // Create URLs for navigation links
-const getPostUrl = (post) => {
+const getPostUrl = (post: (typeof sortedPosts)[number] | null) => {
 	if (!post) return null;
 	const postParts = post.id.split("/");
 	return `/daily/${postParts[0]}/${postParts[1]}/${postParts[2].replace(".mdx", "")}`;

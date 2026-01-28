@@ -1,4 +1,4 @@
-import type { Root, Element, RootContent } from "hast";
+import type { Root, Element, RootContent, ElementContent } from "hast";
 
 /**
  * Rehypeプラグイン: h2見出しごとにsection要素でラップ
@@ -23,8 +23,10 @@ export default function rehypeWrapH2WithSection() {
 					children: [node],
 				};
 			} else if (currentSection) {
-				// 現在のセクションに追加
-				currentSection.children.push(node);
+				// 現在のセクションに追加（Doctype以外はElementContentとして扱える）
+				if (node.type !== "doctype") {
+					currentSection.children.push(node as ElementContent);
+				}
 			} else {
 				// h2が出現する前の要素はそのまま追加
 				sections.push(node);

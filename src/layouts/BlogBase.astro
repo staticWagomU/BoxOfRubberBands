@@ -141,23 +141,25 @@ const transitionId = post.id.replace(/\//g, "-");
 			);
 		}
 		// コードコピーボタンの設定
-		document.querySelectorAll(".copy-button").forEach((button) => {
+		document.querySelectorAll<HTMLButtonElement>(".copy-button").forEach((button) => {
 			button.addEventListener("click", () => {
 				const codeContent = button.closest(".code-content");
-				const code = codeContent.querySelector("pre code").innerText;
+				const codeElement = codeContent?.querySelector("pre code") as HTMLElement | null;
+				if (!codeElement) return;
+				const code = codeElement.innerText;
 
 				navigator.clipboard
 					.writeText(code)
 					.then(() => {
-						button.textContent = button.dataset.successText;
+						button.textContent = button.dataset.successText ?? "Copied!";
 						button.classList.add("copied");
 
 						setTimeout(
 							() => {
-								button.textContent = button.dataset.copyText;
+								button.textContent = button.dataset.copyText ?? "Copy";
 								button.classList.remove("copied");
 							},
-							parseInt(button.dataset.successDuration, 10) || 2000
+							parseInt(button.dataset.successDuration ?? "2000", 10)
 						);
 					})
 					.catch((err) => {
@@ -195,12 +197,12 @@ const transitionId = post.id.replace(/\//g, "-");
 		});
 
 		// 現在アクティブな見出しを追跡するための変数
-		let currentActiveHeading = null;
+		let currentActiveHeading: string | null = null;
 
 		// 見出し要素をスクロール位置に基づいて評価する関数
 		function evaluateHeadings() {
 			// 画面に表示されている見出しを収集
-			const visibleHeadings = [];
+			const visibleHeadings: Array<{ id: string; y: number; element: Element }> = [];
 
 			headings.forEach((heading) => {
 				const rect = heading.getBoundingClientRect();
