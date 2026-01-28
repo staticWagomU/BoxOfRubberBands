@@ -15,7 +15,7 @@ Astro v6 betaがリリースされたので、このブログをアップグレ�
 pnpm dlx @astrojs/upgrade beta
 ```
 
-これにより以下のパッケージが更新されました：
+これにより以下のパッケージが更新されました。
 
 | パッケージ | 旧バージョン | 新バージョン |
 |-----------|-------------|-------------|
@@ -27,7 +27,7 @@ pnpm dlx @astrojs/upgrade beta
 
 ## Node.js 22が必須に
 
-Astro 6はNode.js 22.12.0以上が必須になりました。このブログではパッケージマネージャーにpnpmを使っているので、`package.json`に`devEngines`を追加してpnpmに管理させることができます：
+Astro 6はNode.js 22.12.0以上が必須になりました。このブログではパッケージマネージャーにpnpmを使っているので、`package.json`に`devEngines`を追加してpnpmに管理させることができます。
 
 ```json
 {
@@ -45,7 +45,7 @@ flake.nixとpackage.jsonの両方を更新するのは面倒なので、どう�
 
 ## 実験的フラグの削除
 
-`astro.config.mjs`から`experimental.liveContentCollections`を削除しました。Astro 6では安定板になったため、廃止されたフラグです。
+`astro.config.mjs`から`experimental.liveContentCollections`を削除しました。Astro 6では安定版になったため、廃止されたフラグです。
 
 ```diff
 - experimental: {
@@ -130,6 +130,7 @@ pnpm add -D zod
 ## `slug` → `id`への変更
 
 コレクションエントリの`slug`プロパティが廃止され、`id`に変更されました。
+書き換えが面倒だったので、AIにやらせました。
 
 #### Before:
 
@@ -200,5 +201,6 @@ Astro 6へのアップグレードで最も影響が大きいと感じたのはC
 
 ## 参考リンク
 
-- [Astro v6 公式アップグレードガイド](https://v6.docs.astro.build/en/guides/upgrade-to/v6/)
-- [Astro v6 Beta ブログ記事](https://astro.build/blog/astro-6-beta/)
+https://astro.build/blog/astro-6-beta/
+
+https://v6.docs.astro.build/en/guides/upgrade-to/v6/
