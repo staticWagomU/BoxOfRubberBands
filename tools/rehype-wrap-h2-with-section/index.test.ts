@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Root, Element, Text } from "hast";
+import type { Root, Element } from "hast";
 import rehypeWrapH2WithSection from "./index.ts";
 
 describe("rehype-wrap-h2-with-section", () => {

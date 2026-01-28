@@ -12,7 +12,6 @@ interface Options {
 	linkClassName?: string;
 	collapsible?: boolean;
 	defaultOpen?: boolean;
-	splitView?: boolean;
 	pcClassName?: string;
 }
 
@@ -36,7 +35,6 @@ export default function rehypeToc(options: Options = {}) {
 		linkClassName = "toc-link",
 		collapsible = true,
 		defaultOpen = true,
-		splitView = true,
 		pcClassName = "toc-pc",
 	} = options;
 
