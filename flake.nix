@@ -10,17 +10,14 @@
     in {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          nodejs_20
+          nodejs_24
           nodePackages.pnpm
-          nodePackages.npm
-          nodePackages.yarn
         ];
         
         shellHook = ''
           echo "🚀 Node.js development environment"
           echo "Node.js: $(node --version)"
           echo "pnpm: $(pnpm --version)"
-          echo "npm: $(npm --version)"
         '';
       };
     };

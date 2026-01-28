@@ -1,20 +1,14 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import DailyBase from "../../layouts/DailyBase.astro";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("daily");
 	return posts.map((post) => {
-		// Extract year, month, day from file path
-		const parts = post.id.split("/");
-		const year = parts[0];
-		const month = parts[1];
-		const filename = parts[2].replace(".mdx", "");
-		const slug = `${year}/${month}/${filename}`;
-
+		// post.id is like "2024/12/2024-12-24" (without extension in Astro 6)
 		return {
-			params: { slug },
+			params: { slug: post.id },
 			props: post,
 		};
 	});
@@ -23,7 +17,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"daily">;
 
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <DailyBase post={post}>

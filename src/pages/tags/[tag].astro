@@ -31,7 +31,7 @@ const { posts } = Astro.props;
 				posts.map((post) => (
 					<li role="listitem">
 						<LinkItem
-							slug={post.slug}
+							slug={post.id}
 							pubDate={post.data.pubDate}
 							title={post.data.title}
 							kind="blog"

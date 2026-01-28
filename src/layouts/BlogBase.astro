@@ -13,7 +13,7 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 });
 
 // View Transition用のユニークなID
-const transitionId = post.slug.replace(/\//g, "-");
+const transitionId = post.id.replace(/\//g, "-");
 ---
 
 <Base title={`${title} - ${SITE_TITLE}`}>

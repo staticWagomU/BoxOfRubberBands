@@ -78,7 +78,4 @@ export default defineConfig({
 			wrap: false,
 		},
 	},
-	experimental: {
-		liveContentCollections: true,
-	},
 });

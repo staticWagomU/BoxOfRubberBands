@@ -1,12 +1,15 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
 import { zennLoader } from "astro-zenn-loader";
+import { z } from "zod";
 
 const blogCollection = defineCollection({
+	loader: glob({ pattern: "**/*.mdx", base: "./src/content/blog" }),
 	schema: z.object({
 		title: z.string(),
 		description: z.string().optional(),
-		pubDate: z.date().transform((v) => new Date(v)),
-		updatedDate: z.date().optional(),
+		pubDate: z.coerce.date(),
+		updatedDate: z.coerce.date().optional(),
 		heroImage: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		published: z.boolean(),
@@ -14,9 +17,9 @@ const blogCollection = defineCollection({
 });
 
 const dailyCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: "**/*.mdx", base: "./src/content/daily" }),
 	schema: z.object({
-		pubDate: z.date().transform((v) => new Date(v)),
+		pubDate: z.coerce.date(),
 	}),
 });
 

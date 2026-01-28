@@ -6,10 +6,10 @@ export const GET: APIRoute = async function get({ site }) {
 	const posts = await getCollection("blog");
 	const items = posts
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-		.map(({ data: { pubDate, title, description }, slug }) => ({
+		.map(({ data: { pubDate, title, description }, id }) => ({
 			title,
 			description,
-			link: `${site}blog/${slug}`,
+			link: `${site}blog/${id}`,
 			pubDate: new Date(pubDate),
 		}));
 

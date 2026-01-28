@@ -29,7 +29,7 @@ const blog_posts: Post[] = (
 		return data.published;
 	})
 ).map((post) => ({
-	slug: `/blog/${post.slug}`,
+	slug: `/blog/${post.id}`,
 	kind: "blog",
 	data: {
 		title: post.data.title,
