@@ -1,0 +1,108 @@
+---
+title: "'nix-collect-garbage'と'nix-store --gc'って一緒じゃないの？"
+pubDate: 2026-01-29
+published: true
+tags: ["Nix"]
+---
+
+## はじめに
+
+今年はRustとNixとBallerinaを習得する年にしようとしているので、Nixのドキュメントを読み進めています。
+チュートリアルを読んでいると`nix-collect-garbage`というコマンドが目につきました。
+
+普段`nix-store --gc`を使ってましたが、`nix-collect-garbage`は使ったことがない。見た目としては同じに見えるけど、どう違うんだろう？と思ったのが、この記事を書いた経緯です。
+
+https://nix.dev/tutorials/first-steps/ad-hoc-shell-environments#next-steps
+
+## 最初に結論
+
+どちらも参照されていないオブジェクトを削除するという点は同じだけど、`nix-collect-garbage`は古い世代を削除するオプションがある。ということでした。
+
+
+以下は、結論に至るまでの調査の記録です。
+
+## `nix-collect-garbage`って何？
+
+`nix-collect-garbage`のドキュメントにはこう書かれていました。
+
+https://nix.dev/manual/nix/2.28/command-ref/nix-collect-garbage#description
+
+> The command nix-collect-garbage is mostly an alias of nix-store --gc. That is, it deletes all unreachable store objects in the Nix store to clean up your system.
+
+意訳:
+> 基本的には`nix-store --gc`と同じで、Nixストアの使ってないオブジェクトを削除するよ。
+
+違いとしては、以下の説明がありました。
+
+>  --delete-old and --delete-older-than, which also delete old profiles, allowing potentially more store objects to be deleted because profiles are also garbage collection roots. These options are the equivalent of running nix-env --delete-generations with various augments on multiple profiles, prior to running nix-collect-garbage (or just nix-store --gc) without any flags.
+
+意訳:
+> `--delete-old`と`--delete-older-than`では古いプロファイルを削除したあと、nix-store --gcを実行する
+
+ということは、このような関係性だな！と理解しました。
+
+`nix-collect-garbage` -> GC削除
+`nix-collect-garbage --delete-old` -> **古い世代削除** + GC削除
+
+古い世代を削除できる分`nix-collect-garbage`のほうが沢山の容量を減らすことができそうだ。ということが分かりました。
+
+
+因みに、、
+
+> These options are the equivalent of running nix-env --delete-generations with various augments on multiple profiles, prior to running nix-collect-garbage (or just nix-store --gc) without any flags.
+
+とあるように`nix-env --delete-generations`というコマンドを実行することでも同様なことができるようです。
+似たようなことできるコマンドが多くて難しいね。
+
+
+## ところで`nix-store --gc`って何？
+
+折角なので`nix-store --gc`についてもドキュメントを確認してみました。
+
+https://nix.dev/manual/nix/2.26/command-ref/nix-store/gc?utm_source=chatgpt.com
+
+> Without additional flags, the operation --gc performs a garbage collection on the Nix store. That is, all paths in the Nix store not reachable via file system references from a set of “roots”, are deleted. 
+
+意訳:
+> セットしたルートからファイルシステム経由で参照できないすべてのパスが削除される
+
+`nix-collect-garbage`のドキュメントと同様に参照できないパスを削除するということですね。
+
+そこまでは理解できましたが、ルートってどこだ？という疑問が湧いたので引き続き調べてみることにしました。
+
+## ルートって何？
+
+https://nix.dev/manual/nix/2.28/package-management/garbage-collector-roots
+
+> The roots of the garbage collector are all store paths to which there are symlinks in the directory prefix/nix/var/nix/gcroots. 
+
+意訳:
+>  /nix/var/nix/gcroots ディレクトリ配下にあるシンボリックリンクが指しているストアパス
+
+ここまでの話をまとめると、`nix-collect-garbage`では引数を指定することで、古い世代を削除できるそうです。ということは、Nixでは古い世代に紐付くストアパスは永久に削除されないということだろうか？
+これも調べてみた
+
+## Nixのガベージコレクションって何？
+
+どんぴしゃで知りたいことが書いてあった。
+
+https://nix.dev/manual/nix/2.28/package-management/garbage-collection
+
+> Note however that as long as old generations reference a package, it will not be deleted. After all, we wouldn’t be able to do a rollback otherwise. So in order for garbage collection to be effective, you should also delete (some) old generations. Of course, this should only be done if you are certain that you will not need to roll back.
+
+意訳:
+> 古い世代が参照していると削除しないよ。ロールバックできなくなるからね
+
+そらそうだよね。
+
+## おわりに
+
+1. gcrootsにリンクがあるものは削除対象にならない
+2. 古い世代もgcrootsに残っている
+3. だから、古い世代を消さないと削除対象にならない
+
+ということだった。
+
+いままで`nix-store --gc`しか実行してなかったので、私のPCには古い世代に紐付くオブジェクトが残り続けているようだ。
+たまには、`nix-env --delete-generations`も実行してみようと思った。
+
