@@ -450,7 +450,7 @@ export function generateFallbackLinkHtml(url: string): string {
 
 const DEFAULT_OPTIONS: Required<RemarkLinkCardOptions> = {
 	cachePath: "./src/cache/link-cards.json",
-	cacheMaxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+	cacheMaxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 	fetchTimeout: 5000,
 	className: "link-card",
 	fallbackOnError: true,

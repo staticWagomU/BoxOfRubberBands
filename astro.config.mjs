@@ -16,6 +16,7 @@ export default defineConfig({
 	site: "https://wagomu.me",
 	build: {
 		format: "file",
+		concurrency: 10, // 並列ビルド数を増やしてI/O効率を向上
 	},
 	integrations: [
 		mdx(),
@@ -23,7 +24,7 @@ export default defineConfig({
 		(await import("@playform/compress")).default({
 			CSS: false,
 			HTML: false,
-			Image: false,
+			Image: true,
 			JavaScript: true,
 			SVG: true,
 			Logger: 1,
