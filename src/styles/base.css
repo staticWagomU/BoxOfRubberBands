@@ -1,3 +1,9 @@
+@property --_s {
+	syntax: "<number>";
+	initial-value: 0;
+	inherits: true;
+}
+
 :root {
 	/* ========== Typography ========== */
 	--font-size-2xs: 0.625rem; /* 10px */
@@ -70,6 +76,68 @@
 	--ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 
 	--scale-press: 0.97;
+
+	/* ========== Elastic Easing ========== */
+	/* from https://linear-easing-generator.netlify.app/ */
+	--easing-elastic: linear(
+		0,
+		1.42406 3.67%,
+		1.65745 4.64%,
+		1.71709 5.111%,
+		1.74059 5.591%,
+		1.73313 5.971%,
+		1.70302 6.361%,
+		1.57154 7.201%,
+		0.68765 10.781%,
+		0.57364 11.621%,
+		0.53175 12.451%,
+		0.53598 12.831%,
+		0.55521 13.231%,
+		0.63817 14.071%,
+		1.19719 17.652%,
+		1.26945 18.492%,
+		1.2961 19.322%,
+		1.2935 19.702%,
+		1.28141 20.102%,
+		1.22906 20.942%,
+		0.87551 24.522%,
+		0.82972 25.363%,
+		0.81279 26.183%,
+		0.81425 26.563%,
+		0.8217 26.963%,
+		0.85499 27.813%,
+		1.07903 31.403%,
+		1.10761 32.233%,
+		1.11838 33.053%,
+		1.1128 33.833%,
+		1.0918 34.683%,
+		0.9501 38.274%,
+		0.93199 39.104%,
+		0.92516 39.914%,
+		0.92863 40.704%,
+		0.94188 41.554%,
+		1.0315 45.145%,
+		1.04288 45.965%,
+		1.04731 46.775%,
+		1.04586 47.455%,
+		1.03969 48.185%,
+		0.98337 51.745%,
+		0.97376 52.705%,
+		0.97009 53.635%,
+		0.97488 55.056%,
+		1.01049 58.616%,
+		1.0189 60.486%,
+		1.0159 61.926%,
+		0.99343 65.477%,
+		0.98806 67.337%,
+		0.98996 68.807%,
+		1.00408 72.327%,
+		1.00753 74.157%,
+		0.99524 81.008%,
+		1.00297 87.699%,
+		0.99812 94.579%,
+		1.00074
+	);
 
 	/* ========== Staggered Animation ========== */
 	--stagger-delay: 0.08s;
@@ -281,6 +349,33 @@ nav {
 		align-items: center;
 		padding: var(--space-3);
 		gap: var(--space-2);
+	}
+
+	.elastic-text {
+		--h: 0.12em;
+		--g: 0.15ch;
+
+		display: flex !important;
+		gap: var(--g);
+		font: bold var(--font-size-m) var(--font-mono);
+		text-transform: uppercase;
+		transition: --_s 1.5s var(--easing-elastic) !important;
+	}
+
+	.elastic-text:hover {
+		--_s: 1;
+		transition: --_s 0.3s !important;
+	}
+
+	.elastic-text span {
+		offset: shape(
+				from 0.5ch,
+				curve to calc((sibling-count() - 1) * (1ch + var(--g)) + 0.5ch) 50% with 30%
+					calc(50% - var(--_s) * sibling-count() * var(--h)) / 70%
+					calc(50% - var(--_s) * sibling-count() * var(--h))
+			)
+			calc(99.9% * (sibling-index() - 1) / (sibling-count() - 1));
+		pointer-events: none;
 	}
 }
 
