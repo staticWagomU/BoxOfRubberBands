@@ -1,15 +1,16 @@
 import { defineConfig } from "astro/config";
-import remarkBreaks from "remark-breaks";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import codeBlockPlugin from "./tools/remark-code-quote";
+import rehypeBudoux from "./tools/rehype-budoux";
+import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
+import rehypeExternalLinkFavicon from "./tools/rehype-external-link-favicon";
 import rehypeHeadingSpan from "./tools/rehype-heading-span";
 import rehypeLineNumbers from "./tools/rehype-line-numbers";
-import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
 import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
+import remarkBreaks from "remark-breaks";
 import remarkLinkCard from "./tools/remark-linkcard";
-import rehypeBudoux from "./tools/rehype-budoux";
 
 // https://astro.build/config
 export default defineConfig({
@@ -69,6 +70,7 @@ export default defineConfig({
 					pcClassName: "toc-pc",
 				},
 			],
+			rehypeExternalLinkFavicon,
 		],
 		shikiConfig: {
 			defaultColor: false,
