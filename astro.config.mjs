@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
 import codeBlockPlugin from "./tools/remark-code-quote";
 import rehypeBudoux from "./tools/rehype-budoux";
 import rehypeCodeCopyButton from "./tools/rehype-code-copy-button";
@@ -21,7 +20,6 @@ export default defineConfig({
 	},
 	integrations: [
 		mdx(),
-		sitemap(),
 		(await import("@playform/compress")).default({
 			CSS: false,
 			HTML: false,
