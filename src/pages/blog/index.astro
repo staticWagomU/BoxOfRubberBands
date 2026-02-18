@@ -6,6 +6,7 @@ import LinkItem from "../../components/LinkItem.astro";
 type Post = {
 	slug: string;
 	kind: "zenn" | "blog";
+	draft: boolean;
 	data: {
 		title: string;
 		pubDate: Date;
@@ -13,29 +14,31 @@ type Post = {
 };
 
 const fetch_zenn = await getCollection("zenn");
-const zenn_posts: Post[] = fetch_zenn.map((item) => {
+const zenn_posts = fetch_zenn.map((item) => {
 	return {
 		slug: item.data.link || "",
 		kind: "zenn" as const,
+		draft: false,
 		data: {
 			title: item.data.title || "",
 			pubDate: new Date(item.data.pubDate),
 		},
 	};
-});
+}) satisfies Post[];
 
-const blog_posts: Post[] = (
+const blog_posts = (
 	await getCollection("blog", ({ data }) => {
-		return data.published;
+		return import.meta.env.DEV || data.published;
 	})
 ).map((post) => ({
 	slug: `/blog/${post.id}`,
-	kind: "blog",
+	kind: "blog" as const,
+	draft: !post.data.published,
 	data: {
 		title: post.data.title,
 		pubDate: new Date(post.data.pubDate),
 	},
-}));
+})) satisfies Post[];
 
 const posts = [...zenn_posts, ...blog_posts].sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -68,6 +71,7 @@ let currentYear: number = 0;
 									pubDate={post.data.pubDate}
 									title={post.data.title}
 									kind={post.kind}
+									draft={post.draft}
 								/>
 							</div>
 						</>
