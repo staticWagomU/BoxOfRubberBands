@@ -23,7 +23,10 @@ export default defineConfig({
 		(await import("@playform/compress")).default({
 			CSS: false,
 			HTML: false,
-			Image: true,
+			Image: false,
+			// Image: {
+			// 	gif: false, // アニメーションGIFは全フレームのピクセル数がSharpの制限を超えて0バイト出力になるため除外
+			// },
 			JavaScript: true,
 			SVG: true,
 			Logger: 1,
