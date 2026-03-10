@@ -13,23 +13,12 @@ export const GET: APIRoute = async function get({ site }) {
 	const posts = await getCollection("daily");
 	const items = posts
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-		.map((post) => {
-			const {
-				data: { pubDate },
-				id,
-			} = post;
-			const parts = id.split("/");
-			const year = parts[0];
-			const month = parts[1];
-			const filename = parts[2].replace(".mdx", "");
-			const slug = `${year}/${month}/${filename}`;
-			return {
-				title: `${new Date(pubDate).toLocaleDateString("ja-JP", options)}の日記`,
-				description: "日記です",
-				link: `${site}daily/${slug}`,
-				pubDate: new Date(pubDate),
-			};
-		});
+		.map(({ data: { pubDate }, id }) => ({
+			title: `${new Date(pubDate).toLocaleDateString("ja-JP", options)}の日記`,
+			description: "日記です",
+			link: `${site}daily/${id}`,
+			pubDate: new Date(pubDate),
+		}));
 
 	return rss({
 		title: "輪ごむの空き箱",
