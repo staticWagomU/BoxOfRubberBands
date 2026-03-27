@@ -18,19 +18,19 @@ export default defineConfig({
 		format: "file",
 		concurrency: 10, // 並列ビルド数を増やしてI/O効率を向上
 	},
+	image: {
+		service: {
+			entrypoint: "astro/assets/services/sharp",
+			config: {
+				jpeg: { mozjpeg: true },
+				webp: { effort: 6, alphaQuality: 80 },
+				avif: { effort: 4, chromaSubsampling: "4:2:0" },
+				png: { compressionLevel: 9 },
+			},
+		},
+	},
 	integrations: [
 		mdx(),
-		(await import("@playform/compress")).default({
-			CSS: false,
-			HTML: false,
-			Image: false,
-			// Image: {
-			// 	gif: false, // アニメーションGIFは全フレームのピクセル数がSharpの制限を超えて0バイト出力になるため除外
-			// },
-			JavaScript: true,
-			SVG: true,
-			Logger: 1,
-		}),
 		(await import("@playform/inline")).default(),
 	],
 	trailingSlash: "never",
