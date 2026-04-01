@@ -202,17 +202,15 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 		var footer = document.querySelector("footer");
 		if (!nav || !main || !footer) return;
 
-		// オリジナルfooterのmargin-top: autoを固定値にロックしてレイアウトシフトを防ぐ
-		footer.style.marginTop = getComputedStyle(footer).marginTop;
+		// initTheme()がアタッチしたオリジナルのテーマ切替ボタンを保持
+		var originalThemeToggle = document.getElementById("theme-toggle");
 
-		// コンテンツを1サイクル分だけ複製
-		var navClone = nav.cloneNode(true);
-		var mainClone = main.cloneNode(true);
-		var footerClone = footer.cloneNode(true);
-		footerClone.style.marginTop = "0";
+		// オリジナルfooterのmargin-top: autoを固定値にロック
+		var computedMargin = getComputedStyle(footer).marginTop;
+		footer.style.marginTop = computedMargin;
 
-		// クローンからアニメーションクラスを除去し、最終表示状態にする
-		[navClone, mainClone, footerClone].forEach(function (el) {
+		// アニメーションクラスを除去して最終表示状態にする
+		function removeAnimations(el) {
 			[el].concat(Array.from(el.querySelectorAll("*"))).forEach(function (node) {
 				var toRemove = [];
 				node.classList.forEach(function (cls) {
@@ -224,31 +222,57 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 					node.classList.remove(cls);
 				});
 			});
-		});
+		}
 
-		document.body.appendChild(navClone);
-		document.body.appendChild(mainClone);
-		document.body.appendChild(footerClone);
+		// 1サイクル分のクローンを生成
+		function createCycleClone() {
+			var n = nav.cloneNode(true);
+			var m = main.cloneNode(true);
+			var f = footer.cloneNode(true);
+			f.style.marginTop = computedMargin;
+			removeAnimations(n);
+			removeAnimations(m);
+			removeAnimations(f);
+			return { nav: n, main: m, footer: f };
+		}
 
-		// 1サイクルの高さ = クローンnavの開始位置
-		var oneLoopHeight = navClone.getBoundingClientRect().top + window.scrollY;
+		var before = createCycleClone();
+		var after = createCycleClone();
+
+		// clone-before: オリジナルnavの直前に挿入
+		document.body.insertBefore(before.nav, nav);
+		document.body.insertBefore(before.main, nav);
+		document.body.insertBefore(before.footer, nav);
+
+		// clone-after: bodyの末尾に追加
+		document.body.appendChild(after.nav);
+		document.body.appendChild(after.main);
+		document.body.appendChild(after.footer);
+
+		// 1サイクルの高さ = オリジナルnavのドキュメント先頭からの位置
+		var oneLoopHeight = nav.getBoundingClientRect().top + window.scrollY;
+
+		// オリジナル位置にジャンプ（初回描画前に実行されるため視覚的に透過）
+		window.scrollTo({ top: oneLoopHeight, behavior: "instant" });
 
 		// リサイズ時に再計算
 		window.addEventListener("resize", function () {
-			oneLoopHeight = navClone.getBoundingClientRect().top + window.scrollY;
+			oneLoopHeight = nav.getBoundingClientRect().top + window.scrollY;
 		});
 
-		// スクロールがクローン領域に入ったらオリジナルの同じ位置にジャンプバック
+		// ユーザーを常にオリジナル領域 [H, 2H) に維持する
 		window.addEventListener("scroll", function () {
-			if (window.scrollY >= oneLoopHeight) {
+			if (window.scrollY >= oneLoopHeight * 2) {
 				window.scrollTo({ top: window.scrollY - oneLoopHeight, behavior: "instant" });
+			} else if (window.scrollY < oneLoopHeight) {
+				window.scrollTo({ top: window.scrollY + oneLoopHeight, behavior: "instant" });
 			}
 		});
 
-		// クローン内のテーマ切り替えボタンをイベント委譲で処理
+		// 全クローンのテーマ切替ボタンをイベント委譲で処理
 		document.body.addEventListener("click", function (e) {
 			var toggle = e.target.closest('[aria-label="テーマを切り替える"]');
-			if (toggle && toggle !== document.getElementById("theme-toggle")) {
+			if (toggle && toggle !== originalThemeToggle) {
 				toggleTheme();
 			}
 		});
