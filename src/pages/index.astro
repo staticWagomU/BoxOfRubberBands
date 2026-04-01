@@ -193,3 +193,64 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 		}
 	}
 </style>
+
+<script is:inline>
+	/* global toggleTheme */
+	(function () {
+		var nav = document.querySelector("nav");
+		var main = document.querySelector("main");
+		var footer = document.querySelector("footer");
+		if (!nav || !main || !footer) return;
+
+		// オリジナルfooterのmargin-top: autoを固定値にロックしてレイアウトシフトを防ぐ
+		footer.style.marginTop = getComputedStyle(footer).marginTop;
+
+		// コンテンツを1サイクル分だけ複製
+		var navClone = nav.cloneNode(true);
+		var mainClone = main.cloneNode(true);
+		var footerClone = footer.cloneNode(true);
+		footerClone.style.marginTop = "0";
+
+		// クローンからアニメーションクラスを除去し、最終表示状態にする
+		[navClone, mainClone, footerClone].forEach(function (el) {
+			[el].concat(Array.from(el.querySelectorAll("*"))).forEach(function (node) {
+				var toRemove = [];
+				node.classList.forEach(function (cls) {
+					if (cls.startsWith("animate-") || cls.startsWith("stagger-")) {
+						toRemove.push(cls);
+					}
+				});
+				toRemove.forEach(function (cls) {
+					node.classList.remove(cls);
+				});
+			});
+		});
+
+		document.body.appendChild(navClone);
+		document.body.appendChild(mainClone);
+		document.body.appendChild(footerClone);
+
+		// 1サイクルの高さ = クローンnavの開始位置
+		var oneLoopHeight = navClone.getBoundingClientRect().top + window.scrollY;
+
+		// リサイズ時に再計算
+		window.addEventListener("resize", function () {
+			oneLoopHeight = navClone.getBoundingClientRect().top + window.scrollY;
+		});
+
+		// スクロールがクローン領域に入ったらオリジナルの同じ位置にジャンプバック
+		window.addEventListener("scroll", function () {
+			if (window.scrollY >= oneLoopHeight) {
+				window.scrollTo({ top: window.scrollY - oneLoopHeight, behavior: "instant" });
+			}
+		});
+
+		// クローン内のテーマ切り替えボタンをイベント委譲で処理
+		document.body.addEventListener("click", function (e) {
+			var toggle = e.target.closest('[aria-label="テーマを切り替える"]');
+			if (toggle && toggle !== document.getElementById("theme-toggle")) {
+				toggleTheme();
+			}
+		});
+	})();
+</script>
