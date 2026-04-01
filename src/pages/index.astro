@@ -236,6 +236,28 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 			return { nav: n, main: m, footer: f };
 		}
 
+		// サイクル間の装飾セパレーターを生成（ミニ輪ゴムモチーフ）
+		function createSeparator() {
+			var sep = document.createElement("div");
+			sep.setAttribute("aria-hidden", "true");
+			sep.style.cssText =
+				"display:flex;align-items:center;justify-content:center;padding:10rem 0;width:100%";
+			sep.innerHTML =
+				'<svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" style="width:300px;height:auto">' +
+				'<ellipse cx="35" cy="55" rx="18" ry="8" fill="none" stroke="var(--accent2)" stroke-width="2" opacity="0.4" transform="rotate(-30 35 55)"/>' +
+				'<ellipse cx="35" cy="55" rx="13" ry="5" fill="none" stroke="var(--accent3)" stroke-width="1.5" opacity="0.3" transform="rotate(12 35 55)"/>' +
+				'<ellipse cx="130" cy="25" rx="22" ry="10" fill="none" stroke="var(--accent3)" stroke-width="2" opacity="0.45" transform="rotate(20 130 25)"/>' +
+				'<ellipse cx="130" cy="25" rx="15" ry="7" fill="none" stroke="var(--accent2)" stroke-width="1.5" opacity="0.35" transform="rotate(-15 130 25)"/>' +
+				'<ellipse cx="200" cy="58" rx="25" ry="11" fill="none" stroke="var(--accent2)" stroke-width="2.5" opacity="0.5" transform="rotate(-8 200 58)"/>' +
+				'<ellipse cx="200" cy="58" rx="17" ry="8" fill="none" stroke="var(--accent3)" stroke-width="2" opacity="0.4" transform="rotate(28 200 58)"/>' +
+				'<ellipse cx="275" cy="22" rx="21" ry="9" fill="none" stroke="var(--accent3)" stroke-width="2" opacity="0.45" transform="rotate(35 275 22)"/>' +
+				'<ellipse cx="275" cy="22" rx="15" ry="6" fill="none" stroke="var(--accent2)" stroke-width="1.5" opacity="0.35" transform="rotate(-22 275 22)"/>' +
+				'<ellipse cx="365" cy="48" rx="19" ry="8" fill="none" stroke="var(--accent2)" stroke-width="2" opacity="0.4" transform="rotate(-15 365 48)"/>' +
+				'<ellipse cx="365" cy="48" rx="13" ry="6" fill="none" stroke="var(--accent3)" stroke-width="1.5" opacity="0.3" transform="rotate(18 365 48)"/>' +
+				"</svg>";
+			return sep;
+		}
+
 		var before = createCycleClone();
 		var after = createCycleClone();
 
@@ -248,6 +270,12 @@ import RubberBandDecoration from "../components/RubberBandDecoration.astro";
 		document.body.appendChild(after.nav);
 		document.body.appendChild(after.main);
 		document.body.appendChild(after.footer);
+
+		// サイクル間にセパレーターを挿入
+		var sep1 = createSeparator();
+		var sep2 = createSeparator();
+		document.body.insertBefore(sep1, nav);
+		document.body.insertBefore(sep2, after.nav);
 
 		// 1サイクルの高さ = オリジナルnavのドキュメント先頭からの位置
 		var oneLoopHeight = nav.getBoundingClientRect().top + window.scrollY;
