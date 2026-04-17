@@ -10,6 +10,7 @@ import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
 import remarkBreaks from "remark-breaks";
 import remarkLinkCard from "./tools/remark-linkcard";
+import gitDatesIntegration from "./tools/git-dates/integration";
 
 // https://astro.build/config
 export default defineConfig({
@@ -30,6 +31,7 @@ export default defineConfig({
 		},
 	},
 	integrations: [
+		gitDatesIntegration(),
 		mdx(),
 		(await import("@playform/inline")).default(),
 	],

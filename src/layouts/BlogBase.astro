@@ -1,6 +1,7 @@
 ---
 import Base from "./Base.astro";
 import { SITE_TITLE } from "../config";
+import gitDates from "virtual:git-dates";
 
 import "../styles/blog.css";
 import "../styles/code-copy-button.css";
@@ -12,7 +13,15 @@ const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	day: "2-digit",
 });
 
-// View Transition用のユニークなID
+const dateOptions: Intl.DateTimeFormatOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
+const gitDate = gitDates[post.id];
+const updatedDate = gitDate?.updatedDate ? new Date(gitDate.updatedDate) : null;
+const showUpdated = updatedDate && updatedDate.toDateString() !== pubDate.toDateString();
+const formattedUpdatedDate = showUpdated
+	? updatedDate.toLocaleDateString("ja-JP", dateOptions)
+	: null;
+
+// View Transition用のユニ��クなID
 const transitionId = post.id.replace(/\//g, "-");
 ---
 
@@ -22,7 +31,14 @@ const transitionId = post.id.replace(/\//g, "-");
 	<article class="blog" role="article">
 		<header class="blog-header">
 			<h1 transition:name={`blog-title-${transitionId}`}>{title}</h1>
-			<time datetime={pubDate}>{formattedDate}</time>
+			<div class="blog-dates">
+				<time datetime={pubDate.toISOString()}>{formattedDate}</time>
+				{showUpdated && (
+					<time class="updated-date" datetime={updatedDate.toISOString()}>
+						(更新: {formattedUpdatedDate})
+					</time>
+				)}
+			</div>
 		</header>
 		<slot />
 		{
@@ -83,11 +99,23 @@ const transitionId = post.id.replace(/\//g, "-");
 		min-width: 0;
 	}
 
-	.blog-header time {
+	.blog-dates {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		flex-shrink: 0;
+		gap: 0;
+	}
+
+	.blog-dates time {
 		font-size: var(--font-size-xs);
 		color: var(--gray-text);
 		white-space: nowrap;
-		flex-shrink: 0;
+	}
+
+	.updated-date {
+		font-size: var(--font-size-xs);
+		opacity: 0.7;
 	}
 
 	.tags {

@@ -23,6 +23,7 @@ pnpm-debug.log*
 
 # cache
 src/cache/
+.git-dates-cache.json
 
 .eslintcache
 .aider*
