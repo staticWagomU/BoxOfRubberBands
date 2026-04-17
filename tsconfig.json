@@ -5,6 +5,5 @@
     "strictNullChecks": true,
     "verbatimModuleSyntax": true,
     "noEmit": true
-  },
-  "include": ["tools/git-dates/virtual.d.ts"]
+  }
 }

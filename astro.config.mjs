@@ -10,7 +10,6 @@ import rehypeToc from "./tools/rehype-toc";
 import remarkAside from "./tools/remark-aside";
 import remarkBreaks from "remark-breaks";
 import remarkLinkCard from "./tools/remark-linkcard";
-import gitDatesIntegration from "./tools/git-dates/integration";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,11 +30,6 @@ export default defineConfig({
 		},
 	},
 	integrations: [
-		gitDatesIntegration({
-			excludeCommits: [
-				"07cf7f5", // pubDateのdatetime一括変換 (機械的変更のため除外)
-			],
-		}),
 		mdx(),
 		(await import("@playform/inline")).default(),
 	],

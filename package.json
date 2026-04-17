@@ -11,9 +11,10 @@
     }
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
+    "generate:dates": "npx tsx tools/git-dates/generate.ts",
+    "dev": "pnpm generate:dates && astro dev",
+    "start": "pnpm generate:dates && astro dev",
+    "build": "pnpm generate:dates && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",

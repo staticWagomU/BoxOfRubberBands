@@ -14,11 +14,20 @@ function getDateStringFromGit(command: string): string | null {
 
 /**
  * Git ログからファイルの作成日時を取得 (ISO 8601)
+ * 複数の追加コミットがある場合は最古のものを返す
  */
 export function getFileCreationDate(filePath: string): string | null {
-	return getDateStringFromGit(
-		`git log --follow --diff-filter=A --pretty="%cI" "${filePath}"`,
-	);
+	try {
+		const result = execSync(
+			`git log --follow --diff-filter=A --pretty="%cI" "${filePath}"`,
+			{ encoding: "utf-8" },
+		).trim();
+		if (!result) return null;
+		const lines = result.split("\n");
+		return lines[lines.length - 1].trim() || null;
+	} catch {
+		return null;
+	}
 }
 
 /**
