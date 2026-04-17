@@ -23,9 +23,32 @@ export function getFileCreationDate(filePath: string): string | null {
 
 /**
  * Git ログからファイルの最終更新日時を取得 (ISO 8601)
+ * excludeCommits に含まれるコミットはスキップする
  */
-export function getFileLastModifiedDate(filePath: string): string | null {
-	return getDateStringFromGit(`git log -1 --pretty="%cI" "${filePath}"`);
+export function getFileLastModifiedDate(
+	filePath: string,
+	excludeCommits: string[] = [],
+): string | null {
+	if (excludeCommits.length === 0) {
+		return getDateStringFromGit(`git log -1 --pretty="%cI" "${filePath}"`);
+	}
+	try {
+		const result = execSync(`git log --pretty="%H %cI" "${filePath}"`, {
+			encoding: "utf-8",
+		}).trim();
+		if (!result) return null;
+		for (const line of result.split("\n")) {
+			const spaceIdx = line.indexOf(" ");
+			const hash = line.substring(0, spaceIdx);
+			const dateStr = line.substring(spaceIdx + 1);
+			if (!excludeCommits.some((exc) => hash.startsWith(exc))) {
+				return dateStr || null;
+			}
+		}
+		return null;
+	} catch {
+		return null;
+	}
 }
 
 /**

@@ -13,6 +13,8 @@ export interface GitDatesIntegrationOptions {
 	cachePath?: string;
 	/** 対象ファイルの拡張子 */
 	extensions?: string[];
+	/** updatedDate の算出時にスキップするコミットハッシュ (前方一致) */
+	excludeCommits?: string[];
 }
 
 export default function gitDatesIntegration(
@@ -22,6 +24,7 @@ export default function gitDatesIntegration(
 		contentDir = "./src/content/blog",
 		cachePath = ".git-dates-cache.json",
 		extensions = [".mdx", ".md"],
+		excludeCommits = [],
 	} = options;
 
 	return {
@@ -32,7 +35,7 @@ export default function gitDatesIntegration(
 
 				// キャッシュを読み込み → 差分だけ git を叩く → キャッシュ更新
 				const cache = loadCache(absCachePath);
-				const resolved = resolveGitDates(cache, { contentDir, extensions });
+				const resolved = resolveGitDates(cache, { contentDir, extensions, excludeCommits });
 				saveCache(absCachePath, resolved);
 
 				// ファイルパスから記事IDへ変換したマップを生成

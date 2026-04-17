@@ -8,6 +8,8 @@ export interface ResolveOptions {
 	contentDir: string;
 	/** 対象の glob パターン (拡張子) */
 	extensions: string[];
+	/** updatedDate の算出時にスキップするコミットハッシュ */
+	excludeCommits: string[];
 }
 
 /**
@@ -17,7 +19,7 @@ export function resolveGitDates(
 	cache: GitDatesCache,
 	options: ResolveOptions,
 ): GitDatesCache {
-	const { contentDir, extensions } = options;
+	const { contentDir, extensions, excludeCommits } = options;
 	const absDir = resolve(contentDir);
 	const headRef = getHeadRef();
 
@@ -47,7 +49,7 @@ export function resolveGitDates(
 			// git から取得
 			newEntries[filePath] = {
 				createdDate: getFileCreationDate(filePath),
-				updatedDate: getFileLastModifiedDate(filePath),
+				updatedDate: getFileLastModifiedDate(filePath, excludeCommits),
 			};
 		} else if (cache.entries[filePath]) {
 			// キャッシュから引き継ぎ
@@ -56,7 +58,7 @@ export function resolveGitDates(
 			// フォールバック: git から取得
 			newEntries[filePath] = {
 				createdDate: getFileCreationDate(filePath),
-				updatedDate: getFileLastModifiedDate(filePath),
+				updatedDate: getFileLastModifiedDate(filePath, excludeCommits),
 			};
 		}
 	}

@@ -31,7 +31,11 @@ export default defineConfig({
 		},
 	},
 	integrations: [
-		gitDatesIntegration(),
+		gitDatesIntegration({
+			excludeCommits: [
+				"07cf7f5", // pubDateのdatetime一括変換 (機械的変更のため除外)
+			],
+		}),
 		mdx(),
 		(await import("@playform/inline")).default(),
 	],
