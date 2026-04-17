@@ -190,8 +190,13 @@ const { title } = Astro.props;
 				toggleButton.setAttribute("aria-pressed", isDark ? "true" : "false");
 			}
 
-			sun.classList.toggle("hidden");
-			dark.classList.toggle("hidden");
+			if (isDark) {
+				themeIcon.classList.remove("icon-sun");
+				themeIcon.classList.add("icon-moon");
+			} else {
+				themeIcon.classList.remove("icon-moon");
+				themeIcon.classList.add("icon-sun");
+			}
 		}
 	}
 
