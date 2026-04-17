@@ -40,9 +40,13 @@ const blog_posts = (
 	},
 })) satisfies Post[];
 
-const posts = [...zenn_posts, ...blog_posts].sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = [...zenn_posts, ...blog_posts].sort((a, b) => {
+	const dateDiff = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+	if (dateDiff !== 0) return dateDiff;
+	const slugDiff = a.slug.localeCompare(b.slug);
+	if (slugDiff !== 0) return slugDiff;
+	return a.data.title.localeCompare(b.data.title);
+});
 
 let currentYear: number = 0;
 ---

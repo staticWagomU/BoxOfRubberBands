@@ -11,7 +11,13 @@ export async function getStaticPaths() {
 	);
 
 	return uniqueTags.map((tag) => {
-		const filteredPosts = allPosts.filter((post) => post.data.tags?.includes(tag));
+		const filteredPosts = allPosts
+			.filter((post) => post.data.tags?.includes(tag))
+			.sort((a, b) => {
+				const dateDiff = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+				if (dateDiff !== 0) return dateDiff;
+				return a.id.localeCompare(b.id);
+			});
 		return {
 			params: { tag },
 			props: { posts: filteredPosts },

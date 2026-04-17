@@ -28,11 +28,13 @@ describe("remark-git-dates", () => {
 
 	describe("getFileCreationDate", () => {
 		it("should return creation date from git log", () => {
-			vi.mocked(childProcess.execSync).mockReturnValue(Buffer.from("2023-01-21\n"));
+			vi.mocked(childProcess.execSync).mockReturnValue(
+				Buffer.from("2023-01-21T22:54:57+09:00\n")
+			);
 
 			const result = getFileCreationDate("/path/to/file.mdx");
 
-			expect(result).toEqual(new Date("2023-01-21"));
+			expect(result).toEqual(new Date("2023-01-21T22:54:57+09:00"));
 			expect(childProcess.execSync).toHaveBeenCalledWith(
 				expect.stringContaining("git log --follow --diff-filter=A")
 			);
@@ -41,11 +43,13 @@ describe("remark-git-dates", () => {
 
 	describe("getFileLastModifiedDate", () => {
 		it("should return last modified date from git log", () => {
-			vi.mocked(childProcess.execSync).mockReturnValue(Buffer.from("2024-02-21\n"));
+			vi.mocked(childProcess.execSync).mockReturnValue(
+				Buffer.from("2024-02-21T07:58:14+09:00\n")
+			);
 
 			const result = getFileLastModifiedDate("/path/to/file.mdx");
 
-			expect(result).toEqual(new Date("2024-02-21"));
+			expect(result).toEqual(new Date("2024-02-21T07:58:14+09:00"));
 			expect(childProcess.execSync).toHaveBeenCalledWith(
 				expect.stringContaining("git log -1 --pretty")
 			);
@@ -55,8 +59,8 @@ describe("remark-git-dates", () => {
 	describe("remarkGitDates plugin", () => {
 		it("should set pubDate from git when not present in frontmatter", () => {
 			vi.mocked(childProcess.execSync)
-				.mockReturnValueOnce(Buffer.from("2023-01-21\n")) // creation date
-				.mockReturnValueOnce(Buffer.from("2024-02-21\n")); // last modified
+				.mockReturnValueOnce(Buffer.from("2023-01-21T22:54:57+09:00\n")) // creation date
+				.mockReturnValueOnce(Buffer.from("2024-02-21T07:58:14+09:00\n")); // last modified
 
 			const file: VFile = {
 				history: ["/path/to/file.mdx"],
@@ -70,7 +74,9 @@ describe("remark-git-dates", () => {
 			const transform = remarkGitDates();
 			transform({} as Root, file);
 
-			expect(file.data.astro.frontmatter.pubDate).toEqual(new Date("2023-01-21"));
+			expect(file.data.astro.frontmatter.pubDate).toEqual(
+				new Date("2023-01-21T22:54:57+09:00")
+			);
 		});
 
 		it("should not override pubDate when already present in frontmatter", () => {

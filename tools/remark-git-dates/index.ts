@@ -31,14 +31,14 @@ function getDateFromGit(command: string): Date | null {
  * Git ログからファイルの作成日を取得
  */
 export function getFileCreationDate(filePath: string): Date | null {
-	return getDateFromGit(`git log --follow --diff-filter=A --pretty="%cs" "${filePath}"`);
+	return getDateFromGit(`git log --follow --diff-filter=A --pretty="%cI" "${filePath}"`);
 }
 
 /**
  * Git ログからファイルの最終更新日を取得
  */
 export function getFileLastModifiedDate(filePath: string): Date | null {
-	return getDateFromGit(`git log -1 --pretty="%cs" "${filePath}"`);
+	return getDateFromGit(`git log -1 --pretty="%cI" "${filePath}"`);
 }
 
 /**

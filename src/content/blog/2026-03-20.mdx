@@ -1,0 +1,677 @@
+---
+title: "AIエージェントのお供にNeovimはいかが？ ― コードビューアーとしてのNeovim入門"
+pubDate: 2026-03-20T00:00:00+09:00
+tags: ["neovim", "vim", "vim駅伝"]
+published: false
+---
+
+import OG from "../../components/OG.astro";
+
+::: info
+この記事は[Vim駅伝](https://vim-jp.org/ekiden/)の記事です。
+:::
+
+## はじめに
+
+Claude CodeやCodex CLIといったAIエージェントを日常的に使っている輪ごむです。
+
+最近、ターミナル上でAIエージェントにコードを書いてもらうスタイルが定着してきました。GhosttyなどのモダンなターミナルでClaude CodeやCodex CLI、OpenCodeを走らせている方も多いのではないでしょうか。
+
+こんな経験、ありませんか？
+
+- AIにコード生成・編集してもらっている最中に「今どのファイルが変わったんだろう？」「差分を確認したい」と思う瞬間
+- ターミナルとエディタを行き来するのがとにかく面倒
+
+これらのAIエージェントツールでは、プロンプト入力中に`Ctrl+G`を押すと`$EDITOR`に設定したエディタが開きます。そこでプロンプトを書くだけでなく、AIが編集中のコードを横目で確認できたら便利ですよね。
+
+この記事では、**「コードビューアー」としてのNeovim**を最小構成で構築します。VSCodeに近い操作感になるように設定するので、Vim怖い勢の方も安心してください。
+
+「Vimを閉じられなくて困った」というあの悲劇、ありますよね。この設定を入れれば`Ctrl+Q`で確実に閉じられるので、もう二度と起きません！！！！
+
+**この記事のゴール：** Neovimでファイルを開いて、ハイライト付きで読めて、ファイルを切り替えられて、gitの差分が見られる状態になること。
+
+## セットアップ
+
+### $EDITORをnvimに設定する
+
+シェルの設定ファイルに以下を追記してください。
+
+```bash
+# ~/.zshrc や ~/.bashrc の場合
+export EDITOR=nvim
+```
+
+```fish
+# ~/.config/fish/config.fish の場合
+set -gx EDITOR nvim
+```
+
+反映するには `source ~/.zshrc` するか、ターミナルを再起動してください。Claude Codeなどを再起動すると、`Ctrl+G`でNeovimが開くようになります。
+
+### Neovim nightlyをインストール
+
+この設定ではNeovim nightly（>= 0.12.0）が必要です。Neovim 0.12で追加された`vim.pack`という組み込みパッケージマネージャーを使っているためです。
+
+**brew経由（macOS）：**
+
+```bash
+brew install neovim --HEAD
+```
+
+**mise経由：**
+
+```bash
+mise use -g neovim@nightly
+```
+
+**winget経由（Windows）：**
+
+```bash
+winget install Neovim.Neovim.Nightly
+```
+
+### Denoをインストール
+
+vim-fallやvim-ginなどのdenops系プラグインで必要です。
+
+```bash
+# brew
+brew install deno
+
+# mise
+mise use -g deno@latest
+```
+
+::: tip
+代替プラグイン（telescope.nvim等）を使う場合はDenoなしでもOKなので、スキップしても大丈夫です。
+:::
+
+## まず安心してほしい：最低限のキー操作
+
+Vimと聞くだけで身構えてしまう方、ここだけ覚えれば怖くないです！！
+
+| 操作 | キー | 説明 | VSCodeだと |
+|------|------|------|------------|
+| Neovimを閉じる | `Ctrl+Q` | 保存せず強制終了。もう閉じられなくて困らない！ | ウィンドウを閉じる |
+| 保存 | `Ctrl+S` | おなじみの保存 | `Ctrl+S` |
+| 入力モードに入る | `i` | テキストが打てるようになる | （常に入力可能） |
+| 入力モードを抜ける | `Esc` | ノーマルモードに戻る | `Esc`でメニューを閉じる感覚 |
+| ファイルを閉じる | `Ctrl+W` | 開いているタブを閉じる | `Ctrl+W` |
+| ファイルを開く | `Ctrl+P` | ファジーファインダーでファイルを検索 | `Ctrl+P` |
+| サイドバー表示 | `Ctrl+Shift+E` | ファイルエクスプローラーを開く | `Ctrl+Shift+E` |
+| サイドバートグル | `Ctrl+B` | ファイルエクスプローラーの表示/非表示 | `Ctrl+B` |
+
+VSCodeとほとんど同じキーバインドにしているので、乗り換えコストはかなり低いはずです。
+
+::: info
+上記のキーバインドは**この設定ファイルで追加したカスタムキーバインド**です。素のNeovimには存在しないので、次のセクションの設定コードを適用してから使ってください。
+:::
+
+## 初期設定コード
+
+以下のコードを `~/.config/nvim/init.lua` にコピーして貼り付けるだけです。初回起動時にプラグインが自動でインストールされます。
+
+設定の中身をざっくり説明すると：
+
+- **キーマッピング**：`Ctrl+Q`で閉じる、`Ctrl+S`で保存、`Ctrl+W`でタブを閉じる等、VSCode風のキーバインド
+- **クリップボード連携**：OSのコピペと統合されるので、Neovimでコピーした内容がそのまま他のアプリにペーストできる
+- **vim.pack**：Neovim 0.12の組み込みパッケージマネージャーでプラグインをインストール
+- **treesitter**：コードに色がつく（シンタックスハイライト）
+- コメントアウトした追加キーマッピング例も含めてあるので、自分好みにカスタマイズできます
+
+```lua
+-- =============================================================================
+-- AIエージェントのお供にNeovimはいかが？ ― 初期設定コード
+-- =============================================================================
+--
+-- 使い方:
+--   このファイルを ~/.config/nvim/init.lua にコピーしてください。
+--   初回起動時にプラグインが自動でインストールされます。
+--
+-- 前提:
+--   - Neovim nightly (>= 0.12.0)
+--   - Deno (vim-fall, vim-gin, skkeleton で必要。代替プラグインなら不要)
+--
+-- ⚠️ 注意:
+--   以下のキーマッピングはこの設定ファイルで追加しているものです。
+--   素の Neovim には存在しません。このファイルを適用してから使ってください。
+--
+--   Ctrl+Q  → Neovim を閉じる（保存せず強制終了）
+--   Ctrl+S  → 保存
+--   Ctrl+W  → 現在のファイル（バッファ）を閉じる
+--   Ctrl+P  → ファイルピッカーを開く
+--   Ctrl+Shift+E → ファイルエクスプローラーを開く
+--   Ctrl+B  → ファイルエクスプローラーをトグル
+-- =============================================================================
+
+-- ---------------------------------------------------------------------------
+-- 基本設定
+-- ---------------------------------------------------------------------------
+
+-- クリップボードをOSと共有（コピペが自然にできる）
+vim.opt.clipboard = "unnamedplus"
+
+-- 行番号を表示
+vim.opt.number = true
+
+-- カーソル行をハイライト
+vim.opt.cursorline = true
+
+-- 24bitカラーを有効化（bufferline等で必要）
+vim.opt.termguicolors = true
+
+-- マウス操作を有効化（タブのクリック切り替え等）
+vim.opt.mouse = "a"
+
+-- 検索時に大文字小文字を区別しない（大文字が含まれる場合は区別する）
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- インデント設定
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+
+-- サインカラム（gitsignsの表示用）を常に表示
+vim.opt.signcolumn = "yes"
+
+-- スワップファイルを無効化
+vim.opt.swapfile = false
+
+-- ---------------------------------------------------------------------------
+-- キーマッピング（VSCode風）
+-- ---------------------------------------------------------------------------
+-- ⚠️ これらは「この設定ファイルで追加した」カスタムキーマッピングです。
+--    素の Neovim には存在しません。
+
+-- Ctrl+Q: Neovimを確実に閉じる（保存しない）
+-- もう「Vimを閉じられない」で困ることはありません！
+vim.keymap.set("n", "<C-q>", "<Cmd>qa!<CR>", { desc = "Neovimを閉じる（強制）" })
+vim.keymap.set("i", "<C-q>", function()
+  -- 入力モード中にCtrl+Qを押した場合は注意メッセージを表示
+  vim.api.nvim_echo({
+    { "Escキーを押してからCtrl+Qしてください", "WarningMsg" },
+  }, true, {})
+end, { desc = "閉じ方のヒントを表示" })
+
+-- Ctrl+S: 保存
+vim.keymap.set("n", "<C-s>", "<Cmd>w<CR>", { desc = "保存" })
+vim.keymap.set("i", "<C-s>", "<Cmd>w<CR>", { desc = "保存" })
+
+-- Ctrl+W: 現在のバッファ（タブ）を閉じる
+-- VSCodeのCtrl+Wと同じ感覚で使えます
+vim.keymap.set("n", "<C-w>", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  -- 直前のバッファに切り替えてから閉じる
+  vim.cmd("bprevious")
+  -- 元のバッファを削除
+  vim.api.nvim_buf_delete(bufnr, { force = false })
+end, { desc = "現在のバッファを閉じる" })
+
+-- その他の便利なキーマッピング（コメントを外すと有効になります）
+-- vim.keymap.set("n", "<C-z>", "u", { desc = "Undo（元に戻す）" })
+-- vim.keymap.set("n", "<C-y>", "<C-r>", { desc = "Redo（やり直す）" })
+-- vim.keymap.set("n", "<C-a>", "ggVG", { desc = "全選択" })
+-- vim.keymap.set("v", "<C-c>", '"+y', { desc = "コピー" })
+-- vim.keymap.set("n", "<C-f>", "/", { desc = "検索" })
+
+-- ---------------------------------------------------------------------------
+-- プラグインのインストール（vim.pack）
+-- ---------------------------------------------------------------------------
+-- Neovim nightly (>= 0.12) に内蔵されたパッケージマネージャーを使います。
+-- 初回起動時に自動的にプラグインがダウンロードされます。
+
+vim.pack.add({
+  -- === Denops（vim-fall, vim-gin, skkeleton の基盤） ===
+  "https://github.com/vim-denops/denops.vim",
+
+  -- === ファイルピッカー: vim-fall ===
+  "https://github.com/lambdalisue/vim-fall",
+
+  -- === ファイルエクスプローラー: vim-fern ===
+  "https://github.com/lambdalisue/vim-fern",
+
+  -- === Git操作: vim-gin ===
+  "https://github.com/lambdalisue/vim-gin",
+
+  -- === Git差分表示: gitsigns.nvim ===
+  "https://github.com/lewis6991/gitsigns.nvim",
+
+  -- === タブライン: bufferline.nvim ===
+  "https://github.com/akinsho/bufferline.nvim",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+
+  -- === コードハイライト: treesitter ===
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+
+  -- === 日本語入力（SKK）: skkeleton ===
+  -- Deno が必要です。不要な方はこの行をコメントアウトしてください。
+  "https://github.com/vim-skk/skkeleton",
+
+  -- === AIエージェント操作: nvim-aibo ===
+  -- Neovimのバッファを使ってClaude CodeやCodex CLIに指示を出せるプラグイン。
+  -- Deno (denops.vim) が必要です。
+  "https://github.com/lambdalisue/nvim-aibo",
+})
+
+-- ---------------------------------------------------------------------------
+-- Treesitter（コードハイライト）
+-- ---------------------------------------------------------------------------
+-- ファイルを開いたとき、コードに色がつくようになります。
+
+-- よく使われる言語のパーサーをインストール
+local ts_parsers = {
+  "bash",
+  "css",
+  "dockerfile",
+  "fish",
+  "git_config",
+  "git_rebase",
+  "gitcommit",
+  "gitignore",
+  "go",
+  "html",
+  "javascript",
+  "json",
+  "lua",
+  "make",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "rust",
+  "sql",
+  "toml",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "yaml",
+  "zig",
+}
+
+-- 「全部入れたい」場合は上の代わりに以下を使ってください:
+-- vim.cmd("TSInstall all")
+
+local nts = require("nvim-treesitter")
+nts.install(ts_parsers)
+
+-- プラグインが更新されたときにパーサーも自動更新
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function()
+    nts.update()
+  end,
+})
+
+-- ファイルを開いたときに treesitter ハイライトを有効化
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    local filetype = args.match
+    local lang = vim.treesitter.language.get_lang(filetype)
+    if lang and vim.treesitter.language.add(lang) then
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      vim.treesitter.start()
+    end
+  end,
+})
+
+-- ---------------------------------------------------------------------------
+-- gitsigns.nvim（Git差分表示）
+-- ---------------------------------------------------------------------------
+-- ファイルの変更箇所の左側にカラーマークが表示されます。
+
+require("gitsigns").setup({
+  signs = {
+    add          = { text = "┃" },
+    change       = { text = "┃" },
+    delete       = { text = "_" },
+    topdelete    = { text = "‾" },
+    changedelete = { text = "~" },
+    untracked    = { text = "┆" },
+  },
+  -- 現在行のblame情報を表示したい場合はtrueに
+  current_line_blame = false,
+})
+
+-- ---------------------------------------------------------------------------
+-- bufferline.nvim（タブライン）
+-- ---------------------------------------------------------------------------
+-- 複数ファイルを開くと画面上部にファイル名がタブ表示されます。
+-- クリックでも切り替えられます。
+
+require("bufferline").setup({
+  options = {
+    -- 閉じるボタンをクリックでバッファを閉じられる
+    close_command = "bdelete! %d",
+    -- マウスの右クリックで閉じる
+    right_mouse_command = "bdelete! %d",
+    -- タブの見た目
+    separator_style = "thin",
+    -- 数字の表示
+    numbers = "ordinal",
+  },
+})
+
+-- ---------------------------------------------------------------------------
+-- vim-fall（ファイルピッカー）
+-- ---------------------------------------------------------------------------
+-- VSCode の Ctrl+P と同じ感覚でファイルを開けます。
+-- Ctrl+P → ファイル名を入力 → Enter で開く
+
+vim.keymap.set("n", "<C-p>", "<Cmd>Fall file<CR>", { desc = "ファイルピッカー (vim-fall)" })
+
+-- グレップ検索（ファイル内容を検索）
+-- vim.keymap.set("n", "<C-S-f>", "<Cmd>Fall grep<CR>", { desc = "グレップ検索 (vim-fall)" })
+
+-- ---------------------------------------------------------------------------
+-- vim-fern（ファイルエクスプローラー）
+-- ---------------------------------------------------------------------------
+-- VSCode の Ctrl+Shift+E / Ctrl+B と同じ感覚でサイドバーを操作できます。
+
+-- Ctrl+Shift+E: ファイルエクスプローラーを開く
+vim.keymap.set("n", "<C-S-e>", "<Cmd>Fern . -reveal=% -drawer -width=30<CR>", {
+  desc = "ファイルエクスプローラーを開く (vim-fern)",
+})
+
+-- Ctrl+B: ファイルエクスプローラーをトグル
+vim.keymap.set("n", "<C-b>", "<Cmd>Fern . -reveal=% -drawer -width=30 -toggle<CR>", {
+  desc = "ファイルエクスプローラーをトグル (vim-fern)",
+})
+
+-- ---------------------------------------------------------------------------
+-- vim-gin（Git操作）
+-- ---------------------------------------------------------------------------
+-- ターミナルでの git コマンドと同じ感覚で使えます。
+--
+-- 使い方:
+--   :Gin status           → git status
+--   :Gin commit           → git commit
+--   :Gin log              → git log
+--   :GinStatus            → 対話的なステータス画面
+--     ファイル上で << を押すとステージング
+--     ファイル上で >> を押すとリセット
+--   :GinLog               → コミット履歴
+--   :GinDiff              → 差分表示
+
+-- ---------------------------------------------------------------------------
+-- skkeleton（日本語入力 - SKK）
+-- ---------------------------------------------------------------------------
+-- Neovim上で日本語を入力できます。Deno が必要です。
+--
+-- Ctrl+J でSKKを有効化/無効化します。
+-- 使い方: 入力モードで Ctrl+J → Nihongo と入力 → Space で変換
+
+vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-toggle)", { desc = "SKK切り替え" })
+vim.keymap.set("c", "<C-j>", "<Plug>(skkeleton-toggle)", { desc = "SKK切り替え" })
+
+-- SKKの辞書設定（必要に応じてパスを変更してください）
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "skkeleton-initialize-pre",
+--   callback = function()
+--     vim.fn["skkeleton#config"]({
+--       globalDictionaries = { "~/.skk/SKK-JISYO.L" },
+--       userDictionary = "~/.skk/user-dictionary",
+--     })
+--   end,
+-- })
+
+-- ---------------------------------------------------------------------------
+-- nvim-aibo（AIエージェント操作）
+-- ---------------------------------------------------------------------------
+-- Neovimのバッファを使ってClaude CodeやCodex CLIに指示を出せるプラグインです。
+-- lambdalisueさん作。Denops (Deno) が必要です。
+--
+-- 使い方:
+--   Neovim上でバッファにプロンプトを書いて、AIエージェントに送信できます。
+--   ターミナルを分割してAIエージェントを横に並べて作業するイメージです。
+--
+-- 詳細は公式リポジトリを参照してください:
+-- https://github.com/lambdalisue/nvim-aibo
+```
+
+設定コードが長く見えるかもしれませんが、コピペ一発で動くのでご安心ください。ここからは、設定に含まれている各プラグインの紹介をしていきます。
+
+## プラグイン紹介
+
+### 設計方針
+
+今回のプラグイン構成では、[lambdalisue](https://github.com/lambdalisue)（通称りんだん）さんのプラグインをメインで採用しています。
+
+同じ作者で揃えると、設定の書き方やUI設計に統一感が出るのがいいところです。りんだんさんのプラグインは「入れるだけで使える」という思想で作られているので、初心者の方にもぴったりだと思います。
+
+各プラグインには代替プラグインも紹介するので、好みに合わせて選んでみてください。
+
+### コードハイライト：treesitter
+
+ TODO: スクリーンショットを追加 -->
+
+Treesitterは、コードを構文解析して正確にハイライトしてくれる仕組みです。設定コードに含まれているので、初回起動時に自動で有効になります。
+
+対応言語が非常に多く、正規表現ベースの従来のハイライトよりもずっと正確です。初期設定ではよく使われる言語のパーサーを指定していますが、`vim.cmd("TSInstall all")` で全言語を一括インストールすることもできます。
+
+### ファイルピッカー：vim-fall
+
+ TODO: スクリーンショットまたはGIFを追加 -->
+
+VSCodeの`Ctrl+P`と同じ感覚でファイルを開けるプラグインです。
+
+**操作方法：**
+1. `Ctrl+P`を押す
+2. ファイル名の一部を入力（ファジー検索）
+3. `Enter`で開く
+
+これだけです。Deno（denops.vim）が必要ですが、動作が軽快でおすすめです。
+
+**代替プラグイン：**
+
+| プラグイン | 特徴 |
+|------------|------|
+| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | 最も有名で情報が多い。困ったときに検索しやすい |
+| [ddu.vim](https://github.com/Shougo/ddu.vim) | 日本人作者（Shougo氏）。高いカスタマイズ性 |
+| [nvim-deck](https://github.com/hrsh7th/nvim-deck) | 日本人作者。telescopeに近い使用感でシンプルなUI |
+| [mini.pick](https://github.com/echasnovski/mini.pick) | 最小構成で依存が少ない。Denoも不要 |
+
+### ファイルエクスプローラー：vim-fern
+
+ TODO: スクリーンショットまたはGIFを追加 -->
+
+VSCodeのサイドバーにあるファイルツリーのイメージです。
+
+**操作方法：**
+- `Ctrl+Shift+E`：ファイルエクスプローラーを開く
+- `Ctrl+B`：トグル（表示/非表示を切り替え）
+- 矢印キーの上下で移動、`Enter`でディレクトリ展開 or ファイルを開く
+
+**代替プラグイン：**
+
+| プラグイン | 特徴 |
+|------------|------|
+| [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | Lua製のモダンなファイルエクスプローラー |
+| [oil.nvim](https://github.com/stevearc/oil.nvim) | バッファ自体がファイルエクスプローラーになるユニークなUI |
+
+### タブライン：bufferline.nvim
+
+ TODO: スクリーンショットを追加 -->
+
+複数ファイルを開くと画面上部にファイル名がタブとして表示されます。クリックでも切り替えられるので、VSCodeのタブバーと同じ感覚で使えます。
+
+**代替プラグイン：**
+
+| プラグイン | 特徴 |
+|------------|------|
+| [barbar.nvim](https://github.com/romgrk/barbar.nvim) | アニメーション付きのタブバー |
+| [mini.tabline](https://github.com/echasnovski/mini.tabline) | 最小構成のタブライン |
+
+### Git操作：vim-gin
+
+ TODO: スクリーンショットまたはGIFを追加 -->
+
+ターミナルでのgitコマンドと同じ感覚で使えるのがvim-ginの良いところです。
+
+**使い方：**
+- ノーマルモードで `:Gin` + 普段のgitサブコマンドで`Enter`
+  - 例：`:Gin status`、`:Gin commit`、`:Gin log`
+- `:GinStatus` でステータス確認 → ファイル上で `<<` するとステージング、`>>` するとリセット
+  - これが特に便利です！！
+- `:GinLog` でコミット履歴を確認
+
+**代替プラグイン：**
+
+| プラグイン | 特徴 |
+|------------|------|
+| [vim-fugitive](https://github.com/tpope/vim-fugitive) | Tim Pope作の老舗Gitプラグイン。Deno不要 |
+| [neogit](https://github.com/NeogitOrg/neogit) | EmacsのMagitにインスパイアされたGitプラグイン |
+
+### Git差分表示：gitsigns.nvim
+
+ファイルを開くと変更箇所の左側にカラーマークが表示されます。変更した行、追加した行、削除した行がひと目で分かります。
+
+変更箇所の差分プレビューやblameの確認もできるので、AIエージェントがどこを変更したかの確認にも使えます。
+
+### AIエージェント操作：nvim-aibo
+
+ TODO: スクリーンショットまたはGIFを追加 -->
+
+[lambdalisue/nvim-aibo](https://github.com/lambdalisue/nvim-aibo)は、Neovimのバッファを使ってClaude CodeやCodex CLIに指示を出せるプラグインです。
+
+ターミナルを分割してAIエージェントを横に並べ、Neovimのバッファにプロンプトを書いてそのまま送信できます。コードを読みながらAIに指示を出すという、まさにこの記事のコンセプトにぴったりのプラグインです。
+
+## おまけ
+
+### 日本語入力（SKK）：skkeleton
+
+[vim-skk/skkeleton](https://github.com/vim-skk/skkeleton)は、Neovim上で日本語をスムーズに入力できるプラグインです。日本人のkuuoteさん作。Denoが必要です。
+
+入力モードで`Ctrl+J`を押すとSKKが有効になり、ローマ字入力で日本語が打てるようになります。普通のIMEとは少し違う操作感ですが、慣れるとかなり快適です。
+
+### マークダウンプレビュー
+
+ TODO: プラグイン名と設定を追加 -->
+
+ブログやドキュメントを書く方には、マークダウンプレビュー系のプラグインもおすすめです。
+
+## 代替プラグインの設定例
+
+メインで紹介したプラグインの代わりに使えるプラグインの設定例です。使いたいものがあれば、`vim.pack.add`にプラグインを追加し、対応するキーマッピングのコメントを外してください。
+
+<details>
+<summary>telescope.nvim（ファイルピッカー）</summary>
+
+最も有名なファジーファインダー。情報が豊富で困ったとき検索しやすいです。
+
+`vim.pack.add`に以下を追加：
+
+```lua
+"https://github.com/nvim-lua/plenary.nvim",
+"https://github.com/nvim-telescope/telescope.nvim",
+```
+
+設定：
+
+```lua
+require("telescope").setup({})
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "ファイルピッカー (telescope)" })
+vim.keymap.set("n", "<C-S-f>", builtin.live_grep, { desc = "グレップ検索 (telescope)" })
+```
+
+</details>
+
+<details>
+<summary>mini.pick（ファイルピッカー）</summary>
+
+最小構成で依存が少ない。Denoも不要です。
+
+`vim.pack.add`に以下を追加：
+
+```lua
+"https://github.com/echasnovski/mini.pick",
+```
+
+設定：
+
+```lua
+require("mini.pick").setup({})
+vim.keymap.set("n", "<C-p>", "<Cmd>Pick files<CR>", { desc = "ファイルピッカー (mini.pick)" })
+```
+
+</details>
+
+<details>
+<summary>neo-tree.nvim（ファイルエクスプローラー）</summary>
+
+Lua製のモダンなファイルエクスプローラー。
+
+`vim.pack.add`に以下を追加：
+
+```lua
+"https://github.com/nvim-lua/plenary.nvim",
+"https://github.com/MunifTanjim/nui.nvim",
+"https://github.com/nvim-neo-tree/neo-tree.nvim",
+```
+
+設定：
+
+```lua
+require("neo-tree").setup({})
+vim.keymap.set("n", "<C-S-e>", "<Cmd>Neotree toggle<CR>", { desc = "ファイルエクスプローラー (neo-tree)" })
+vim.keymap.set("n", "<C-b>", "<Cmd>Neotree toggle<CR>", { desc = "ファイルエクスプローラートグル (neo-tree)" })
+```
+
+</details>
+
+<details>
+<summary>oil.nvim（ファイルエクスプローラー）</summary>
+
+バッファ自体がファイルエクスプローラーになるユニークなUI。
+
+`vim.pack.add`に以下を追加：
+
+```lua
+"https://github.com/stevearc/oil.nvim",
+```
+
+設定：
+
+```lua
+require("oil").setup({})
+vim.keymap.set("n", "-", "<Cmd>Oil<CR>", { desc = "ファイルエクスプローラー (oil.nvim)" })
+```
+
+</details>
+
+<details>
+<summary>vim-fugitive（Git操作）</summary>
+
+Tim Pope作の老舗Gitプラグイン。Deno不要。
+
+`vim.pack.add`に以下を追加：
+
+```lua
+"https://github.com/tpope/vim-fugitive",
+```
+
+使い方：
+
+```
+:Git status   → git status
+:Git commit   → git commit
+:Git log      → git log
+```
+
+</details>
+
+## おわりに
+
+AIがコードを書く時代に、Neovimは「書く道具」だけでなく「読む・確認する道具」としての価値が増したと感じています。
+
+この設定はあくまでスタート地点です。使っていくうちに「ここをもう少しこうしたい」が出てきて、自分好みに育てていく楽しさがあります。それがVimの醍醐味なんですよね。
+
+まずは`init.lua`をコピーして、`Ctrl+P`でファイルを開くところから試してみてください！！！！
+
+---
+
+Vim/Neovimに興味を持った方は、ぜひ以下のコミュニティも覗いてみてください。
+
+- [Vim駅伝](https://vim-jp.org/ekiden/) ― Vim/Neovimユーザーが交代でブログを書くリレー企画
+- [vim-jp Slack](https://vim-jp.org/docs/chat.html) ― 日本最大のVimコミュニティ。質問や雑談なんでもOK
+

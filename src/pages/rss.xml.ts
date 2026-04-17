@@ -5,7 +5,11 @@ import { getCollection } from "astro:content";
 export const GET: APIRoute = async function get({ site }) {
 	const posts = await getCollection("blog");
 	const items = posts
-		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+		.sort((a, b) => {
+			const dateDiff = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+			if (dateDiff !== 0) return dateDiff;
+			return a.id.localeCompare(b.id);
+		})
 		.map(({ data: { pubDate, title, description }, id }) => ({
 			title,
 			description,
