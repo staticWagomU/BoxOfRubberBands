@@ -1,0 +1,90 @@
+---
+title: "git 2.54.0ではgit historyでコミットメッセージの修正が簡単にできるぞ！！"
+pubDate: 2026-04-21T14:43:00+09:00
+tags: ["git"]
+published: true
+---
+
+
+# git 2.54.0ではgit historyでコミットメッセージの修正が簡単にできるぞ！！
+
+## はじめに
+
+https://github.blog/open-source/git/highlights-from-git-2-54/
+
+2026/04/20 に git v2.54.0 がリリースされました。新しく追加されたhistoryサブコマンドを使ってみましたが、便利だったので紹介します。
+
+```shell
+$ git -v
+git version 2.54.0
+```
+
+## git historyについて
+
+マージコミットを挟まない、コミットメッセージの変更やコミットの分割といった簡単な作業をするために特化したコマンドだそうです。
+
+提供されているのはコミットメッセージを変更するための`reword`と`split`のみで非常にコンパクトなコマンドです。
+```shell
+$git history -h
+usage: git history reword <commit> [--dry-run] [--update-refs=(branches|head)]
+   or: git history split <commit> [--dry-run] [--update-refs=(branches|head)] [--] [<pathspec>...]
+```
+
+## 実践
+
+### reword編
+
+`7c0bd10`を「書いた2」にしたい場合、
+![image](https://obsidian-image.wagomu.me/52f502d88bcb40c0f11e68e4003a146b.png)
+
+
+```shell
+# 1. git historyを実行
+$git history reword 7c0bd10
+
+# 2. 書いた2に変更
+
+# 3. 結果を確認
+$git log --oneline
+```
+
+このあとは`rebase`と同じく`git push --force-with-lease`などを実行してください。
+
+`rebase -i`実行後の、`pick`を別のワードに書き換える手間が省けていいですね。
+
+### split編
+
+赤枠のコミットを分割する場合、
+
+![image](https://obsidian-image.wagomu.me/344b06d572301f3eee1a4c984638df4e.png)
+
+```shell
+$git history split ae6482d
+```
+
+コマンドを実行すると、`git add -p`のようなUiが表われて、hunk毎に分割するか聞かれるのでy/nで返答します。
+※diffの表示は恐らくdeltaの影響をうけてます
+
+![image](https://obsidian-image.wagomu.me/b2406c48d69c8a341fb2ea3f0d2300f2.png)
+
+hunkの選択後、2度コミットメッセージの変更を促されて、先ほどのコミットが「分割！分割！！！！」と「feat(blog): show draft posts in dev mode with visual indicator」の2つに分割されました。
+
+![image](https://obsidian-image.wagomu.me/2d94675f93e2fa4f6ca3bd097869b9a8.png)
+
+## 注意
+
+> This command is still marked as experimental, so its interface may evolve. Give it a try with `git history reword` and `git history split`, available in Git 2.54.
+
+実験的機能でインターフェースが変更される可能性があるそうなので、利用する際にはヘルプを確認しましょう。
+
+> There are a couple of intentional limitations worth noting. The history command does not support histories that contain merge commits, and it will refuse to perform any operation that would result in a merge conflict. By design, `git history` is meant for targeted, non-interactive rewrites, not the kind of open-ended history rewriting typically relegated to `git rebase –i`.
+
+マージコミットを含む履歴には対応しておらず、マージコンフリクトが発生する可能性のある操作は実行できないようです。そういった場合は今迄どおり、`rebase`の`--rebase-merge`フラグなどを使う必要がありそうです。
+
+
+## おわりに
+
+gitのコマンドを覚えられない自分でも使えそうな気がしてきました。これはいいぞ。
+
+---
+関連:
