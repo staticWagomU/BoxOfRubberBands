@@ -360,6 +360,10 @@ const gitDates: Record<string, GitDateEntry> = {
 		"createdDate": "2026-04-17T12:20:31+09:00",
 		"updatedDate": "2026-04-17T16:35:37+09:00"
 	},
+	"2026-04-21": {
+		"createdDate": null,
+		"updatedDate": null
+	},
 	"_2024-07-12-vim-ekiden": {
 		"createdDate": "2024-08-26T17:00:36+09:00",
 		"updatedDate": "2024-08-26T17:00:36+09:00"
