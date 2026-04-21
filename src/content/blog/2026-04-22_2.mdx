@@ -1,0 +1,65 @@
+---
+title: "Vimライクな操作でCSVを操作できるsheetsが良さそうだった"
+pubDate: 2026-04-22T05:25:00+09:00
+tags: ["cli", "csv"]
+published: true
+---
+
+## はじめに
+
+TUIでCSVを操作できるsheetsの紹介です。
+
+https://github.com/maaslalani/sheets
+
+## インストール方法
+```shell
+$ brew install sheets
+```
+
+## 実行方法
+
+```
+$ sheets sample.csv
+```
+
+![image](https://obsidian-image.wagomu.me/e42d44628beb0a3f8da913a60b4a2282.png)
+
+![image](https://obsidian-image.wagomu.me/ba34913cce2063229dc8b2417b0c3547.png)
+
+自分にとっては非常に見なれたUIが出現しました。
+
+`i`、`:w`、`v`、`V`、`dd`、`u`といったVim操作を踏襲しているため、操作方法を見ずとも操作できるのがいいですね。
+
+`:goto B9`とすることで直接指定したセルに移動できるコマンドが提供されていました。
+
+![image](https://obsidian-image.wagomu.me/14973d5823f6b2a38ad18784f8bff0ba.png)
+
+ユニークな機能としては、セル名を指定することで値を取得したり、セル名に代入することで書き込みができる点です。
+値の取得はエクセルで見るようなレンジ指定もできます。
+
+```shell
+$ sheets sample.csv B9
+中村さくら
+
+$ sheets sample.csv B9=輪ごむ
+
+$ sheets sample.csv B9
+輪ごむ
+
+$ sheets sample.csv A7:B9
+6,渡辺優子
+7,山本拓也
+8,輪ごむ
+```
+
+
+
+## おわりに
+
+仕事でCSVを扱うこともあるので、試してみようと思います。
+
+
+TUIでCSVを操作できるsheetsの紹介でした。
+
+---
+関連:
