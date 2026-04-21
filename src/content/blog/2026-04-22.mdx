@@ -1,0 +1,41 @@
+---
+title: "ストレージ限界勢よ、mac-cleanupコマンドで容量を確保しよう"
+pubDate: 2026-04-22T04:44:00+09:00
+tags: ["cli", "mac"]
+published: true
+---
+
+## はじめに
+
+キャッシュやログファイルを一覧で表示し、ゴミ箱へ移動できるCLIツールのmac-cleanupを見つけたので紹介します。
+
+https://github.com/2ykwang/mac-cleanup-go
+
+## インストール方法
+
+```shell
+$ brew install mac-cleanup-go
+```
+
+## 実行方法
+
+```
+mac-cleanup
+```
+
+![demo](https://github.com/2ykwang/mac-cleanup-go/raw/main/assets/demo.gif)
+
+`?`でヘルプが表示された
+
+![image](https://obsidian-image.wagomu.me/6184f7303992de406e6224c7c84fdda1.png)
+
+自分のPCでは109GBも消せるらしい。
+消したら危ないものは赤丸で表示してくれるの優しいね。
+
+![image](https://obsidian-image.wagomu.me/073032fe0399cc8ae0c0b90b4c8c2214.png)
+
+
+## おわりに
+
+キャッシュやログファイルをゴミ箱へ移動できるCLIツールのmac-cleanupの紹介でした。
+
