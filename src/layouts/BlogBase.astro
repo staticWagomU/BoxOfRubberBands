@@ -7,13 +7,31 @@ import "../styles/blog.css";
 import "../styles/code-copy-button.css";
 const { post } = Astro.props;
 const { title, pubDate, tags } = post.data;
+const markdownFiles = import.meta.glob<string>("../content/blog/**/*.mdx", {
+	query: "?raw",
+	import: "default",
+	eager: true,
+});
+const markdownFilesById = Object.fromEntries(
+	Object.entries(markdownFiles).map(([path, source]) => [
+		path
+			.replace("../content/blog/", "")
+			.replace(/\.mdx$/, "")
+			.toLowerCase(),
+		source,
+	])
+);
 const formattedDate = pubDate.toLocaleDateString("ja-JP", {
 	year: "numeric",
 	month: "2-digit",
 	day: "2-digit",
 });
 
-const dateOptions: Intl.DateTimeFormatOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
+const dateOptions: Intl.DateTimeFormatOptions = {
+	year: "numeric",
+	month: "2-digit",
+	day: "2-digit",
+};
 const gitDate = gitDates[post.id];
 const updatedDate = gitDate?.updatedDate ? new Date(gitDate.updatedDate) : null;
 const showUpdated = updatedDate && updatedDate.toDateString() !== pubDate.toDateString();
@@ -23,6 +41,9 @@ const formattedUpdatedDate = showUpdated
 
 // View Transition用のユニ��クなID
 const transitionId = post.id.replace(/\//g, "-");
+const markdownSource = markdownFilesById[post.id.toLowerCase()] ?? post.body ?? "";
+const markdownSourceJson = JSON.stringify(markdownSource).replace(/</g, "\\u003c");
+const markdownUrl = `/blog/${post.id}.md`;
 ---
 
 <Base title={`${title} - ${SITE_TITLE}`}>
@@ -33,13 +54,26 @@ const transitionId = post.id.replace(/\//g, "-");
 			<h1 transition:name={`blog-title-${transitionId}`}>{title}</h1>
 			<div class="blog-dates">
 				<time datetime={pubDate.toISOString()}>{formattedDate}</time>
-				{showUpdated && (
-					<time class="updated-date" datetime={updatedDate.toISOString()}>
-						(更新: {formattedUpdatedDate})
-					</time>
-				)}
+				{
+					showUpdated && (
+						<time class="updated-date" datetime={updatedDate.toISOString()}>
+							(更新: {formattedUpdatedDate})
+						</time>
+					)
+				}
 			</div>
+			<details class="markdown-menu">
+				<summary aria-label="Markdownメニュー">
+					<span>Markdown</span>
+					<span class="markdown-menu-arrow" aria-hidden="true"></span>
+				</summary>
+				<div class="markdown-menu-panel">
+					<a href={markdownUrl} target="_blank" rel="noopener">表示</a>
+					<button type="button" class="markdown-copy-button">コピー</button>
+				</div>
+			</details>
 		</header>
+		<script is:inline type="application/json" id="markdown-source" set:html={markdownSourceJson} />
 		<slot />
 		{
 			tags && (
@@ -118,6 +152,112 @@ const transitionId = post.id.replace(/\//g, "-");
 		opacity: 0.7;
 	}
 
+	.markdown-menu {
+		position: relative;
+		flex-shrink: 0;
+	}
+
+	.markdown-menu summary {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: 36px;
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid color-mix(in srgb, var(--accent2), transparent 55%);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--bg), white 12%);
+		color: var(--accent1);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		line-height: 1;
+		cursor: pointer;
+		user-select: none;
+		transition:
+			background-color var(--duration-normal) var(--ease-out),
+			border-color var(--duration-normal) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
+	}
+
+	.markdown-menu summary::marker,
+	.markdown-menu summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.markdown-menu summary:hover {
+		border-color: var(--accent2);
+		background: color-mix(in srgb, var(--accent2), transparent 88%);
+	}
+
+	.markdown-menu summary:active {
+		transform: scale(var(--scale-press));
+	}
+
+	.markdown-menu summary:focus-visible,
+	.markdown-menu-panel a:focus-visible,
+	.markdown-menu-panel button:focus-visible {
+		outline: 2px solid var(--accent2);
+		outline-offset: 2px;
+	}
+
+	.markdown-menu-arrow {
+		width: 12px;
+		height: 12px;
+		background-color: currentColor;
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m12 15.4l-6-6L7.4 8l4.6 4.6L16.6 8L18 9.4z'/%3E%3C/svg%3E");
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m12 15.4l-6-6L7.4 8l4.6 4.6L16.6 8L18 9.4z'/%3E%3C/svg%3E");
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 100% 100%;
+		mask-size: 100% 100%;
+		transition: transform var(--duration-normal) var(--ease-out);
+	}
+
+	.markdown-menu[open] .markdown-menu-arrow {
+		transform: rotate(180deg);
+	}
+
+	.markdown-menu-panel {
+		position: absolute;
+		top: calc(100% + var(--space-2));
+		right: 0;
+		z-index: 20;
+		display: grid;
+		min-width: 136px;
+		padding: var(--space-1);
+		border: 1px solid color-mix(in srgb, var(--accent2), transparent 65%);
+		border-radius: var(--radius-md);
+		background: var(--bg);
+		box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+	}
+
+	.markdown-menu-panel a,
+	.markdown-menu-panel button {
+		display: block;
+		width: 100%;
+		padding: var(--space-2) var(--space-3);
+		border: 0;
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--color);
+		font: inherit;
+		font-size: var(--font-size-xs);
+		line-height: var(--line-height-normal);
+		text-align: left;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	.markdown-menu-panel a:hover,
+	.markdown-menu-panel button:hover {
+		background: color-mix(in srgb, var(--accent2), transparent 88%);
+		color: var(--accent1);
+	}
+
+	.markdown-copy-button.copied {
+		color: var(--accent2);
+		font-weight: 600;
+	}
+
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
@@ -149,6 +289,18 @@ const transitionId = post.id.replace(/\//g, "-");
 
 	h3 {
 		margin-bottom: 0;
+	}
+
+	@media (max-width: 640px) {
+		.blog-dates {
+			align-items: flex-start;
+			order: 2;
+		}
+
+		.markdown-menu {
+			order: 1;
+			margin-left: auto;
+		}
 	}
 </style>
 
@@ -195,6 +347,29 @@ const transitionId = post.id.replace(/\//g, "-");
 					});
 			});
 		});
+
+		const markdownSourceElement = document.getElementById("markdown-source");
+		const markdownCopyButton = document.querySelector<HTMLButtonElement>(".markdown-copy-button");
+		if (markdownSourceElement && markdownCopyButton) {
+			const markdownSource = JSON.parse(markdownSourceElement.textContent ?? '""') as string;
+			markdownCopyButton.addEventListener("click", () => {
+				navigator.clipboard
+					.writeText(markdownSource)
+					.then(() => {
+						const originalText = markdownCopyButton.textContent ?? "コピー";
+						markdownCopyButton.textContent = "コピー済み";
+						markdownCopyButton.classList.add("copied");
+
+						setTimeout(() => {
+							markdownCopyButton.textContent = originalText;
+							markdownCopyButton.classList.remove("copied");
+						}, 2000);
+					})
+					.catch((err) => {
+						console.error("Could not copy markdown: ", err);
+					});
+			});
+		}
 
 		// 目次の現在位置の強調表示（モバイル版とPC版両方）
 		const tocLinks = document.querySelectorAll(".toc-link");
