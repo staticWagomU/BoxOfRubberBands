@@ -1,0 +1,44 @@
+User-agent: *
+Allow: /
+Disallow: /404
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /404
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /404
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
+User-agent: GPTBot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Google-Extended
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Amazonbot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: anthropic-ai
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Bytespider
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: CCBot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Applebot-Extended
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+Sitemap: https://wagomu.me/sitemap.xml
