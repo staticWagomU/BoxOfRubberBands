@@ -1,13 +1,19 @@
+import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import { OGImageRoute } from "astro-og-canvas";
 
 const collectionEntries = await getCollection("daily");
 
-const pages = process.env.SKIP_OG
-	? []
-	: Object.fromEntries(collectionEntries.map(({ id, data }) => [id, data]));
+// pages と cacheKeys は必ず同じ配列から導出する。
+// OGImageRoute は Object.entries(pages) の順序のままパスを返すため、
+// この2つの並び順が一致していることが cacheKey 突き合わせの前提になる。
+const ogEntries = process.env.SKIP_OG ? [] : collectionEntries;
 
-export const { getStaticPaths, GET } = OGImageRoute({
+const pages = Object.fromEntries(ogEntries.map(({ id, data }) => [id, data]));
+
+const cacheKeys = ogEntries.map((entry) => entry.digest ?? "");
+
+const { getStaticPaths: getOGImagePaths, GET } = OGImageRoute({
 	param: "path",
 	pages,
 	getImageOptions: (path, page) => {
@@ -56,3 +62,13 @@ export const { getStaticPaths, GET } = OGImageRoute({
 		};
 	},
 });
+
+export { GET };
+
+export const getStaticPaths: GetStaticPaths = async (options) => {
+	const paths = await getOGImagePaths(options);
+	return paths.map((path, index) => ({
+		...path,
+		cacheKey: cacheKeys[index],
+	}));
+};

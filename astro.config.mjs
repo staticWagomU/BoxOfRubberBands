@@ -16,7 +16,6 @@ export default defineConfig({
 	site: "https://wagomu.me",
 	build: {
 		format: "file",
-		concurrency: 10, // 並列ビルド数を増やしてI/O効率を向上
 	},
 	image: {
 		service: {
@@ -81,5 +80,8 @@ export default defineConfig({
 			},
 			wrap: false,
 		},
+	},
+	experimental: {
+		incrementalBuild: true,
 	},
 });

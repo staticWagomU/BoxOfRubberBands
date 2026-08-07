@@ -22,6 +22,7 @@ export async function getStaticPaths() {
 		props: {
 			markdown: markdownFilesById[post.id.toLowerCase()] ?? post.body ?? "",
 		},
+		cacheKey: post.digest,
 	}));
 }
 

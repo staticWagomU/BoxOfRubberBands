@@ -8,6 +8,7 @@ export async function getStaticPaths() {
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: posts.find((x) => x.id === post.id),
+		cacheKey: post.digest,
 	}));
 }
 
