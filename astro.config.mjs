@@ -28,9 +28,11 @@ export default defineConfig({
 			},
 		},
 	},
+	// Inline (beasties) は全HTMLを毎回後処理するため incremental build の恩恵を受けられない。
+	// ローカルの確認ビルドでは SKIP_INLINE=1 で丸ごと飛ばせる。本番ビルドでは必ず通すこと。
 	integrations: [
 		mdx(),
-		(await import("@playform/inline")).default(),
+		...(process.env.SKIP_INLINE ? [] : [(await import("@playform/inline")).default()]),
 	],
 	trailingSlash: "never",
 	vite: {
