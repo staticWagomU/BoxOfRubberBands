@@ -1,0 +1,192 @@
+---
+import Base from "../layouts/Base.astro";
+
+const pageTitle = "プライバシーポリシー - 輪ごむの空き箱";
+const pageDescription =
+	"個人利用の Google Workspace CLI 連携における Google ユーザーデータの取り扱いについて説明します。";
+---
+
+<Base title={pageTitle} description={pageDescription}>
+	<article class="privacy-policy animate-fade-up" aria-labelledby="privacy-title">
+		<header>
+			<p class="eyebrow">PRIVACY POLICY</p>
+			<h2 id="privacy-title">プライバシーポリシー</h2>
+			<p class="updated">最終更新日：2026年9月15日</p>
+		</header>
+
+		<p class="lead">
+			このポリシーは、wagomu.me の運営者が個人で使用する Google Workspace CLI
+			連携（以下「本連携」）における、Google
+			ユーザーデータの取り扱いを説明するものです。本連携は一般向けのサービスではありません。
+		</p>
+
+		<section aria-labelledby="purpose">
+			<h3 id="purpose">利用目的</h3>
+			<p>
+				本連携は、運営者本人が CLI から指示した操作を Google Workspace 上で実行するために、Google
+				API を利用します。Google
+				から取得したデータは、指定されたコマンドの実行、ならびにその結果の表示または運営者本人が指定した場所への保存にのみ使用します。アクセスするデータの種類は、付与された
+				OAuth スコープと実行するコマンドによって異なります。
+			</p>
+		</section>
+
+		<section aria-labelledby="storage">
+			<h3 id="storage">認証情報とデータの保存</h3>
+			<p>
+				OAuth
+				の認証情報、アクセストークンおよびリフレッシュトークンは、運営者本人が管理する端末のローカル環境に保存されます。wagomu.me
+				上にこれらの情報を保存する機能はありません。
+			</p>
+			<p>
+				コマンドの結果をファイルなどに保存した場合、そのデータは運営者本人が指定した保存先に残ります。本連携の運営者が、Google
+				ユーザーデータを別のサーバーへ収集し、独自に保管することはありません。
+			</p>
+		</section>
+
+		<section aria-labelledby="sharing">
+			<h3 id="sharing">販売・広告利用・第三者提供</h3>
+			<p>
+				Google
+				ユーザーデータを販売せず、広告、マーケティングまたは利用者の追跡には使用しません。また、コマンドの実行に必要なサービス提供者との通信、または法令上の義務に対応するために必要な場合を除き、第三者へ共有しません。
+			</p>
+			<p>
+				Google API から受け取った情報の使用および他のアプリへの転送は、<a
+					href="https://developers.google.com/terms/api-services-user-data-policy"
+					rel="noopener noreferrer">Google API Services User Data Policy</a
+				>（Limited Use 要件を含む）に準拠します。
+			</p>
+		</section>
+
+		<section aria-labelledby="retention">
+			<h3 id="retention">保持期間と削除</h3>
+			<p>
+				Google API
+				から取得したデータはコマンドの処理に必要な範囲で使用し、運営者が別途保存を指示しない限り、本連携として継続的に保持しません。ローカルに保存した出力や認証情報は、運営者本人が不要になった時点で削除します。
+			</p>
+			<p>
+				Google アカウントへのアクセスは、<a
+					href="https://myaccount.google.com/permissions"
+					rel="noopener noreferrer">Google アカウントの「サードパーティ製のアプリとサービス」</a
+				>からいつでも取り消せます。アクセスを取り消すと、保存済みのトークンは以後の認証に使用できなくなります。ローカルに残る認証情報や出力ファイルは、端末上で別途削除します。
+			</p>
+		</section>
+
+		<section aria-labelledby="changes">
+			<h3 id="changes">ポリシーの変更</h3>
+			<p>
+				取り扱うデータや利用方法に変更がある場合、このページを更新し、冒頭の最終更新日を変更します。
+			</p>
+		</section>
+
+		<section aria-labelledby="contact">
+			<h3 id="contact">お問い合わせ</h3>
+			<p>
+				このポリシーに関する連絡は、<a
+					href="https://github.com/staticWagomU/BoxOfRubberBands/issues"
+					rel="noopener noreferrer">当サイトの GitHub Issues</a
+				>をご利用ください。Issue は公開されるため、認証情報、トークン、Google
+				ユーザーデータなどの機密情報は記載しないでください。
+			</p>
+		</section>
+	</article>
+</Base>
+
+<style>
+	.privacy-policy {
+		padding: var(--space-12) 0 var(--space-16);
+	}
+
+	header {
+		margin-bottom: var(--space-10);
+		padding-bottom: var(--space-6);
+		border-bottom: 3px solid var(--accent2);
+	}
+
+	.eyebrow {
+		margin-bottom: var(--space-2);
+		color: var(--accent2);
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		font-weight: 700;
+		letter-spacing: 0.12em;
+	}
+
+	h2 {
+		margin: 0;
+		color: var(--accent1);
+		font-family: var(--font-display);
+		font-size: var(--font-size-2xl);
+		font-weight: 500;
+		line-height: var(--line-height-tight);
+	}
+
+	.updated {
+		margin-top: var(--space-3);
+		color: var(--gray-text);
+		font-size: var(--font-size-s);
+	}
+
+	.lead {
+		margin-bottom: var(--space-10);
+		font-size: var(--font-size-m);
+	}
+
+	section + section {
+		margin-top: var(--space-10);
+	}
+
+	h3 {
+		margin-bottom: var(--space-4);
+		padding-bottom: var(--space-2);
+		border-bottom: 2px solid var(--accent3);
+		color: var(--accent1);
+		font-family: var(--font-display);
+		font-size: var(--font-size-l);
+		font-weight: 500;
+	}
+
+	p + p {
+		margin-top: var(--space-4);
+	}
+
+	a {
+		color: var(--accent1);
+		text-decoration-color: var(--accent2);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+		transition: color var(--duration-normal) var(--ease-out);
+	}
+
+	a:hover {
+		color: var(--accent2);
+	}
+
+	a:focus-visible {
+		border-radius: var(--radius-sm);
+		outline: 2px solid var(--accent3);
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 480px) {
+		.privacy-policy {
+			padding: var(--space-8) 0 var(--space-12);
+		}
+
+		header,
+		.lead {
+			margin-bottom: var(--space-8);
+		}
+
+		h2 {
+			font-size: var(--font-size-xl);
+		}
+
+		.lead {
+			font-size: var(--font-size-base);
+		}
+
+		section + section {
+			margin-top: var(--space-8);
+		}
+	}
+</style>

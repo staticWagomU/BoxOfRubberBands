@@ -32,6 +32,7 @@ export const GET: APIRoute = async ({ site }) => {
 		{ loc: "", priority: "1.0" },
 		{ loc: "blog", priority: "0.9" },
 		{ loc: "info", priority: "0.5" },
+		{ loc: "privacy", priority: "0.5" },
 		...blogPosts.map((post) => ({
 			loc: `blog/${post.id}`,
 			lastmod: post.data.updatedDate ?? post.data.pubDate,
